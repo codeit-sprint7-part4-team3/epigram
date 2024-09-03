@@ -9,4 +9,4 @@ module.exports = {
   bracketSpacing: true,
   arrowParens: 'avoid',
   plugins: ['prettier-plugin-tailwindcss'],
-}
+};
