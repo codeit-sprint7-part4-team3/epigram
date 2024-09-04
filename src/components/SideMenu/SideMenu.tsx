@@ -1,6 +1,5 @@
 import IconClose from '@/assets/icons/ic-close.svg';
-
-import SideMenuItem from './components/SideMenuItem';
+import SideMenuItem from '@/components/SideMenu/components/SideMenuItem';
 
 interface SideMenuProps {
   isOpen: boolean;
@@ -14,22 +13,22 @@ const menuItems = [
 export default function SideMenu({ isOpen, onCloseClick }: SideMenuProps) {
   return (
     <div
-      className={`md:hidden fixed top-0 left-0 w-full h-screen bg-black-950 bg-opacity-60 duration-500 transition-opacity ${
+      className={`fixed left-0 top-0 h-screen w-full bg-black-950 bg-opacity-60 transition-opacity duration-500 md:hidden ${
         isOpen
-          ? 'opacity-100 pointer-events-auto'
-          : 'opacity-0 pointer-events-none'
+          ? 'pointer-events-auto opacity-100'
+          : 'pointer-events-none opacity-0'
       }`}
       onClick={onCloseClick}
     >
       <div
-        className={`fixed w-[220px] h-screen bg-blue-100 transform transition-transform duration-500 ${
+        className={`fixed h-screen w-[220px] transform bg-blue-100 transition-transform duration-500 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         onClick={event => event.stopPropagation()}
       >
-        <div className='flex justify-end items-center px-16 py-15 border-1 border-solid border-line-100'>
+        <div className='flex items-center justify-end border-1 border-solid border-line-100 px-16 py-15'>
           <IconClose
-            className='w-24 h-24 cursor-pointer hover:bg-gray-100 active:bg-gray-200 rounded'
+            className='h-24 w-24 cursor-pointer rounded hover:bg-gray-100 active:bg-gray-200'
             onClick={onCloseClick}
           />
         </div>
