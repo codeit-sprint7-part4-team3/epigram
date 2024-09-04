@@ -104,8 +104,8 @@ const config: Config = {
       gap: px0_10,
       colors: colorPalette,
       fontFamily: {
-        primary: 'Pretendard',
-        secondary: 'Iropke Batang',
+        primary: ['Pretendard', 'sans-serif'],
+        secondary: ['Iropke Batang', 'serif'],
       },
     },
   },

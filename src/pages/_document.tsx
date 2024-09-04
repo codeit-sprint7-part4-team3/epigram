@@ -6,16 +6,16 @@ export default function Document() {
       <Head>
         <link
           rel='preload'
-          as='style'
+          as='font'
           href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css'
         />
         <link
-          rel='preload'
+          rel='stylesheet'
           as='style'
           href='https://cdn.jsdelivr.net/font-iropke-batang/1.2/font-iropke-batang.css'
         />
       </Head>
-      <body>
+      <body className='font-primary'>
         <Main />
         <NextScript />
       </body>
