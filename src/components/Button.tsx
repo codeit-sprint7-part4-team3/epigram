@@ -27,3 +27,9 @@ export default function Button({
     </button>
   );
 }
+
+const styleByVariant: Record<ButtonVariant, string> = {
+  main: '',
+  wide: '',
+  default: '',
+};
