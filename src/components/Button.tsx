@@ -6,9 +6,9 @@ type ButtonSize = 'sm' | 'md';
 type ButtonColor = 'primary' | 'white' | 'blue';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: ButtonVariant;
-  size: ButtonSize;
-  color: ButtonColor;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  color?: ButtonColor;
 }
 
 export default function Button({
@@ -54,7 +54,7 @@ const styleByVariant: Record<ButtonVariant, string> = {
     'w-full h-44 xl:h-64 text-16 leading-26 xl:text-20 xl:leading-32'
   ),
   round:
-    'h-48 xl:h-56 px-18 xl:px-40 text-14 font-medium leading-24 xl:text-20 xl:leading-32',
+    'rounded-full h-48 xl:h-56 px-18 xl:px-40 text-14 font-medium leading-24 xl:text-20 xl:leading-32',
 };
 
 const styleByColor: Record<ButtonColor, string> = {
