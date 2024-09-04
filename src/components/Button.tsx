@@ -1,6 +1,10 @@
 import { ButtonHTMLAttributes } from 'react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+type ButtonVariant = 'main' | 'wide' | 'default';
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant: ButtonVariant;
+}
 
 export default function Button({
   children,
@@ -9,6 +13,7 @@ export default function Button({
   form,
   onClick,
   disabled = false,
+  variant = 'default',
 }: ButtonProps) {
   return (
     <button
