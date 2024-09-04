@@ -103,6 +103,10 @@ const config: Config = {
       padding: px0_100,
       gap: px0_10,
       colors: colorPalette,
+      fontFamily: {
+        primary: 'Pretendard',
+        secondary: 'Iropke Batang',
+      },
     },
   },
   plugins: [],
