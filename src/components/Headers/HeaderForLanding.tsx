@@ -8,10 +8,12 @@ export default function HeaderForLanding() {
   const router = useRouter();
 
   const handleSearchClick = () => {
+    if (router.pathname === '/search') return;
     router.push('/search');
   };
 
   const handleUserClick = () => {
+    if (router.pathname === '/signin') return;
     router.push('/signin');
   };
 

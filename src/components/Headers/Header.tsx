@@ -30,6 +30,7 @@ export default function Header() {
   };
 
   const handleUserClick = () => {
+    if (router.pathname === '/mypage') return;
     router.push('/mypage');
   };
 
@@ -38,7 +39,7 @@ export default function Header() {
       <header className='fixed inset-0 flex justify-between items-center w-full h-52 md:h-60 xl:h-80 px-24 md:px-72 xl:px-120 bg-white border-1 border-solid border-gray-100'>
         <div className='flex justify-between items-center gap-12 md:gap-24'>
           <HamburgerMenu
-            className='md:hidden w-24 h-24 text-gray-200 cursor-pointer hover:bg-gray-100 active:bg-gray-200 rounded'
+            className='md:hidden w-24 h-24 text-gray-200 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200 rounded'
             onClick={handleHamburgerClick}
           />
           <Logo />

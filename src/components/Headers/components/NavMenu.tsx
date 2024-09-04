@@ -8,6 +8,8 @@ const menuItems = [
 export default function NavMenu() {
   const router = useRouter();
   const handleItemClick = (link: string) => {
+    alert(router.pathname);
+    if (router.pathname === link) return;
     router.push(link);
   };
 

@@ -14,7 +14,7 @@ const menuItems = [
 export default function SideMenu({ isOpen, onCloseClick }: SideMenuProps) {
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-screen bg-black-950 bg-opacity-60 duration-500 transition-opacity ${
+      className={`md:hidden fixed top-0 left-0 w-full h-screen bg-black-950 bg-opacity-60 duration-500 transition-opacity ${
         isOpen
           ? 'opacity-100 pointer-events-auto'
           : 'opacity-0 pointer-events-none'
@@ -25,10 +25,11 @@ export default function SideMenu({ isOpen, onCloseClick }: SideMenuProps) {
         className={`fixed w-[220px] h-screen bg-blue-100 transform transition-transform duration-500 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
+        onClick={event => event.stopPropagation()}
       >
         <div className='flex justify-end items-center px-16 py-15 border-1 border-solid border-line-100'>
           <IconClose
-            className='w-24 h-24 cursor-pointer'
+            className='w-24 h-24 cursor-pointer hover:bg-gray-100 active:bg-gray-200 rounded'
             onClick={onCloseClick}
           />
         </div>
