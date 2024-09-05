@@ -2,10 +2,10 @@ import HamburgerMenu from '@/assets/icons/ic-hamburger-menu.svg';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
-import SideMenu from '../SideMenu/SideMenu';
-import Logo from './components/Logo';
-import NavMenu from './components/NavMenu';
-import UserInfo from './components/UserInfo';
+import SideMenu from '../../SideMenu/SideMenu';
+import LogoForHeader from './LogoForHeader';
+import NavMenu from './NavMenu';
+import UserInfo from './UserInfo';
 
 const mockUserData = {
   image:
@@ -17,7 +17,7 @@ const mockUserData = {
   id: 1,
 };
 
-export default function Header() {
+export default function HeaderForCommon() {
   const [sideMenuToggle, setSideMenuToggle] = useState(false);
   const router = useRouter();
 
@@ -36,21 +36,19 @@ export default function Header() {
 
   return (
     <>
-      <header className='fixed inset-0 flex justify-between items-center w-full h-52 md:h-60 xl:h-80 px-24 md:px-72 xl:px-120 bg-white border-1 border-solid border-gray-100'>
-        <div className='flex justify-between items-center gap-12 md:gap-24'>
-          <HamburgerMenu
-            className='md:hidden w-24 h-24 text-gray-200 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200 rounded'
-            onClick={handleHamburgerClick}
-          />
-          <Logo />
-          <NavMenu />
-        </div>
-        <UserInfo
-          image={mockUserData.image}
-          nickname={mockUserData.nickname}
-          onClick={handleUserClick}
+      <div className='flex justify-between items-center gap-12 md:gap-24'>
+        <HamburgerMenu
+          className='md:hidden w-24 h-24 text-gray-200 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200 rounded'
+          onClick={handleHamburgerClick}
         />
-      </header>
+        <LogoForHeader />
+        <NavMenu />
+      </div>
+      <UserInfo
+        image={mockUserData.image}
+        nickname={mockUserData.nickname}
+        onClick={handleUserClick}
+      />
       <SideMenu
         isOpen={sideMenuToggle}
         onCloseClick={handleSideMenuCloseClick}

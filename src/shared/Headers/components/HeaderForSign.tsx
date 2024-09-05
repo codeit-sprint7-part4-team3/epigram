@@ -2,6 +2,8 @@ import LogoLarge from '@/assets/logos/logo-epigram-symbol-lg.svg';
 import LogoSmall from '@/assets/logos/logo-epigram-symbol-sm.svg';
 import { useRouter } from 'next/router';
 
+import LogoForHeader from './LogoForHeader';
+
 export default function HeaderForSign() {
   const router = useRouter();
   const handleLogoClick = () => {
@@ -9,11 +11,8 @@ export default function HeaderForSign() {
   };
 
   return (
-    <header className='fixed inset-0 flex items-center w-full h-52 md:h-60 xl:h-80 bg-white border-1 border-solid border-gray-100'>
-      <div className='cursor-pointer m-auto' onClick={handleLogoClick}>
-        <LogoSmall className='xl:hidden' />
-        <LogoLarge className='hidden xl:block' />
-      </div>
-    </header>
+    <>
+      <LogoForHeader />
+    </>
   );
 }

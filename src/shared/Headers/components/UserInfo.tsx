@@ -22,7 +22,7 @@ export default function UserInfo({ image, nickname, onClick }: UserInfo) {
       ) : (
         <IconUserSigned className='w-16 xl:w-24 h-16 xl:h-24' />
       )}
-      <p className='font-[Pretendard] text-gray-300 text-13 xl:text-14 font-semibold leading-22 xl:leading-24 cursor-pointer'>
+      <p className='font-primary text-gray-300 text-13 xl:text-14 font-semibold leading-22 xl:leading-24 cursor-pointer'>
         {nickname}
       </p>
     </div>
