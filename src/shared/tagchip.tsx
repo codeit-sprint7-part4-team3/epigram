@@ -1,4 +1,15 @@
-import React, { ComponentProps, PropsWithChildren, ReactNode } from 'react';
+import React, { ComponentProps } from 'react';
+import { twMerge } from 'tailwind-merge';
+
+interface ChipListProps extends ComponentProps<'ul'> {}
+
+const ChipList = ({ children, className, ...rest }: ChipListProps) => {
+  return (
+    <ul className={twMerge('flex gap-10', className)} {...rest}>
+      {children}
+    </ul>
+  );
+};
 
 interface ChipItemProps extends ComponentProps<'li'> {
   name: string;
@@ -8,37 +19,27 @@ interface ChipItemProps extends ComponentProps<'li'> {
   backgroundColor?: string;
 }
 
-interface ChipListProps extends ComponentProps<'ul'> {}
-
-const ChipList = ({ children, ...rest }: ChipListProps) => {
-  return (
-    <ul className='flex gap-10' {...rest}>
-      {children}
-    </ul>
-  );
-};
-// tw-merge
 const ChipItem = ({
   name,
   keyword,
   isTag = false,
   onItemChange,
   backgroundColor = 'white',
+  className,
   ...rest
 }: ChipItemProps) => {
-  const handleTagChange = (event: any) => {
-    const { value } = event.target;
-
-    onItemChange && onItemChange(value);
-  };
-
   return (
     <li
-      className='text-black-300 p-5 rounded-xl'
+      className={twMerge('text-black-300 p-5 rounded-xl', className)}
       style={{ backgroundColor }}
       {...rest}
     >
-      <button onClick={handleTagChange} value={name}>
+      <button
+        onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+          onItemChange && onItemChange(event.currentTarget.value)
+        }
+        value={name}
+      >
         {isTag ? `#${name}` : `${name}`}
       </button>
     </li>

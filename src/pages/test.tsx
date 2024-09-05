@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 
 const test = () => {
   const DUMMY = [
-    { name: '임창기', id: 1 },
-    { name: '지인혁', id: 2 },
-    { name: '홍준기', id: 3 },
-    { name: '홍준기2', id: 4 },
+    { name: '김도용', id: 1 },
+    { name: '정윤호', id: 2 },
+    { name: '오소영', id: 3 },
+    { name: '정한주', id: 4 },
   ];
 
   const [currentTag, setCurrenTag] = useState('');
@@ -14,7 +14,6 @@ const test = () => {
   return (
     <>
       <div className='bg-white w-100vh h-100vh'>
-        <span className='text-50 text-red-500'>무고</span>
         <ChipList>
           {DUMMY.map(({ name, id }) => (
             <ChipList.Item
