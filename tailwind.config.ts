@@ -77,7 +77,7 @@ const px0_100 = Array.from(Array(101)).reduce(
   {} as Record<number, string>
 );
 
-const px0_200 = Array.from(Array(201)).reduce(
+const px0_1000 = Array.from(Array(1001)).reduce(
   (acc, _, i) => {
     acc[i] = `${i}px`;
     return acc;
@@ -96,9 +96,9 @@ const config: Config = {
       borderWidth: px0_10,
       fontSize: px0_100,
       lineHeight: px0_100,
-      minWidth: px0_200,
-      minHeight: px0_200,
-      spacing: px0_200,
+      minWidth: px0_1000,
+      minHeight: px0_1000,
+      spacing: px0_1000,
       margin: px0_100,
       padding: px0_100,
       gap: px0_10,
