@@ -107,6 +107,13 @@ const config: Config = {
         primary: ['Pretendard', 'sans-serif'],
         secondary: ['Iropke Batang', 'serif'],
       },
+      backgroundImage: {
+        'stripe-pattern':
+          'linear-gradient(to bottom, #f2f2f2 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        'stripe-size': '100% 24px',
+      },
     },
   },
   plugins: [],
