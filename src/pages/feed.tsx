@@ -1,3 +1,5 @@
+import Plus from '@/assets/icons/ic-plus.svg';
+import Button from '@/components/Button';
 import Card from '@/shared/Card';
 import { useEffect, useState } from 'react';
 
@@ -53,6 +55,12 @@ export default function Feed() {
             />
           ))}
         </div>
+      </div>
+      <div className='pt:56 flex items-center justify-center pb-114 xl:pt-80'>
+        <Button variant='round' color='white'>
+          <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+          에피그램더보기
+        </Button>
       </div>
     </div>
   );
