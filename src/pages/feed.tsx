@@ -1,6 +1,8 @@
+import Up from '@/assets/icons/ic-down-chevron.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
 import Button from '@/components/Button';
 import Card from '@/shared/Card';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const mockDataArray = [
@@ -29,6 +31,12 @@ const mockDataArray = [
 ];
 
 export default function Feed() {
+  const router = useRouter();
+
+  const handleAddEpigramButtonClick = () => {
+    if (router.pathname === '/addepigram') return;
+    router.push('/addepigram');
+  };
   const [data, setData] = useState<
     { content: string; author: string; tags: string[] }[]
   >([]);
@@ -59,7 +67,20 @@ export default function Feed() {
       <div className='pt:56 flex items-center justify-center pb-114 xl:pt-80'>
         <Button variant='round' color='white'>
           <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
-          에피그램더보기
+          에피그램 더보기
+        </Button>
+      </div>
+      <div className='fixed bottom-152 right-120'>
+        <Button
+          variant='round'
+          onClick={handleAddEpigramButtonClick}
+          color='blue'
+        >
+          <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+          에피그램 만들기
+        </Button>
+        <Button color='blue' variant='round'>
+          <Up className='h-24 w-24 text-white' />
         </Button>
       </div>
     </div>
