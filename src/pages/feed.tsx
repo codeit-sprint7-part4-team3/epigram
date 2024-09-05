@@ -37,6 +37,12 @@ export default function Feed() {
     if (router.pathname === '/addepigram') return;
     router.push('/addepigram');
   };
+  const handlePageUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   const [data, setData] = useState<
     { content: string; author: string; tags: string[] }[]
   >([]);
@@ -81,7 +87,7 @@ export default function Feed() {
             <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
             에피그램 만들기
           </Button>
-          <Button color='blue' variant='round'>
+          <Button onClick={handlePageUp} color='blue' variant='round'>
             <Up className='h-24 w-24 rotate-180' />
           </Button>
         </div>
