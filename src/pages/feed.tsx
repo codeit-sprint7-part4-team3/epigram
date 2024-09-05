@@ -70,18 +70,21 @@ export default function Feed() {
           에피그램 더보기
         </Button>
       </div>
-      <div className='fixed bottom-152 right-120'>
-        <Button
-          variant='round'
-          onClick={handleAddEpigramButtonClick}
-          color='blue'
-        >
-          <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
-          에피그램 만들기
-        </Button>
-        <Button color='blue' variant='round'>
-          <Up className='h-24 w-24 text-white' />
-        </Button>
+      <div className='fixed bottom-104 right-24 md:bottom-92 md:right-72 xl:bottom-80 xl:right-120'>
+        <div className='grid justify-items-end'>
+          <Button
+            variant='round'
+            onClick={handleAddEpigramButtonClick}
+            color='blue'
+            className='mb-8'
+          >
+            <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+            에피그램 만들기
+          </Button>
+          <Button color='blue' variant='round'>
+            <Up className='h-24 w-24 rotate-180' />
+          </Button>
+        </div>
       </div>
     </div>
   );
