@@ -9,8 +9,8 @@ export default function HeaderForSign() {
   };
 
   return (
-    <header className='fixed inset-0 flex items-center w-full h-52 md:h-60 xl:h-80 bg-white border-1 border-solid border-gray-100'>
-      <div className='cursor-pointer m-auto' onClick={handleLogoClick}>
+    <header className='fixed inset-0 flex h-52 w-full items-center border-1 border-solid border-gray-100 bg-white md:h-60 xl:h-80'>
+      <div className='m-auto cursor-pointer' onClick={handleLogoClick}>
         <LogoSmall className='xl:hidden' />
         <LogoLarge className='hidden xl:block' />
       </div>

@@ -36,10 +36,10 @@ export default function Header() {
 
   return (
     <>
-      <header className='fixed inset-0 flex justify-between items-center w-full h-52 md:h-60 xl:h-80 px-24 md:px-72 xl:px-120 bg-white border-1 border-solid border-gray-100'>
-        <div className='flex justify-between items-center gap-12 md:gap-24'>
+      <header className='fixed inset-0 flex h-52 w-full items-center justify-between border-1 border-solid border-gray-100 bg-white px-24 md:h-60 md:px-72 xl:h-80 xl:px-120'>
+        <div className='flex items-center justify-between gap-12 md:gap-24'>
           <HamburgerMenu
-            className='md:hidden w-24 h-24 text-gray-200 cursor-pointer transition-colors duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200 rounded'
+            className='h-24 w-24 cursor-pointer rounded text-gray-200 transition-colors duration-300 ease-in-out hover:bg-gray-100 active:bg-gray-200 md:hidden'
             onClick={handleHamburgerClick}
           />
           <Logo />

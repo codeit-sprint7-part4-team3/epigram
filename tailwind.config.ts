@@ -90,6 +90,7 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/shared/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -106,6 +107,13 @@ const config: Config = {
       fontFamily: {
         primary: ['Pretendard', 'sans-serif'],
         secondary: ['Iropke Batang', 'serif'],
+      },
+      backgroundImage: {
+        'stripe-pattern':
+          'linear-gradient(to bottom, #f2f2f2 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        'stripe-size': '100% 24px',
       },
     },
   },
