@@ -1,5 +1,5 @@
 import IconClose from '@/assets/icons/ic-close.svg';
-import SideMenuItem from '@/components/SideMenu/components/SideMenuItem';
+import SideMenuItem from '@/shared/SideMenu/components/SideMenuItem';
 
 interface SideMenuProps {
   isOpen: boolean;
