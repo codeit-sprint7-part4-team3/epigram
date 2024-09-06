@@ -77,7 +77,7 @@ const px0_100 = Array.from(Array(101)).reduce(
   {} as Record<number, string>
 );
 
-const px0_200 = Array.from(Array(201)).reduce(
+const px0_1000 = Array.from(Array(1001)).reduce(
   (acc, _, i) => {
     acc[i] = `${i}px`;
     return acc;
@@ -90,15 +90,16 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/shared/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
       borderWidth: px0_10,
       fontSize: px0_100,
       lineHeight: px0_100,
-      minWidth: px0_200,
-      minHeight: px0_200,
-      spacing: px0_200,
+      minWidth: px0_1000,
+      minHeight: px0_1000,
+      spacing: px0_1000,
       margin: px0_100,
       padding: px0_100,
       gap: px0_10,
@@ -106,6 +107,13 @@ const config: Config = {
       fontFamily: {
         primary: ['Pretendard', 'sans-serif'],
         secondary: ['Iropke Batang', 'serif'],
+      },
+      backgroundImage: {
+        'stripe-pattern':
+          'linear-gradient(to bottom, #f2f2f2 1px, transparent 1px)',
+      },
+      backgroundSize: {
+        'stripe-size': '100% 24px',
       },
     },
   },

@@ -9,7 +9,7 @@ export default function Logo() {
   };
 
   return (
-    <div className='cursor-pointer m-auto' onClick={handleLogoClick}>
+    <div className='m-auto cursor-pointer' onClick={handleLogoClick}>
       <LogoSmall className='xl:hidden' />
       <LogoLarge className='hidden xl:block' />
     </div>

@@ -9,9 +9,11 @@ module.exports = {
   bracketSpacing: true,
   arrowParens: 'avoid',
   plugins: [
-    'prettier-plugin-tailwindcss',
     '@trivago/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
   ],
+  tailwindConfig: './tailwind.config.ts',
+  tailwindFunctions: ['clsx', 'tw'],
   importOrder: ['^@core/(.*)$', '^@server/(.*)$', '^@ui/(.*)$', '^[./]'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
