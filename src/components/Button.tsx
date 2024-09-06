@@ -47,11 +47,11 @@ const baseStyle = 'rounded-xl font-semibold';
 const styleByVariant: Record<ButtonVariant, string> = {
   main: clsx(
     baseStyle,
-    'w-112 h-48 md:w-136 md:h-56 xl:w-286 xl:h-64 text-16 leading-26 md:text-20 md:leading-32'
+    'h-48 w-112 text-16 leading-26 md:h-56 md:w-136 md:text-20 md:leading-32 xl:h-64 xl:w-286'
   ),
   wide: clsx(
     baseStyle,
-    'w-full h-44 xl:h-64 text-16 leading-26 xl:text-20 xl:leading-32'
+    'h-44 w-full text-16 leading-26 xl:h-64 xl:text-20 xl:leading-32'
   ),
   round:
     'rounded-full h-48 xl:h-56 px-18 xl:px-40 text-14 font-medium leading-24 xl:text-20 xl:leading-32',
