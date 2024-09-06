@@ -3,345 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-export interface paths {
-  '/{teamId}/users/me': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['Me'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch: operations['UpdatePassword'];
-    trace?: never;
-  };
-  '/{teamId}/users/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations['RetrieveUser'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/users/{id}/comments': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 유저의 댓글 목록 조회 */
-    get: operations['ListComments'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/oauthApps': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 간편 로그인 App 등록/수정<br/>
-     *     Google, Kakao, Naver 간편 로그인을 위한 App 을 등록하거나 수정합니다.<br/>
-     *     이미 등록된 앱이 있을 경우 덮어씌워집니다.
-     *
-     *     ## Google
-     *     * appKey: <b>"클라이언트 id"</b>
-     *     * appSecret: 필요하지 않음
-     *
-     *     ---
-     *
-     *     ## Kakao
-     *     * appKey: <b>"REST API 키"</b>
-     *     * appSecret: 필요하지 않음
-     *
-     *     ---
-     *
-     *     ## Naver
-     *     * appKey: <b>"Client ID"</b>
-     *     * appSecret: <b>"Client Secret"</b>
-     *
-     *     ---
-     *
-     *     실습을 위해 발급받은 키를 등록해주세요. 실제 서비스에서 사용 하는 키를 등록해서는 안됩니다. */
-    post: operations['UpsertOauthApp'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/images/upload': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 이미지 업로드,
-     *     프로젝트에 저장하는 이미지들은 이 엔드포인트를 통해 업로드한 후 URL을 획득하여 사용합니다. */
-    post: operations['ImageUpload'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/epigrams': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 에피그램 목록 조회 */
-    get: operations['ListEpigrams'];
-    put?: never;
-    /** @description 에피그램 작성 */
-    post: operations['CreateEpigram'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/epigrams/today': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 오늘의 에피그램 조회 */
-    get: operations['RetrieveTodayEpigram'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/epigrams/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 에피그램 상세 조회 */
-    get: operations['RetrieveEpigram'];
-    put?: never;
-    post?: never;
-    /** @description 에피그램 삭제 */
-    delete: operations['DeleteEpigram'];
-    options?: never;
-    head?: never;
-    /** @description 에피그램 수정 */
-    patch: operations['UpdateEpigram'];
-    trace?: never;
-  };
-  '/{teamId}/epigrams/{id}/like': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 에피그램 좋아요 */
-    post: operations['LikeEpigram'];
-    /** @description 에피그램 좋아요 취소 */
-    delete: operations['UnlikeEpigram'];
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/epigrams/{id}/comments': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 에피그램 댓글 목록 조회 */
-    get: operations['ListEpigramComments'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/emotionLogs/today': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 오늘의 감정 조회 */
-    get: operations['GetTodayEmotionLog'];
-    put?: never;
-    /** @description 오늘의 감정 저장 */
-    post: operations['UpsertEmotionLog'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/emotionLogs/monthly': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 월별 감정 조회 */
-    get: operations['GetMonthlyEmotionLog'];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/comments': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    /** @description 댓글 목록 조회 */
-    get: operations['ListComments'];
-    put?: never;
-    /** @description 댓글 작성 */
-    post: operations['CreateComment'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/comments/{id}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    post?: never;
-    /** @description 댓글 삭제 */
-    delete: operations['DeleteComment'];
-    options?: never;
-    head?: never;
-    /** @description 댓글 수정 */
-    patch: operations['UpdateComment'];
-    trace?: never;
-  };
-  '/{teamId}/auth/signUp': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 회원가입 */
-    post: operations['SignUp'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/auth/signIn': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 로그인 */
-    post: operations['SignIn'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/auth/refresh-token': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 토큰 갱신 */
-    post: operations['RefreshToken'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  '/{teamId}/auth/signIn/{provider}': {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get?: never;
-    put?: never;
-    /** @description 간편 로그인
-     *
-     *     가입되어있지 않을 경우엔 가입됩니다. */
-    post: operations['SignInWithOauth'];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-}
-export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
     /** Format: int32 */
@@ -1379,3 +1040,343 @@ export interface operations {
     };
   };
 }
+
+export interface paths {
+  '/{teamId}/users/me': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['Me'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch: operations['UpdatePassword'];
+    trace?: never;
+  };
+  '/{teamId}/users/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations['RetrieveUser'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/users/{id}/comments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 유저의 댓글 목록 조회 */
+    get: operations['ListComments'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/oauthApps': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description 간편 로그인 App 등록/수정<br/>
+     *     Google, Kakao, Naver 간편 로그인을 위한 App 을 등록하거나 수정합니다.<br/>
+     *     이미 등록된 앱이 있을 경우 덮어씌워집니다.
+     *
+     *     ## Google
+     *     * appKey: <b>"클라이언트 id"</b>
+     *     * appSecret: 필요하지 않음
+     *
+     *     ---
+     *
+     *     ## Kakao
+     *     * appKey: <b>"REST API 키"</b>
+     *     * appSecret: 필요하지 않음
+     *
+     *     ---
+     *
+     *     ## Naver
+     *     * appKey: <b>"Client ID"</b>
+     *     * appSecret: <b>"Client Secret"</b>
+     *
+     *     ---
+     *
+     *     실습을 위해 발급받은 키를 등록해주세요. 실제 서비스에서 사용 하는 키를 등록해서는 안됩니다. */
+    post: operations['UpsertOauthApp'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/images/upload': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description 이미지 업로드,
+     *     프로젝트에 저장하는 이미지들은 이 엔드포인트를 통해 업로드한 후 URL을 획득하여 사용합니다. */
+    post: operations['ImageUpload'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/epigrams': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 에피그램 목록 조회 */
+    get: operations['ListEpigrams'];
+    put?: never;
+    /** @description 에피그램 작성 */
+    post: operations['CreateEpigram'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/epigrams/today': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 오늘의 에피그램 조회 */
+    get: operations['RetrieveTodayEpigram'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/epigrams/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 에피그램 상세 조회 */
+    get: operations['RetrieveEpigram'];
+    put?: never;
+    post?: never;
+    /** @description 에피그램 삭제 */
+    delete: operations['DeleteEpigram'];
+    options?: never;
+    head?: never;
+    /** @description 에피그램 수정 */
+    patch: operations['UpdateEpigram'];
+    trace?: never;
+  };
+  '/{teamId}/epigrams/{id}/like': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description 에피그램 좋아요 */
+    post: operations['LikeEpigram'];
+    /** @description 에피그램 좋아요 취소 */
+    delete: operations['UnlikeEpigram'];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/epigrams/{id}/comments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 에피그램 댓글 목록 조회 */
+    get: operations['ListEpigramComments'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/emotionLogs/today': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 오늘의 감정 조회 */
+    get: operations['GetTodayEmotionLog'];
+    put?: never;
+    /** @description 오늘의 감정 저장 */
+    post: operations['UpsertEmotionLog'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/emotionLogs/monthly': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 월별 감정 조회 */
+    get: operations['GetMonthlyEmotionLog'];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/comments': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** @description 댓글 목록 조회 */
+    get: operations['ListComments'];
+    put?: never;
+    /** @description 댓글 작성 */
+    post: operations['CreateComment'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/comments/{id}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    /** @description 댓글 삭제 */
+    delete: operations['DeleteComment'];
+    options?: never;
+    head?: never;
+    /** @description 댓글 수정 */
+    patch: operations['UpdateComment'];
+    trace?: never;
+  };
+  '/{teamId}/auth/signUp': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description 회원가입 */
+    post: operations['SignUp'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/auth/signIn': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description 로그인 */
+    post: operations['SignIn'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/auth/refresh-token': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description 토큰 갱신 */
+    post: operations['RefreshToken'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  '/{teamId}/auth/signIn/{provider}': {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** @description 간편 로그인
+     *
+     *     가입되어있지 않을 경우엔 가입됩니다. */
+    post: operations['SignInWithOauth'];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+}
+export type webhooks = Record<string, never>;
