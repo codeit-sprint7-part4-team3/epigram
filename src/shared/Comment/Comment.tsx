@@ -1,7 +1,6 @@
 import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
 
 import UserIcon from '../UserIcon';
-import ManageButtonSet from './components/ManageButtonSet';
 
 const mockSignedInUserData: User = {
   image:
