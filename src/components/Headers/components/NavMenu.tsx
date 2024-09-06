@@ -14,11 +14,11 @@ export default function NavMenu() {
   };
 
   return (
-    <div className='hidden md:flex gap-24'>
+    <div className='hidden gap-24 md:flex'>
       {menuItems.map(item => (
         <p
           key={item.title}
-          className='font-[Pretendard] text-14 xl:text-16 font-semibold leading-24 xl:leading-26 cursor-pointer'
+          className='cursor-pointer font-[Pretendard] text-14 font-semibold leading-24 xl:text-16 xl:leading-26'
           onClick={() => handleItemClick(item.link)}
         >
           {item.title}
