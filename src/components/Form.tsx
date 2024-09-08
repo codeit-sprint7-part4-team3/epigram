@@ -50,14 +50,24 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 function Input({ className, name = '', ...rest }: InputProps) {
-  const { register } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
 
   const inputClass = cn(
     'rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal text-black-950 placeholder:text-blue-400 xl:py-16',
     className
   );
 
-  return <input {...register(name)} className={inputClass} {...rest} />;
+  return (
+    <>
+      <input {...register(name)} className={inputClass} {...rest} />
+      {errors[name] && (
+        <ErrorMessage>{String(errors[name].message)}</ErrorMessage>
+      )}
+    </>
+  );
 }
 
 function ErrorMessage({ className, children }: BaseProps) {
