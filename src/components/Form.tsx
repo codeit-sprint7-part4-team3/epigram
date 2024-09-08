@@ -1,3 +1,5 @@
+import OpenEye from '@/assets/icons/ic-closed-eye.svg';
+import ClosedEye from '@/assets/icons/ic-open-eye.svg';
 import Button from '@/components/Button';
 import cn from 'clsx';
 import {
@@ -5,6 +7,7 @@ import {
   InputHTMLAttributes,
   LabelHTMLAttributes,
   ReactNode,
+  useState,
 } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
@@ -49,16 +52,16 @@ function LabelHeader({ children, className }: BaseProps) {
   return <h2 className={headerClass}>{children}</h2>;
 }
 
+const baseInputStyle =
+  'rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal text-black-950 placeholder:text-blue-400 xl:py-16';
+
 function Input({ className, name = '', ...rest }: InputProps) {
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  const inputClass = cn(
-    'rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal text-black-950 placeholder:text-blue-400 xl:py-16',
-    className
-  );
+  const inputClass = cn(baseInputStyle, className);
 
   return (
     <>
@@ -70,13 +73,43 @@ function Input({ className, name = '', ...rest }: InputProps) {
   );
 }
 
-function ErrorMessage({ className, children }: BaseProps) {
-  const errrorClass = cn(
-    'ml-8 text-13 leading-22 text-error xl:text-16 xl:leading-26',
-    className
-  );
+const eyeButtonStyle = 'h-24 w-24 text-gray-200';
 
-  return <span className={errrorClass}>{children}</span>;
+function PasswordInput({ className, name = '', ...rest }: InputProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(prev => !prev);
+  };
+
+  const inputClass = cn(baseInputStyle, className);
+  const renderEyeIcon = () => {
+    return showPassword ? (
+      <OpenEye className={eyeButtonStyle} />
+    ) : (
+      <ClosedEye className={eyeButtonStyle} />
+    );
+  };
+
+  return (
+    <>
+      <div className='relative'>
+        <input {...register(name)} className={inputClass} {...rest} type='' />
+        <button
+          className='absolut bottom-10 right-16'
+          onClick={togglePasswordVisibility}
+        >
+          {renderEyeIcon()}
+        </button>
+      </div>
+      {errors[name] && (
+        <ErrorMessage>{String(errors[name].message)}</ErrorMessage>
+      )}
+    </>
+  );
 }
 
 function Submit({ className, children }: BaseProps) {
@@ -93,8 +126,17 @@ function Submit({ className, children }: BaseProps) {
     </Button>
   );
 }
+function ErrorMessage({ className, children }: BaseProps) {
+  const errrorClass = cn(
+    'ml-8 text-13 leading-22 text-error xl:text-16 xl:leading-26',
+    className
+  );
+
+  return <span className={errrorClass}>{children}</span>;
+}
 
 Form.Label = Label;
 Form.LabelHeader = LabelHeader;
 Form.Input = Input;
+Form.PasswordInput = PasswordInput;
 Form.Submit = Submit;
