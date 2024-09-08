@@ -97,5 +97,4 @@ function Submit({ className, children }: BaseProps) {
 Form.Label = Label;
 Form.LabelHeader = LabelHeader;
 Form.Input = Input;
-Form.ErrorMessage = ErrorMessage;
 Form.Submit = Submit;
