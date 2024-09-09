@@ -1,6 +1,10 @@
 import OpenEye from '@/assets/icons/ic-closed-eye.svg';
 import ClosedEye from '@/assets/icons/ic-open-eye.svg';
 import Button from '@/components/Button';
+import VALIDATION_RULES, {
+  type Field,
+  PASSWORD_CONFIRM_RULES,
+} from '@/constants/formValidation';
 import cn from 'clsx';
 import {
   FormHTMLAttributes,
@@ -9,13 +13,20 @@ import {
   ReactNode,
   useState,
 } from 'react';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import {
+  FormProvider,
+  RegisterOptions,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
 
 interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   onSubmit: () => void;
 }
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  name: Field;
+}
 interface BaseProps {
   children: ReactNode | undefined;
   className?: string;
@@ -57,7 +68,7 @@ function LabelHeader({ children, className }: BaseProps) {
 const baseInputStyle =
   'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 outline-none placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32';
 
-function Input({ className, name = '', ...rest }: InputProps) {
+function Input({ className, name, ...rest }: InputProps) {
   const {
     register,
     formState: { errors },
@@ -68,7 +79,7 @@ function Input({ className, name = '', ...rest }: InputProps) {
   return (
     <>
       <input
-        {...register(name)}
+        {...register(name, VALIDATION_RULES[name])}
         className={inputClass}
         {...rest}
         placeholder={name}
@@ -82,10 +93,11 @@ function Input({ className, name = '', ...rest }: InputProps) {
 
 const eyeButtonStyle = 'h-24 w-24 text-gray-200';
 
-function PasswordInput({ className, name = '', ...rest }: InputProps) {
+function PasswordInput({ className, name, ...rest }: InputProps) {
   const {
     register,
     formState: { errors },
+    getValues,
   } = useFormContext();
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -100,11 +112,17 @@ function PasswordInput({ className, name = '', ...rest }: InputProps) {
   );
   const inputType = showPassword ? 'text' : 'password';
   const placeholder = rest.placeholder ? rest.placeholder : name;
+
+  const registerOptions =
+    name === '비밀번호 확인'
+      ? PASSWORD_CONFIRM_RULES(getValues('비밀번호'))
+      : VALIDATION_RULES[name];
+
   return (
     <>
       <div className='relative'>
         <input
-          {...register(name)}
+          {...register(name, registerOptions)}
           className={inputClass}
           {...rest}
           type={inputType}
