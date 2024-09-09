@@ -53,7 +53,7 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 const baseInputStyle =
-  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 outline-none placeholder:text-blue-400 xl:py-16 xl:leading-32';
+  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 outline-none placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32';
 
 function Input({ className, name = '', ...rest }: InputProps) {
   const {
@@ -102,7 +102,7 @@ function PasswordInput({ className, name = '', ...rest }: InputProps) {
           type={inputType}
         />
         <button
-          className='absolute bottom-10 right-16'
+          className='absolute bottom-10 right-16 xl:bottom-20'
           onClick={togglePasswordVisibility}
         >
           {EyeIcon}
