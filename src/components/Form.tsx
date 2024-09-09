@@ -61,7 +61,7 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 const baseInputStyle =
-  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 outline-none placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32';
+  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32';
 
 function Input({ className, name, ...rest }: InputProps) {
   const {
@@ -69,7 +69,11 @@ function Input({ className, name, ...rest }: InputProps) {
     formState: { errors },
   } = useFormContext();
 
-  const inputClass = cn(baseInputStyle, className);
+  const inputClass = cn(
+    baseInputStyle,
+    { 'outline outline-1 outline-error': !!errors[name] },
+    className
+  );
 
   return (
     <>
@@ -80,7 +84,7 @@ function Input({ className, name, ...rest }: InputProps) {
         placeholder={name}
       />
       {errors[name] && (
-        <ErrorMessage>{String(errors[name].message)}</ErrorMessage>
+        <ErrorMessage className=''>{String(errors[name].message)}</ErrorMessage>
       )}
     </>
   );
@@ -99,7 +103,11 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
     setShowPassword(prev => !prev);
   };
 
-  const inputClass = cn(baseInputStyle, className);
+  const inputClass = cn(
+    baseInputStyle,
+    { 'outline outline-1 outline-error': !!errors[name] },
+    className
+  );
   const EyeIcon = showPassword ? (
     <OpenEye className={eyeButtonStyle} />
   ) : (
