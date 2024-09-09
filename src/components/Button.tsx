@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type ButtonVariant = 'main' | 'wide' | 'round';
 type ButtonSize = 'sm' | 'md';
@@ -22,12 +23,14 @@ export default function Button({
   size = 'md',
   color = 'primary',
 }: ButtonProps) {
-  const buttonStyle = clsx(
-    'flex-center',
-    styleByVariant[variant],
-    styleByColor[color],
-    size === 'sm' && smButtonStyle,
-    className
+  const buttonStyle = twMerge(
+    clsx(
+      'flex-center',
+      styleByVariant[variant],
+      styleByColor[color],
+      size === 'sm' && smButtonStyle,
+      className
+    )
   );
   return (
     <button
