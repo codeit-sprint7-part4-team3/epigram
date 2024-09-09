@@ -38,7 +38,7 @@ export default function Form({ onSubmit, id, className, children }: FormProps) {
 }
 
 function Label({ children, className }: LabelProps) {
-  const labelClass = cn('mb-20 md:mb-40', className);
+  const labelClass = cn('mb-20 md:mb-40  block', className);
 
   return <label className={labelClass}> {children} </label>;
 }
@@ -53,7 +53,7 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 const baseInputStyle =
-  'rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal text-black-950 placeholder:text-blue-400 xl:py-16';
+  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal text-black-950 outline-none placeholder:text-blue-400 xl:py-16';
 
 function Input({ className, name = '', ...rest }: InputProps) {
   const {
@@ -86,23 +86,26 @@ function PasswordInput({ className, name = '', ...rest }: InputProps) {
   };
 
   const inputClass = cn(baseInputStyle, className);
-  const renderEyeIcon = () => {
-    return showPassword ? (
-      <OpenEye className={eyeButtonStyle} />
-    ) : (
-      <ClosedEye className={eyeButtonStyle} />
-    );
-  };
-
+  const EyeIcon = showPassword ? (
+    <OpenEye className={eyeButtonStyle} />
+  ) : (
+    <ClosedEye className={eyeButtonStyle} />
+  );
+  const inputType = showPassword ? 'text' : 'password';
   return (
     <>
       <div className='relative'>
-        <input {...register(name)} className={inputClass} {...rest} type='' />
+        <input
+          {...register(name)}
+          className={inputClass}
+          {...rest}
+          type={inputType}
+        />
         <button
-          className='absolut bottom-10 right-16'
+          className='absolute bottom-10 right-16'
           onClick={togglePasswordVisibility}
         >
-          {renderEyeIcon()}
+          {EyeIcon}
         </button>
       </div>
       {errors[name] && (
