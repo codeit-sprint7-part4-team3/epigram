@@ -2,7 +2,7 @@ import IconSearch from '@/assets/icons/ic-search.svg';
 import IconUser from '@/assets/icons/ic-user.svg';
 import { useRouter } from 'next/router';
 
-import Logo from './components/Logo';
+import LogoForHeader from './LogoForHeader';
 
 export default function HeaderForLanding() {
   const router = useRouter();
@@ -18,16 +18,16 @@ export default function HeaderForLanding() {
   };
 
   return (
-    <header className='fixed inset-0 flex h-52 w-full items-center border-1 border-solid border-gray-100 bg-white px-24 md:h-60 md:px-72 xl:h-80 xl:px-120'>
+    <>
       <IconSearch
-        className='h-20 w-20 cursor-pointer xl:h-36 xl:w-36'
+        className='w-20 xl:w-36 h-20 xl:h-36 cursor-pointer'
         onClick={handleSearchClick}
       />
-      <Logo />
+      <LogoForHeader />
       <IconUser
-        className='h-20 w-20 cursor-pointer xl:h-36 xl:w-36'
+        className='w-20 xl:w-36 h-20 xl:h-36 cursor-pointer'
         onClick={handleUserClick}
       />
-    </header>
+    </>
   );
 }
