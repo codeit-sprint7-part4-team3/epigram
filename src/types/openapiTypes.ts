@@ -776,31 +776,6 @@ export interface operations {
       };
     };
   };
-  ListComments: {
-    parameters: {
-      query: {
-        limit: number;
-        cursor?: number;
-      };
-      header?: never;
-      path: {
-        teamId: string;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description Ok */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          'application/json': components['schemas']['CursorBasedPaginationResponse_CommentType_'];
-        };
-      };
-    };
-  };
   CreateComment: {
     parameters: {
       query?: never;
