@@ -1,4 +1,4 @@
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 
 const menuItems = [
   { title: '피드', link: '/feed' },
@@ -8,17 +8,16 @@ const menuItems = [
 export default function NavMenu() {
   const router = useRouter();
   const handleItemClick = (link: string) => {
-    alert(router.pathname);
     if (router.pathname === link) return;
     router.push(link);
   };
 
   return (
-    <div className='hidden gap-24 md:flex'>
+    <div className='hidden md:flex gap-24'>
       {menuItems.map(item => (
         <p
           key={item.title}
-          className='cursor-pointer font-[Pretendard] text-14 font-semibold leading-24 xl:text-16 xl:leading-26'
+          className='font-primary text-14 xl:text-16 font-semibold leading-24 xl:leading-26 cursor-pointer'
           onClick={() => handleItemClick(item.link)}
         >
           {item.title}
