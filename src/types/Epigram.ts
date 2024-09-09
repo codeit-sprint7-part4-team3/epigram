@@ -3,15 +3,24 @@ import { Id, Nickname, Timestamps, UrlType } from '@/types/CommonTypes';
 type EpigramContent = string;
 type EpigramAuthor = string;
 type EpigramReferenceTitle = string;
-type likeCount = number;
+type LikeCount = number;
 type TagName = string;
 
-interface Tag {
+export interface Tag {
   name: TagName;
   id: Id;
 }
 
-interface EpigramListType {
+interface EpigramBaseBody {
+  tags: Tag[];
+  referenceUrl?: UrlType;
+  referenceTitle?: EpigramReferenceTitle;
+  author: EpigramAuthor;
+  content: EpigramContent;
+}
+
+export interface EpigramListType {
+  likeCount: LikeCount;
   tags: Tag[];
   writerId: Id;
   referenceUrl: UrlType | null;
@@ -21,18 +30,10 @@ interface EpigramListType {
   id: Id;
 }
 
-interface CreateEpigramBody {
-  tags: Tag[];
-  referenceUrl?: UrlType;
-  referenceTitle?: EpigramReferenceTitle;
-  author: EpigramAuthor;
-  content: EpigramContent;
+export interface EpigramDetailType extends EpigramListType {
+  isLiked?: boolean;
 }
 
-interface UpdateEpigramBody {
-  tags: Tag[];
-  referenceUrl?: UrlType;
-  referenceTitle?: EpigramReferenceTitle;
-  author: EpigramAuthor;
-  content: EpigramContent;
-}
+export interface CreateEpigramBody extends EpigramBaseBody {}
+
+export interface UpdateEpigramBody extends EpigramBaseBody {}
