@@ -25,7 +25,7 @@ export default function Button({
 }: ButtonProps) {
   const buttonStyle = twMerge(
     clsx(
-      'flex-center',
+      'flex items-center justify-center',
       styleByVariant[variant],
       styleByColor[color],
       size === 'sm' && smButtonStyle,
