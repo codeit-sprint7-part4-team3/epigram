@@ -1,8 +1,9 @@
-import { Id, Timestamps } from '@/types/CommonTypes';
+import { Id, Timestamps, UrlType } from '@/types/CommonTypes';
 
 type OauthProvider = 'GOOGLE' | 'NAVER' | 'KAKAO';
 type AppKey = string;
 type AppSecret = string;
+type OauthToken = string;
 
 export interface OauthApp extends Timestamps {
   appSecret: AppSecret | null;
@@ -12,8 +13,14 @@ export interface OauthApp extends Timestamps {
   id: Id;
 }
 
-interface UpsertOauthAppRequestBody {
+export interface UpsertOauthAppRequestBody {
   appSecret?: AppSecret;
   appKey: AppKey;
   provider: OauthProvider;
+}
+
+export interface SignInWithOauthRequestBody {
+  state?: string;
+  redirectUri?: UrlType;
+  token: OauthToken;
 }
