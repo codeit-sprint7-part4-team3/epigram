@@ -1,13 +1,19 @@
-// pages/search.tsx
 import SearchIcon from '@/assets/icons/ic-search.svg';
+import Card from '@/shared/Card';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
+interface Epigram {
+  content: string;
+  author: string;
+  tags: { id: number; name: string }[]; // tags 배열에 객체가 포함된 경우
+}
+
 const Search: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [searchResult, setSearchResult] = useState<string[]>([]);
+  const [searchResult, setSearchResult] = useState<Epigram[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,22 +26,31 @@ const Search: React.FC = () => {
 
   const handleSearch = async () => {
     if (searchTerm.trim()) {
-      const newHistory = [searchTerm, ...searchHistory];
-      setSearchHistory(newHistory);
-      localStorage.setItem('searchHistory', JSON.stringify(newHistory));
+      const updatedHistory = [
+        searchTerm,
+        ...searchHistory.filter(term => term !== searchTerm),
+      ];
+      setSearchHistory(updatedHistory);
+      localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
       router.push(`/search?query=${searchTerm}`);
+
+      const encodedKeyword = encodeURIComponent(searchTerm);
+      const response = await axios.get(
+        `https://fe-project-epigram-api.vercel.app/7-3/epigrams?limit=10000&keyword=${encodedKeyword}`
+      );
+      console.log(response);
+      setSearchResult(response.data.list);
     }
-    const encodedKeyword = encodeURIComponent(searchTerm);
-    const response = await axios.get(
-      `https://fe-project-epigram-api.vercel.app/7-3/epigrams?limit=10000&keyword=${encodedKeyword}`
-    );
-    console.log(response);
-    setSearchResult(response.data.list);
   };
 
   const handleClearHistory = () => {
     setSearchHistory([]);
     localStorage.removeItem('searchHistory');
+  };
+
+  const handleTagClick = (term: string) => {
+    setSearchTerm(term);
+    handleSearch();
   };
 
   return (
@@ -85,7 +100,8 @@ const Search: React.FC = () => {
             {searchHistory.map((term, index) => (
               <li
                 key={index}
-                className='rounded-full bg-gray-200 px-2 py-1 text-gray-700'
+                className='cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-gray-700'
+                onClick={() => handleTagClick(term)}
               >
                 {term}
               </li>
@@ -93,7 +109,17 @@ const Search: React.FC = () => {
           </ul>
         </div>
       )}
-      {JSON.stringify(searchResult)}
+
+      <div>
+        {searchResult.map((epigram, index) => (
+          <Card
+            key={index}
+            content={epigram.content}
+            author={epigram.author}
+            tags={epigram.tags.map(tag => tag.name)} // tags 배열을 문자열 배열로 변환
+          />
+        ))}
+      </div>
     </div>
   );
 };
