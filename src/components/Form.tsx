@@ -53,7 +53,7 @@ function Label({ children, className }: LabelProps) {
 
 function LabelHeader({ children, className }: BaseProps) {
   const headerClass = cn(
-    'mb-16 text-14 font-medium leading-24 text-blue-900 md:mb-20 md:text-16 md:leading-26 xl:text-20 xl:leading-32',
+    'text-14 font-medium leading-24 text-blue-900 md:text-16 md:leading-26 xl:text-20 xl:leading-32',
     className
   );
 
