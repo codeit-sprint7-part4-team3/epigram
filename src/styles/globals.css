@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  border: 0;
+  outline: 0;
+}
 .flex-center {
   @apply flex items-center justify-center;
 }
