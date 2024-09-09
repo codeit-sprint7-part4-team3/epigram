@@ -13,12 +13,7 @@ import {
   ReactNode,
   useState,
 } from 'react';
-import {
-  FormProvider,
-  RegisterOptions,
-  useForm,
-  useFormContext,
-} from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   onSubmit: () => void;
