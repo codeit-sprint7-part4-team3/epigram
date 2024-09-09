@@ -8,11 +8,20 @@ import Button from '@/components/Button';
 import Image from 'next/image';
 
 export default function Home() {
+  const handlePageScroll = () => {
+    const element = document.getElementById('scrollPoint');
+    if (element) {
+      window.scrollTo({
+        top: element.offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
   return (
     <main>
-      <section className='bg-stripe-pattern bg-stripe-size flex h-screen w-full flex-col items-center justify-center'>
+      <section className='bg-stripe-pattern bg-stripe-size flex h-744 w-full flex-col items-center xl:h-screen'>
         <div className='flex flex-col items-center'>
-          <h1 className='text-center font-secondary text-40 font-normal'>
+          <h1 className='pt-200 text-center font-secondary text-40 font-normal xl:pt-300'>
             나만 갖고 있기엔
             <br />
             아까운 글이 있지 않나요?
@@ -22,16 +31,21 @@ export default function Home() {
           </p>
           <Button>시작하기</Button>
         </div>
-        <button className='absolute bottom-0 mx-auto animate-bounce'>
+        <button
+          onClick={handlePageScroll}
+          className='mx-auto mt-auto animate-bounce'
+        >
           <p className='font-primary text-16 font-semibold text-blue-400'>
             더 알아보기
           </p>
           <DownIcon className='mx-auto h-24 w-24 text-blue-400' />
         </button>
       </section>
-
       <div className='bg-zigzag-pattern h-30 w-full'></div>
-      <section className='h-full w-full bg-background-100 font-primary'>
+      <section
+        id='scrollPoint'
+        className='h-full w-full bg-background-100 font-primary'
+      >
         <div className='px-24 py-124 md:px-180 xl:px-300 xl:py-240'>
           <div className='mb-380 flex items-center justify-center gap-x-80'>
             <Image
@@ -106,7 +120,7 @@ export default function Home() {
           width={640}
         />
       </section>
-      <section className='bg-stripe-pattern bg-stripe-size flex h-[1040px] flex-col items-center justify-center gap-y-48'>
+      <section className='bg-stripe-pattern bg-stripe-size flex h-screen flex-col items-center justify-center gap-y-48'>
         <EpigramLogo />
         <Button>시작하기</Button>
       </section>
