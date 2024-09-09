@@ -24,12 +24,14 @@ interface BaseProps {
 export default function Form({ onSubmit, id, className, children }: FormProps) {
   const methods = useForm();
 
+  const formClass = cn('w-full md:max-w-384 xl:max-w-640', className);
+
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
         id={id}
-        className={className}
+        className={formClass}
       >
         {children}
       </form>
@@ -65,7 +67,12 @@ function Input({ className, name = '', ...rest }: InputProps) {
 
   return (
     <>
-      <input {...register(name)} className={inputClass} {...rest} />
+      <input
+        {...register(name)}
+        className={inputClass}
+        {...rest}
+        placeholder={name}
+      />
       {errors[name] && (
         <ErrorMessage>{String(errors[name].message)}</ErrorMessage>
       )}
@@ -92,6 +99,7 @@ function PasswordInput({ className, name = '', ...rest }: InputProps) {
     <ClosedEye className={eyeButtonStyle} />
   );
   const inputType = showPassword ? 'text' : 'password';
+  const placeholder = rest.placeholder ? rest.placeholder : name;
   return (
     <>
       <div className='relative'>
@@ -100,6 +108,7 @@ function PasswordInput({ className, name = '', ...rest }: InputProps) {
           className={inputClass}
           {...rest}
           type={inputType}
+          placeholder={placeholder}
         />
         <button
           className='absolute bottom-10 right-16 xl:bottom-20'
