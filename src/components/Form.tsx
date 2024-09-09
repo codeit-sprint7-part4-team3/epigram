@@ -30,7 +30,7 @@ interface BaseProps {
 export default function Form({ onSubmit, id, className, children }: FormProps) {
   const methods = useForm();
 
-  const formClass = cn('w-full md:max-w-384 xl:max-w-640', className);
+  const formClass = cn('', className);
 
   return (
     <FormProvider {...methods}>
@@ -46,7 +46,7 @@ export default function Form({ onSubmit, id, className, children }: FormProps) {
 }
 
 function Label({ children, className }: LabelProps) {
-  const labelClass = cn('mb-20 md:mb-40  block', className);
+  const labelClass = cn('block', className);
 
   return <label className={labelClass}> {children} </label>;
 }
