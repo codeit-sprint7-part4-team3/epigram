@@ -74,6 +74,7 @@ function Input({ className, name, ...rest }: InputProps) {
     { 'outline outline-1 outline-error': !!errors[name] },
     className
   );
+  const placeholder = rest.placeholder ? rest.placeholder : name;
 
   return (
     <>
@@ -81,7 +82,7 @@ function Input({ className, name, ...rest }: InputProps) {
         {...register(name, VALIDATION_RULES[name])}
         className={inputClass}
         {...rest}
-        placeholder={name}
+        placeholder={placeholder}
       />
       {errors[name] && (
         <ErrorMessage className=''>{String(errors[name].message)}</ErrorMessage>
@@ -117,8 +118,8 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
   const placeholder = rest.placeholder ? rest.placeholder : name;
 
   const registerOptions =
-    name === '비밀번호 확인'
-      ? PASSWORD_CONFIRM_RULES(getValues('비밀번호'))
+    name === 'passwordConfirmation'
+      ? PASSWORD_CONFIRM_RULES(getValues('password'))
       : VALIDATION_RULES[name];
 
   return (
