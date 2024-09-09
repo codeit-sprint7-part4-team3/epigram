@@ -2,6 +2,7 @@ import DownIcon from '@/assets/icons/ic-down-chevron-double.svg';
 import LandingImg01 from '@/assets/images/img-landing-01-lg.png';
 import LandingImg02 from '@/assets/images/img-landing-02-md.png';
 import LandingImg03 from '@/assets/images/img-landing-03-md.png';
+import LandingImg04 from '@/assets/images/img-landing-04-lg.png';
 import EpigramLogo from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
 import Image from 'next/image';
@@ -92,12 +93,18 @@ export default function Home() {
           <div></div>
         </div>
       </section>
-      <section>
-        <p className='flex flex-col items-center bg-background-100 pb-100 pt-270 text-center font-primary text-32 font-bold'>
+      <section className='flex flex-col items-center bg-background-100'>
+        <p className='pb-100 text-center font-primary text-32 font-bold'>
           사용자들이 직접
           <br />
           인용한 에피그램들
         </p>
+        <Image
+          className='pb-60'
+          src={LandingImg04}
+          alt='에피그램 예시'
+          width={640}
+        />
       </section>
       <section className='bg-stripe-pattern bg-stripe-size flex h-[1040px] flex-col items-center justify-center gap-y-48'>
         <EpigramLogo />
