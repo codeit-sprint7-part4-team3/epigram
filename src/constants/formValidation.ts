@@ -1,6 +1,6 @@
 import { RegisterOptions } from 'react-hook-form';
 
-type Field = '이메일' | '비밀번호' | '비밀번호 확인' | '닉네임';
+export type Field = '이메일' | '비밀번호' | '비밀번호 확인' | '닉네임';
 
 const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PASSWORD_PATTERN = /^[A-Za-z\d!@#$%^&*]+$/;
@@ -40,18 +40,17 @@ const PASSWORD_RULES: RegisterOptions = {
   },
 };
 
-const PASSWORD_CONFIRM_RULES = (passwordValue: string): RegisterOptions => ({
+export const PASSWORD_CONFIRM_RULES = (
+  passwordValue: string
+): RegisterOptions => ({
   required: generateRequiredMessage('비밀번호 확인'),
   validate: value => value === passwordValue || '비밀번호가 일치하지 않습니다.',
 });
 
-const VALIDATION_RULES: Record<
-  Field,
-  RegisterOptions | ((passwordValue: string) => RegisterOptions)
-> = {
+const VALIDATION_RULES: Record<Field, RegisterOptions> = {
   이메일: EMAIL_RULES,
   비밀번호: PASSWORD_RULES,
-  '비밀번호 확인': PASSWORD_CONFIRM_RULES,
+  '비밀번호 확인': {},
   닉네임: NICKNAME_RULES,
 };
 
