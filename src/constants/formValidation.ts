@@ -1,3 +1,4 @@
+import { josa } from 'es-hangul';
 import { RegisterOptions } from 'react-hook-form';
 
 export type Field = 'email' | 'password' | 'passwordConfirmation' | 'nickname';
@@ -16,7 +17,8 @@ const MIN_PASSWORD_LENGTH = 8;
 const generateRequiredMessage = (name: Field): string => {
   if (name === 'passwordConfirmation')
     return `${FIELD_DICTIONARY[name]}을 입력해주세요.`;
-  return `${FIELD_DICTIONARY[name]}은/는 필수 입력입니다.`;
+
+  return `${josa(FIELD_DICTIONARY[name], '은/는')} 필수 입력입니다.`;
 };
 
 const EMAIL_RULES: RegisterOptions = {
@@ -36,7 +38,7 @@ const NICKNAME_RULES: RegisterOptions = {
 };
 
 const PASSWORD_RULES: RegisterOptions = {
-  required: generateRequiredMessage('비밀번호'),
+  required: generateRequiredMessage('password'),
   minLength: {
     value: MIN_PASSWORD_LENGTH,
     message: `비밀번호는 최소 ${MIN_PASSWORD_LENGTH}자 이상입니다.`,
