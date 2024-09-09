@@ -2,7 +2,7 @@ import { Id, Nickname, Timestamps, UrlType } from '@/types/CommonTypes';
 
 type CommentContent = string;
 
-interface Writer {
+export interface Writer {
   image: UrlType | null;
   nickname: Nickname;
   id: Id;
@@ -14,4 +14,15 @@ export default interface CommentType extends Timestamps {
   isPrivate: boolean;
   content: CommentContent;
   id: Id;
+}
+
+export interface CreateCommentBody {
+  epigramId: Id;
+  isPrivate: boolean;
+  content: CommentContent;
+}
+
+export interface UpdateCommentBody {
+  isPrivate?: boolean;
+  content?: CommentContent;
 }
