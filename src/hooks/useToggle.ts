@@ -1,7 +1,9 @@
 import { useState } from 'react';
 
-export default function useToggle(): [boolean, () => void] {
-  const [isOpen, setIsOpen] = useState(false);
+export default function useToggle(
+  initialState: boolean = false
+): [boolean, () => void] {
+  const [isOpen, setIsOpen] = useState(initialState);
 
   const toggle = () => {
     setIsOpen(prev => !prev);
