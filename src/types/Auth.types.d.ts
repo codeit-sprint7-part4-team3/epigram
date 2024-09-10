@@ -1,6 +1,3 @@
-import { Nickname, UrlType } from '@/types/CommonTypes';
-import UserType from '@/types/User';
-
 type Email = string;
 type Password = string;
 type RefreshToken = string;
@@ -10,11 +7,11 @@ interface UserWithEmail extends UserType {
   email: Email;
 }
 
-export interface SignUpResponse {
+interface SignUpResponse {
   user: UserWithEmail;
 }
 
-export interface SignUpRequestBody {
+interface SignUpRequestBody {
   image?: UrlType;
   passwordConfirmation: Password;
   password: Password;
@@ -22,13 +19,13 @@ export interface SignUpRequestBody {
   email: Email;
 }
 
-export interface SignInResponse {
+interface SignInResponse {
   refreshToken: RefreshToken;
   accessToken: AccessToken;
   user: UserWithEmail;
 }
 
-export interface SignInRequestBody {
+interface SignInRequestBody {
   password: Password;
   email: Email;
 }
