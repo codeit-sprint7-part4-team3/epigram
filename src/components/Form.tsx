@@ -1,6 +1,7 @@
 import OpenEye from '@/assets/icons/ic-closed-eye.svg';
 import ClosedEye from '@/assets/icons/ic-open-eye.svg';
 import Button from '@/components/Button';
+import type { ButtonSize } from '@/components/Button';
 import VALIDATION_RULES, {
   type Field,
   PASSWORD_CONFIRM_RULES,
@@ -32,6 +33,9 @@ interface BaseProps {
   className?: string;
 }
 
+interface SubmitProps extends BaseProps {
+  size?: ButtonSize;
+}
 export default function Form({
   onSubmit,
   id,
@@ -41,7 +45,7 @@ export default function Form({
 }: FormProps) {
   const methods = useForm({ defaultValues });
 
-  const formClass = cn('', className);
+  const formClass = cn('w-full', className);
 
   return (
     <FormProvider {...methods}>
@@ -189,13 +193,14 @@ function TextArea({ className, name, ...rest }: TextareaProps) {
   );
 }
 
-function Submit({ className, children }: BaseProps) {
+function Submit({ className, children, size = 'md' }: SubmitProps) {
   const { formState } = useFormContext();
 
   return (
     <Button
       type='submit'
       className={className}
+      size={size}
       variant='wide'
       disabled={!formState.isValid}
     >
