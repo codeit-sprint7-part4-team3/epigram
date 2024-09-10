@@ -1,7 +1,12 @@
 import { josa } from 'es-hangul';
 import { RegisterOptions } from 'react-hook-form';
 
-export type Field = 'email' | 'password' | 'passwordConfirmation' | 'nickname';
+export type Field =
+  | 'email'
+  | 'password'
+  | 'passwordConfirmation'
+  | 'nickname'
+  | string;
 
 const FIELD_DICTIONARY: Record<Field, string> = {
   email: '이메일',
