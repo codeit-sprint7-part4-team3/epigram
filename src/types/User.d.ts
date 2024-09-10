@@ -1,4 +1,4 @@
-interface UserType extends Timestamps {
+interface User extends Timestamps {
   image: UrlType | null;
   teamId: string;
   nickname: Nickname;

@@ -20,7 +20,7 @@ interface CreateCommentBody {
   content: CommentContent;
 }
 
-export interface UpdateCommentBody {
+interface UpdateCommentBody {
   isPrivate?: boolean;
   content?: CommentContent;
 }

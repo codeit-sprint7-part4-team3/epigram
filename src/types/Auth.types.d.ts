@@ -3,7 +3,7 @@ type Password = string;
 type RefreshToken = string;
 type AccessToken = string;
 
-interface UserWithEmail extends UserType {
+interface UserWithEmail extends User {
   email: Email;
 }
 
