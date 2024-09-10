@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type ButtonVariant = 'main' | 'wide' | 'round';
-type ButtonSize = 'sm' | 'md';
+export type ButtonSize = 'sm' | 'md';
 type ButtonColor = 'primary' | 'white' | 'blue';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,10 +23,9 @@ export default function Button({
   size = 'md',
   color = 'primary',
 }: ButtonProps) {
-  const buttonStyle = clsx(
-    'flex-center',
-    styleByVariant[variant],
-    styleByColor[color],
+  const buttonStyle = twMerge(
+    'flex items-center justify-center',
+    clsx(styleByVariant[variant], styleByColor[color]),
     size === 'sm' && smButtonStyle,
     className
   );
@@ -65,4 +65,4 @@ const styleByColor: Record<ButtonColor, string> = {
 };
 
 const smButtonStyle =
-  'w-auto px-16 h-32 md:h-44 text-12 leading-20 md:text-16 md:leading-26';
+  'h-32 w-auto px-16 text-xs leading-20 md:h-32 md:text-xs md:leading-20 xl:h-44 xl:text-base xl:leading-26';
