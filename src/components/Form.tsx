@@ -11,15 +11,20 @@ import {
   InputHTMLAttributes,
   LabelHTMLAttributes,
   ReactNode,
+  TextareaHTMLAttributes,
   useState,
 } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
-  onSubmit: () => void;
+  onSubmit: (data: any) => void;
+  defaultValues?: Record<string, string | number>;
 }
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  name: Field;
+}
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: Field;
 }
 interface BaseProps {
@@ -27,8 +32,14 @@ interface BaseProps {
   className?: string;
 }
 
-export default function Form({ onSubmit, id, className, children }: FormProps) {
-  const methods = useForm();
+export default function Form({
+  onSubmit,
+  id,
+  className,
+  children,
+  defaultValues,
+}: FormProps) {
+  const methods = useForm({ defaultValues });
 
   const formClass = cn('', className);
 
@@ -67,11 +78,14 @@ function Input({ className, name, ...rest }: InputProps) {
   const {
     register,
     formState: { errors },
+    setValue,
   } = useFormContext();
-
+  if (rest.value) {
+    setValue(name, rest.value);
+  }
   const inputClass = cn(
     baseInputStyle,
-    { 'outline outline-1 outline-error': !!errors[name] },
+    { 'border border-solid border-error': !!errors[name] },
     className
   );
   const placeholder = rest.placeholder ? rest.placeholder : name;
@@ -106,7 +120,7 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
 
   const inputClass = cn(
     baseInputStyle,
-    { 'outline outline-1 outline-error': !!errors[name] },
+    { 'border border-solid border-error': !!errors[name] },
     className
   );
   const EyeIcon = showPassword ? (
@@ -146,6 +160,35 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
   );
 }
 
+function TextArea({ className, name, ...rest }: TextareaProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
+  const inputClass = cn(
+    baseInputStyle,
+    'resize-none',
+    { 'border border-solid border-error': !!errors[name] },
+    className
+  );
+  const placeholder = rest.placeholder ? rest.placeholder : name;
+
+  return (
+    <>
+      <textarea
+        {...register(name, VALIDATION_RULES[name])}
+        className={inputClass}
+        {...rest}
+        placeholder={placeholder}
+      />
+      {errors[name] && (
+        <ErrorMessage className=''>{String(errors[name].message)}</ErrorMessage>
+      )}
+    </>
+  );
+}
+
 function Submit({ className, children }: BaseProps) {
   const { formState } = useFormContext();
 
@@ -173,4 +216,5 @@ Form.Label = Label;
 Form.LabelHeader = LabelHeader;
 Form.Input = Input;
 Form.PasswordInput = PasswordInput;
+Form.TextArea = TextArea;
 Form.Submit = Submit;
