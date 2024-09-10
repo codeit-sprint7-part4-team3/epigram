@@ -30,7 +30,7 @@ interface BaseProps {
 export default function Form({ onSubmit, id, className, children }: FormProps) {
   const methods = useForm();
 
-  const formClass = cn('w-full md:max-w-384 xl:max-w-640', className);
+  const formClass = cn('', className);
 
   return (
     <FormProvider {...methods}>
@@ -46,14 +46,14 @@ export default function Form({ onSubmit, id, className, children }: FormProps) {
 }
 
 function Label({ children, className }: LabelProps) {
-  const labelClass = cn('mb-20 md:mb-40  block', className);
+  const labelClass = cn('block', className);
 
   return <label className={labelClass}> {children} </label>;
 }
 
 function LabelHeader({ children, className }: BaseProps) {
   const headerClass = cn(
-    'mb-16 text-14 font-medium leading-24 text-blue-900 md:mb-20 md:text-16 md:leading-26 xl:text-20 xl:leading-32',
+    'text-14 font-medium leading-24 text-blue-900 md:text-16 md:leading-26 xl:text-20 xl:leading-32',
     className
   );
 
@@ -74,6 +74,7 @@ function Input({ className, name, ...rest }: InputProps) {
     { 'outline outline-1 outline-error': !!errors[name] },
     className
   );
+  const placeholder = rest.placeholder ? rest.placeholder : name;
 
   return (
     <>
@@ -81,7 +82,7 @@ function Input({ className, name, ...rest }: InputProps) {
         {...register(name, VALIDATION_RULES[name])}
         className={inputClass}
         {...rest}
-        placeholder={name}
+        placeholder={placeholder}
       />
       {errors[name] && (
         <ErrorMessage className=''>{String(errors[name].message)}</ErrorMessage>
@@ -117,8 +118,8 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
   const placeholder = rest.placeholder ? rest.placeholder : name;
 
   const registerOptions =
-    name === '비밀번호 확인'
-      ? PASSWORD_CONFIRM_RULES(getValues('비밀번호'))
+    name === 'passwordConfirmation'
+      ? PASSWORD_CONFIRM_RULES(getValues('password'))
       : VALIDATION_RULES[name];
 
   return (
