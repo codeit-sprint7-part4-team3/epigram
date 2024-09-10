@@ -2,9 +2,12 @@ import Button from '@/components/Button';
 import useToggle from '@/hooks/useToggle';
 import clsx from 'clsx';
 
-export default function ToggleButton() {
-  const [isOpen, toggle] = useToggle();
+interface ToggleButtonProps {
+  isOpen: boolean;
+  toggle: () => void;
+}
 
+export default function ToggleButton({ isOpen, toggle }: ToggleButtonProps) {
   const toggleButtonClass = clsx(
     'h-16 w-32 justify-start p-3 transition-all md:h-16 md:w-32 xl:h-24 xl:w-42 xl:p-4',
     { 'bg-gray-300': !isOpen },
