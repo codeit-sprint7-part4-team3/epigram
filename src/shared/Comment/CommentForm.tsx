@@ -1,7 +1,6 @@
 import Form from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
 import ToggleButton from '@/shared/ToggleButton';
-import type { CreateCommentBody } from '@/types/Comment';
 
 type EpigramIdOnly = Pick<CreateCommentBody, 'epigramId'>;
 
