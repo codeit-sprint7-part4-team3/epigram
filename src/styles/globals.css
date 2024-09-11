@@ -21,6 +21,10 @@
   @apply bg-stripe-pattern bg-stripe-size;
 }
 
+.transition-animation {
+  @apply transition-all duration-500 ease-out;
+}
+
 @layer utilities {
   .zig-zag-top::before {
     content: '';

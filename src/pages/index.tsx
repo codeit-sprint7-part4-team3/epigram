@@ -12,7 +12,6 @@ import Landing04lg from '@/assets/images/img-landing-04-lg.png';
 import Landing04md from '@/assets/images/img-landing-04-md.png';
 import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
-import LogoSm from '@/assets/logos/logo-epigram-wordmark-sm.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
 import Image from 'next/image';
@@ -30,9 +29,9 @@ export default function Home() {
 
   return (
     <main>
-      <section className='zigzag-bottom flex h-744 w-full flex-col items-center xl:h-screen'>
+      <section className='transition-animation zigzag-bottom flex h-744 w-full flex-col items-center xl:h-screen'>
         <div className='flex flex-col items-center'>
-          <h1 className='pt-200 text-center font-secondary text-24 font-normal md:text-32 xl:pt-300 xl:text-40'>
+          <h1 className='transition-animation pt-200 text-center font-secondary text-24 font-normal md:text-32 xl:pt-300 xl:text-40'>
             나만 갖고 있기엔
             <br />
             아까운 글이 있지 않나요?
@@ -78,12 +77,12 @@ export default function Home() {
               width={312}
             />
             <div className='mr-auto mt-auto'>
-              <p className='break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
+              <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
                 명언이나 글귀,
                 <br />
                 토막 상식들을 공유해 보세요.
               </p>
-              <p className='break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
+              <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
                 나만 알던 소중한 글들을
                 <br className='block md:hidden xl:block' />
                 다른 사람들에게 전파하세요.
@@ -92,12 +91,6 @@ export default function Home() {
           </div>
           <div className='flex-center flex-col gap-x-80 py-196 md:py-220 xl:flex-row xl:py-380'>
             <div className='mt-auto text-right'>
-              <Image
-                src={Landing02lg}
-                alt='랜딩페이지 이미지 02 lg'
-                className='hidden md:block xl:hidden'
-                width={744}
-              />
               <Image
                 src={Landing02md}
                 alt='랜딩페이지 이미지 02 md'
@@ -110,19 +103,20 @@ export default function Home() {
                 className='block md:hidden xl:hidden'
                 width={312}
               />
-              <p className='break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
+              <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
                 감정 상태에 따라,
                 <br />
                 알맞은 위로를 받을 수 있어요.
               </p>
-              <p className='break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
+              <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
                 태그를 통해 글을 모아 볼 수 있어요.
               </p>
             </div>
             <Image
-              className='hidden max-w-744 xl:block'
               src={Landing02lg}
               alt='랜딩페이지 이미지 02 lg'
+              className='hidden md:hidden xl:block'
+              width={744}
             />
           </div>
           <div className='flex-center flex-col gap-x-80 xl:flex-row'>
@@ -145,12 +139,12 @@ export default function Home() {
               width={312}
             />
             <div className='mr-auto mt-auto'>
-              <p className='break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
+              <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
                 내가 요즘 어떤 감정 상태인지
                 <br />
                 통계로 한눈에 볼 수 있어요.
               </p>
-              <p className='break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
+              <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
                 감정 달력으로
                 <br className='block md:hidden xl:block' />내 마음에 담긴 감정을
                 확인해보세요
@@ -159,8 +153,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='flex flex-col items-center bg-background-100 pb-35 md:pb-45 xl:pb-75'>
-        <p className='pb-40 text-center font-primary text-32 font-bold xl:pb-100'>
+      <section className='transition-animation flex flex-col items-center bg-background-100 pb-35 md:pb-45 xl:pb-75'>
+        <p className='transition-animation pb-40 text-center font-primary text-32 font-bold xl:pb-100'>
           사용자들이 직접
           <br />
           인용한 에피그램들
