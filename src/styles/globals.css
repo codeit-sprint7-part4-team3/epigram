@@ -9,3 +9,17 @@
 .flex-center {
   @apply flex items-center justify-center;
 }
+
+input[type='radio'] {
+  display: none;
+}
+.custom-radio {
+  @apply relative inline-block h-20 w-20 cursor-pointer rounded-full border-2 border-solid border-blue-300 xl:h-24 xl:w-24;
+}
+.custom-radio::before {
+  content: '';
+  @apply absolute left-1/2 top-1/2 block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full xl:h-12 xl:w-12;
+}
+input[type='radio']:checked + .custom-radio::before {
+  @apply bg-blue-800;
+}
