@@ -1,10 +1,10 @@
 import ChipList from '@/shared/tagchip';
 import React, { useState } from 'react';
 
-const test = () => {
+const Test = () => {
   const DUMMY = [
-    { name: '김도용', id: 1 },
-    { name: '정윤호', id: 2 },
+    { name: '#꿈을 이루고 싶을 때', id: 1 },
+    { name: '#나아가아할 때', id: 2 },
     { name: '오소영', id: 3 },
     { name: '정한주', id: 4 },
   ];
@@ -19,10 +19,8 @@ const test = () => {
             <ChipList.Item
               key={id}
               name={name}
+              keyword='아'
               onItemChange={tag => setCurrenTag(tag)}
-              keyword='우울'
-              isTag={true}
-              backgroundColor='blue'
             />
           ))}
         </ChipList>
@@ -31,4 +29,4 @@ const test = () => {
   );
 };
 
-export default test;
+export default Test;

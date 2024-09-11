@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface ChipListProps extends ComponentProps<'ul'> {}
@@ -15,23 +15,35 @@ interface ChipItemProps extends ComponentProps<'li'> {
   name: string;
   onItemChange?: (tag: string) => void;
   keyword?: string;
-  isTag?: boolean;
   backgroundColor?: string;
 }
 
 const ChipItem = ({
   name,
   keyword,
-  isTag = false,
   onItemChange,
-  backgroundColor = 'white',
   className,
   ...rest
 }: ChipItemProps) => {
+  let item: ReactNode = name;
+
+  if (keyword) {
+    const parts = name.split(new RegExp(`(${keyword})`, 'gi'));
+
+    item = parts.map((part, index) =>
+      part.toLowerCase() === keyword.toLowerCase() ? (
+        <span key={index} className='text-illust-blue'>
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  }
+
   return (
     <li
       className={twMerge('text-black-300 p-5 rounded-xl', className)}
-      style={{ backgroundColor }}
       {...rest}
     >
       <button
@@ -40,7 +52,7 @@ const ChipItem = ({
         }
         value={name}
       >
-        {isTag ? `#${name}` : `${name}`}
+        {item}
       </button>
     </li>
   );
