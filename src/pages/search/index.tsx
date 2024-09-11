@@ -10,7 +10,7 @@ interface Epigram {
   tags: { id: number; name: string }[]; // tags 배열에 객체가 포함된 경우
 }
 
-const Search: React.FC = () => {
+function Search() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [searchResult, setSearchResult] = useState<Epigram[]>([]);
@@ -68,20 +68,7 @@ const Search: React.FC = () => {
           onClick={handleSearch}
           className='absolute right-0 top-0 flex h-full items-center justify-center pr-2'
         >
-          <SearchIcon
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            className='h-20 w-20 text-gray-600'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              d='M15 15l5-5m0 0l-5-5m5 5H9m6 0a9 9 0 11-6 6'
-            />
-          </SearchIcon>
+          <SearchIcon className='h-17 w-17 text-gray-600' />
         </button>
       </div>
 
@@ -122,6 +109,6 @@ const Search: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Search;
