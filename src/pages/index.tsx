@@ -14,6 +14,7 @@ import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 export default function Home() {
@@ -51,132 +52,176 @@ export default function Home() {
           <DownIcon className='mx-auto h-24 w-24 text-blue-400' />
         </button>
       </section>
-
       <section
         id='scrollPoint'
         className='h-full w-full bg-background-100 font-primary'
       >
+        <motion.div></motion.div>
         <div className='flex-center flex-col pb-280 pt-124 md:px-180 xl:pb-480 xl:pt-240'>
-          <div className='flex-center flex-col gap-x-80 xl:flex-row'>
-            <Image
-              className='hidden xl:block'
-              src={Landing01lg}
-              alt='랜딩페이지 이미지 01 lg'
-              width={744}
-            />
-            <Image
-              src={Landing01md}
-              alt='랜딩페이지 이미지 01 md'
-              className='hidden md:block xl:hidden'
-              width={384}
-            />
-            <Image
-              src={Landing01sm}
-              alt='랜딩페이지 이미지 01 sm'
-              className='block md:hidden xl:hidden'
-              width={312}
-            />
-            <div className='mr-auto mt-auto'>
-              <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
-                명언이나 글귀,
-                <br />
-                토막 상식들을 공유해 보세요.
-              </p>
-              <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
-                나만 알던 소중한 글들을
-                <br className='block md:hidden xl:block' />
-                다른 사람들에게 전파하세요.
-              </p>
-            </div>
-          </div>
-          <div className='flex-center flex-col gap-x-80 py-196 md:py-220 xl:flex-row xl:py-380'>
-            <div className='mt-auto text-right'>
+          <motion.div
+            style={{ display: 'inline-block' }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.3,
+              ease: 'easeOut',
+            }}
+          >
+            <div className='flex-center flex-col gap-x-80 xl:flex-row'>
               <Image
-                src={Landing02md}
-                alt='랜딩페이지 이미지 02 md'
+                className='hidden xl:block'
+                src={Landing01lg}
+                alt='랜딩페이지 이미지 01 lg'
+                width={744}
+              />
+              <Image
+                src={Landing01md}
+                alt='랜딩페이지 이미지 01 md'
                 className='hidden md:block xl:hidden'
                 width={384}
               />
               <Image
-                src={Landing02sm}
-                alt='랜딩페이지 이미지 02 sm'
+                src={Landing01sm}
+                alt='랜딩페이지 이미지 01 sm'
                 className='block md:hidden xl:hidden'
                 width={312}
               />
-              <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
-                감정 상태에 따라,
-                <br />
-                알맞은 위로를 받을 수 있어요.
-              </p>
-              <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
-                태그를 통해 글을 모아 볼 수 있어요.
-              </p>
+              <div className='mr-auto mt-auto'>
+                <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
+                  명언이나 글귀,
+                  <br />
+                  토막 상식들을 공유해 보세요.
+                </p>
+                <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
+                  나만 알던 소중한 글들을
+                  <br className='block md:hidden xl:block' />
+                  다른 사람들에게 전파하세요.
+                </p>
+              </div>
             </div>
-            <Image
-              src={Landing02lg}
-              alt='랜딩페이지 이미지 02 lg'
-              className='hidden md:hidden xl:block'
-              width={744}
-            />
-          </div>
-          <div className='flex-center flex-col gap-x-80 xl:flex-row'>
-            <Image
-              className='hidden xl:block'
-              src={Landing03lg}
-              alt='랜딩페이지 이미지 03 lg'
-              width={744}
-            />
-            <Image
-              src={Landing03md}
-              alt='랜딩페이지 이미지 03 md'
-              className='hidden md:block xl:hidden'
-              width={384}
-            />
-            <Image
-              src={Landing03sm}
-              alt='랜딩페이지 이미지 03 sm'
-              className='block md:hidden xl:hidden'
-              width={312}
-            />
-            <div className='mr-auto mt-auto'>
-              <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
-                내가 요즘 어떤 감정 상태인지
-                <br />
-                통계로 한눈에 볼 수 있어요.
-              </p>
-              <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
-                감정 달력으로
-                <br className='block md:hidden xl:block' />내 마음에 담긴 감정을
-                확인해보세요
-              </p>
+          </motion.div>
+          <motion.div
+            style={{ display: 'inline-block' }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.3,
+              ease: 'easeOut',
+            }}
+          >
+            <div className='flex-center flex-col gap-x-80 py-196 md:py-220 xl:flex-row xl:py-380'>
+              <div className='mt-auto text-right'>
+                <Image
+                  src={Landing02md}
+                  alt='랜딩페이지 이미지 02 md'
+                  className='hidden md:block xl:hidden'
+                  width={384}
+                />
+                <Image
+                  src={Landing02sm}
+                  alt='랜딩페이지 이미지 02 sm'
+                  className='block md:hidden xl:hidden'
+                  width={312}
+                />
+                <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
+                  감정 상태에 따라,
+                  <br />
+                  알맞은 위로를 받을 수 있어요.
+                </p>
+                <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
+                  태그를 통해 글을 모아 볼 수 있어요.
+                </p>
+              </div>
+              <Image
+                src={Landing02lg}
+                alt='랜딩페이지 이미지 02 lg'
+                className='hidden md:hidden xl:block'
+                width={744}
+              />
             </div>
-          </div>
+          </motion.div>
+          <motion.div
+            style={{ display: 'inline-block' }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.3,
+              ease: 'easeOut',
+            }}
+          >
+            <div className='flex-center flex-col gap-x-80 xl:flex-row'>
+              <Image
+                className='hidden xl:block'
+                src={Landing03lg}
+                alt='랜딩페이지 이미지 03 lg'
+                width={744}
+              />
+              <Image
+                src={Landing03md}
+                alt='랜딩페이지 이미지 03 md'
+                className='hidden md:block xl:hidden'
+                width={384}
+              />
+              <Image
+                src={Landing03sm}
+                alt='랜딩페이지 이미지 03 sm'
+                className='block md:hidden xl:hidden'
+                width={312}
+              />
+              <div className='mr-auto mt-auto'>
+                <p className='transition-animation break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
+                  내가 요즘 어떤 감정 상태인지
+                  <br />
+                  통계로 한눈에 볼 수 있어요.
+                </p>
+                <p className='transition-animation break-keep text-16 font-normal text-blue-500 xl:text-24 xl:font-medium'>
+                  감정 달력으로
+                  <br className='block md:hidden xl:block' />내 마음에 담긴
+                  감정을 확인해보세요
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
-      <section className='transition-animation flex flex-col items-center bg-background-100 pb-35 md:pb-45 xl:pb-75'>
-        <p className='transition-animation pb-40 text-center font-primary text-32 font-bold xl:pb-100'>
-          사용자들이 직접
-          <br />
-          인용한 에피그램들
-        </p>
-        <Image
-          className='hidden xl:block'
-          src={Landing04lg}
-          alt='랜딩페이지 이미지 04 lg'
-          width={640}
-        />
-        <Image
-          src={Landing04md}
-          alt='랜딩페이지 이미지 04 md'
-          className='hidden md:block xl:hidden'
-          width={384}
-        />
-        <Image
-          src={Landing04sm}
-          alt='랜딩페이지 이미지 04 sm'
-          className='block md:hidden xl:hidden'
-          width={312}
-        />
+      <section className='transition-animation flex w-full flex-col items-center bg-background-100 pb-35 md:pb-45 xl:pb-75'>
+        <motion.div
+          style={{ display: 'inline-block' }}
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.3,
+            ease: 'easeOut',
+          }}
+        >
+          <p className='transition-animation pb-40 text-center font-primary text-32 font-bold xl:pb-100'>
+            사용자들이 직접
+            <br />
+            인용한 에피그램들
+          </p>
+          <Image
+            className='hidden xl:block'
+            src={Landing04lg}
+            alt='랜딩페이지 이미지 04 lg'
+            width={640}
+          />
+          <Image
+            src={Landing04md}
+            alt='랜딩페이지 이미지 04 md'
+            className='hidden md:block xl:hidden'
+            width={384}
+          />
+          <Image
+            src={Landing04sm}
+            alt='랜딩페이지 이미지 04 sm'
+            className='block md:hidden xl:hidden'
+            width={312}
+          />
+        </motion.div>
       </section>
       <section className='zigzag-top'>
         <div className='flex-center h-screen flex-col gap-y-48'>
