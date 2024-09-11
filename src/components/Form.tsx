@@ -16,6 +16,7 @@ import {
   useState,
 } from 'react';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
 interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   onSubmit: (data: any) => void;
@@ -87,9 +88,9 @@ function Input({ className, name, ...rest }: InputProps) {
   if (rest.value) {
     setValue(name, rest.value);
   }
-  const inputClass = cn(
+  const inputClass = twMerge(
     baseInputStyle,
-    { 'border border-solid border-error': !!errors[name] },
+    cn({ 'border border-solid border-error': !!errors[name] }),
     className
   );
   const placeholder = rest.placeholder ? rest.placeholder : name;
@@ -122,9 +123,9 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
     setShowPassword(prev => !prev);
   };
 
-  const inputClass = cn(
+  const inputClass = twMerge(
     baseInputStyle,
-    { 'border border-solid border-error': !!errors[name] },
+    cn({ 'border border-solid border-error': !!errors[name] }),
     className
   );
   const EyeIcon = showPassword ? (
@@ -170,10 +171,10 @@ function TextArea({ className, name, ...rest }: TextareaProps) {
     formState: { errors },
   } = useFormContext();
 
-  const inputClass = cn(
-    baseInputStyle,
+  const inputClass = twMerge(
     'resize-none',
-    { 'border border-solid border-error': !!errors[name] },
+    baseInputStyle,
+    cn({ 'border border-solid border-error': !!errors[name] }),
     className
   );
   const placeholder = rest.placeholder ? rest.placeholder : name;
@@ -189,6 +190,26 @@ function TextArea({ className, name, ...rest }: TextareaProps) {
       {errors[name] && (
         <ErrorMessage className=''>{String(errors[name].message)}</ErrorMessage>
       )}
+    </>
+  );
+}
+
+function RadioInput({ className, name, ...rest }: InputProps) {
+  const { register, setValue } = useFormContext();
+  if (rest.value) {
+    setValue(name, rest.value);
+  }
+  const inputClass = twMerge('hidden', className);
+
+  return (
+    <>
+      <input
+        {...register(name)}
+        className={inputClass}
+        {...rest}
+        type='radio'
+      />
+      <span className='custom-radio'></span>
     </>
   );
 }
@@ -221,5 +242,6 @@ Form.Label = Label;
 Form.LabelHeader = LabelHeader;
 Form.Input = Input;
 Form.PasswordInput = PasswordInput;
+Form.RadioInput = RadioInput;
 Form.TextArea = TextArea;
 Form.Submit = Submit;
