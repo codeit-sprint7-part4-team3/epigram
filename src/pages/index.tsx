@@ -224,7 +224,7 @@ export default function Home() {
         </motion.div>
       </section>
       <section className='zigzag-top'>
-        <div className='flex-center h-screen flex-col gap-y-48'>
+        <div className='transition-animation flex-center h-600 flex-col gap-y-48 md:h-528 xl:h-screen'>
           <LogoLg className='hidden xl:block' />
           <LogoMd className='block xl:hidden' />
           <Button>시작하기</Button>
