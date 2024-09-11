@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import { ButtonHTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 type ButtonVariant = 'main' | 'wide' | 'round';
-type ButtonSize = 'sm' | 'md';
+export type ButtonSize = 'sm' | 'md';
 type ButtonColor = 'primary' | 'white' | 'blue';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -22,10 +23,9 @@ export default function Button({
   size = 'md',
   color = 'primary',
 }: ButtonProps) {
-  const buttonStyle = clsx(
-    'flex-center',
-    styleByVariant[variant],
-    styleByColor[color],
+  const buttonStyle = twMerge(
+    'flex items-center justify-center',
+    clsx(styleByVariant[variant], styleByColor[color]),
     size === 'sm' && smButtonStyle,
     className
   );
@@ -47,11 +47,11 @@ const baseStyle = 'rounded-xl font-semibold';
 const styleByVariant: Record<ButtonVariant, string> = {
   main: clsx(
     baseStyle,
-    'w-112 h-48 md:w-136 md:h-56 xl:w-286 xl:h-64 text-16 leading-26 md:text-20 md:leading-32'
+    'h-48 w-112 text-16 leading-26 md:h-56 md:w-136 md:text-20 md:leading-32 xl:h-64 xl:w-286'
   ),
   wide: clsx(
     baseStyle,
-    'w-full h-44 xl:h-64 text-16 leading-26 xl:text-20 xl:leading-32'
+    'h-44 w-full text-16 leading-26 xl:h-64 xl:text-20 xl:leading-32'
   ),
   round:
     'rounded-full h-48 xl:h-56 px-18 xl:px-40 text-14 font-medium leading-24 xl:text-20 xl:leading-32',
@@ -65,4 +65,4 @@ const styleByColor: Record<ButtonColor, string> = {
 };
 
 const smButtonStyle =
-  'w-auto px-16 h-32 md:h-44 text-12 leading-20 md:text-16 md:leading-26';
+  'h-32 w-auto px-16 text-xs leading-20 md:h-32 md:text-xs md:leading-20 xl:h-44 xl:text-base xl:leading-26';

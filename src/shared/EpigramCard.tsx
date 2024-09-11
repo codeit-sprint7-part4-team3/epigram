@@ -1,12 +1,10 @@
-import { ReactNode } from 'react';
-
 interface CardProps {
   content: string;
   author: string;
   tags: string[];
 }
 
-export default function Card({ content, author, tags }: CardProps) {
+export default function EpigramCard({ content, author, tags }: CardProps) {
   return (
     <div className='font-secondary'>
       <div className='bg-stripe-pattern bg-stripe-size mb-8 flex min-h-295 flex-col justify-between rounded-2xl bg-blue-100 px-24 py-23'>

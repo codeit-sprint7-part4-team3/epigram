@@ -1,14 +1,13 @@
 import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
+import UserIcon from '@/shared/UserIcon';
 
-import UserIcon from './UserIcon';
-
-interface UserInfo {
+interface UserInfoProps {
   image?: string;
   nickname: string;
   onClick: () => void;
 }
 
-export default function UserInfo({ image, nickname, onClick }: UserInfo) {
+export default function UserInfo({ image, nickname, onClick }: UserInfoProps) {
   return (
     <div
       className='flex justify-between items-center gap-6 cursor-pointer'

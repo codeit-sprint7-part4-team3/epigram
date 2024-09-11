@@ -1,7 +1,7 @@
 import Up from '@/assets/icons/ic-down-chevron.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
 import Button from '@/components/Button';
-import Card from '@/shared/Card';
+import EpigramCard from '@/shared/EpigramCard';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -43,13 +43,13 @@ export default function Feed() {
       behavior: 'smooth',
     });
   };
-  const [data, setData] = useState<
+  const [cards, setCards] = useState<
     { content: string; author: string; tags: string[] }[]
   >([]);
 
   useEffect(() => {
     setTimeout(() => {
-      setData(mockDataArray);
+      setCards(mockDataArray);
     }, 500);
   }, []);
 
@@ -60,12 +60,12 @@ export default function Feed() {
           피드
         </h1>
         <div className='grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-x-12 md:gap-y-24 xl:gap-x-30 xl:gap-y-40'>
-          {data.map((item, index) => (
-            <Card
+          {cards.map((card, index) => (
+            <EpigramCard
               key={index}
-              content={item.content}
-              author={item.author}
-              tags={item.tags.map(tag => `#${tag} `)}
+              content={card.content}
+              author={card.author}
+              tags={card.tags.map(tag => `#${tag} `)}
             />
           ))}
         </div>
