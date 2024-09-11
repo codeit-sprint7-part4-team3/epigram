@@ -94,6 +94,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      borderRadius: {
+        full: '50%',
+      },
       borderWidth: px0_10,
       fontSize: px0_100,
       lineHeight: px0_100,
