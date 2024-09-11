@@ -11,7 +11,9 @@ import Landing03sm from '@/assets/images/img-landing-03-sm.png';
 import Landing04lg from '@/assets/images/img-landing-04-lg.png';
 import Landing04md from '@/assets/images/img-landing-04-md.png';
 import Landing04sm from '@/assets/images/img-landing-04-sm.png';
-import EpigramLogo from '@/assets/logos/logo-epigram-wordmark-xl.svg';
+import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
+import LogoSm from '@/assets/logos/logo-epigram-wordmark-sm.svg';
+import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
 import Image from 'next/image';
 
@@ -55,12 +57,13 @@ export default function Home() {
         id='scrollPoint'
         className='h-full w-full bg-background-100 font-primary'
       >
-        <div className='py-124 md:px-180 xl:py-240'>
-          <div className='flex-center mb-380 flex-col gap-x-80 xl:flex-row'>
+        <div className='flex-center flex-col pb-280 pt-124 md:px-180 xl:pb-480 xl:pt-240'>
+          <div className='flex-center flex-col gap-x-80 xl:flex-row'>
             <Image
-              className='hidden max-w-744 xl:block'
+              className='hidden xl:block'
               src={Landing01lg}
               alt='랜딩페이지 이미지 01 lg'
+              width={744}
             />
             <Image
               src={Landing01md}
@@ -74,8 +77,8 @@ export default function Home() {
               className='block md:hidden xl:hidden'
               width={312}
             />
-            <div className='mt-auto pt-40'>
-              <p className='break-keep pb-20 text-24 font-bold xl:pb-40 xl:text-32'>
+            <div className='mr-auto mt-auto'>
+              <p className='break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
                 명언이나 글귀,
                 <br />
                 토막 상식들을 공유해 보세요.
@@ -87,21 +90,27 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className='flex-center mb-380 flex-col gap-x-80 xl:flex-row'>
+          <div className='flex-center flex-col gap-x-80 py-196 md:py-220 xl:flex-row xl:py-380'>
             <div className='mt-auto text-right'>
               <Image
+                src={Landing02lg}
+                alt='랜딩페이지 이미지 02 lg'
+                className='hidden md:block xl:hidden'
+                width={744}
+              />
+              <Image
                 src={Landing02md}
-                alt='랜딩페이지 이미지 01 md'
+                alt='랜딩페이지 이미지 02 md'
                 className='hidden md:block xl:hidden'
                 width={384}
               />
               <Image
                 src={Landing02sm}
-                alt='랜딩페이지 이미지 01 sm'
+                alt='랜딩페이지 이미지 02 sm'
                 className='block md:hidden xl:hidden'
                 width={312}
               />
-              <p className='break-keep pb-40 text-24 font-bold xl:text-32'>
+              <p className='break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
                 감정 상태에 따라,
                 <br />
                 알맞은 위로를 받을 수 있어요.
@@ -113,29 +122,30 @@ export default function Home() {
             <Image
               className='hidden max-w-744 xl:block'
               src={Landing02lg}
-              alt='랜딩페이지 이미지 01 lg'
+              alt='랜딩페이지 이미지 02 lg'
             />
           </div>
-          <div className='flex-center mb-210 flex-col gap-x-80 xl:flex-row'>
+          <div className='flex-center flex-col gap-x-80 xl:flex-row'>
             <Image
-              className='hidden max-w-744 xl:block'
+              className='hidden xl:block'
               src={Landing03lg}
-              alt='랜딩페이지 이미지 01 lg'
+              alt='랜딩페이지 이미지 03 lg'
+              width={744}
             />
             <Image
               src={Landing03md}
-              alt='랜딩페이지 이미지 01 md'
+              alt='랜딩페이지 이미지 03 md'
               className='hidden md:block xl:hidden'
               width={384}
             />
             <Image
               src={Landing03sm}
-              alt='랜딩페이지 이미지 01 sm'
+              alt='랜딩페이지 이미지 03 sm'
               className='block md:hidden xl:hidden'
               width={312}
             />
-            <div className='mt-auto'>
-              <p className='break-keep pb-40 text-24 font-bold xl:text-32'>
+            <div className='mr-auto mt-auto'>
+              <p className='break-keep pb-16 pt-40 text-24 font-bold md:pb-20 xl:pb-40 xl:text-32'>
                 내가 요즘 어떤 감정 상태인지
                 <br />
                 통계로 한눈에 볼 수 있어요.
@@ -149,33 +159,35 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className='flex flex-col items-center bg-background-100'>
-        <p className='pb-100 text-center font-primary text-32 font-bold'>
+      <section className='flex flex-col items-center bg-background-100 pb-35 md:pb-45 xl:pb-75'>
+        <p className='pb-40 text-center font-primary text-32 font-bold xl:pb-100'>
           사용자들이 직접
           <br />
           인용한 에피그램들
         </p>
         <Image
-          className='hidden max-w-744 xl:block'
+          className='hidden xl:block'
           src={Landing04lg}
-          alt='랜딩페이지 이미지 01 lg'
+          alt='랜딩페이지 이미지 04 lg'
+          width={640}
         />
         <Image
           src={Landing04md}
-          alt='랜딩페이지 이미지 01 md'
+          alt='랜딩페이지 이미지 04 md'
           className='hidden md:block xl:hidden'
           width={384}
         />
         <Image
           src={Landing04sm}
-          alt='랜딩페이지 이미지 01 sm'
+          alt='랜딩페이지 이미지 04 sm'
           className='block md:hidden xl:hidden'
           width={312}
         />
       </section>
       <section className='zigzag-top'>
-        <div className='flex h-screen flex-col items-center justify-center gap-y-48'>
-          <EpigramLogo />
+        <div className='flex-center h-screen flex-col gap-y-48'>
+          <LogoLg className='hidden xl:block' />
+          <LogoMd className='block xl:hidden' />
           <Button>시작하기</Button>
         </div>
       </section>
