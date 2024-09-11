@@ -1,5 +1,7 @@
+import Sort01 from '@/assets/icons/ic-dashboard.svg';
 import Up from '@/assets/icons/ic-down-chevron.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
+import Sort02 from '@/assets/icons/ic-sort.svg';
 import Button from '@/components/Button';
 import EpigramCard from '@/shared/EpigramCard';
 import { useRouter } from 'next/router';
@@ -39,11 +41,17 @@ export default function Feed() {
   };
 
   return (
-    <div className='h-full w-full bg-background-100 pb-100'>
-      <div className='transition-animation px-24 md:px-72 xl:px-360'>
-        <h1 className='pb-24 pt-32 font-primary text-24 font-semibold md:pb-40 md:pt-120 md:leading-32'>
-          피드
-        </h1>
+    <div className='flex-center h-full w-full flex-col bg-background-100 px-24 pb-100'>
+      <div>
+        <div className='transition-animation flex justify-between pb-24 pt-32 md:pb-40 md:pt-120'>
+          <h1 className='font-primary text-24 font-semibold md:leading-32'>
+            피드
+          </h1>
+          <button>
+            <Sort01 className='h-30 w-30 text-gray-200 md:hidden' />
+          </button>
+        </div>
+
         <div className='grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-x-12 md:gap-y-24 xl:gap-x-30 xl:gap-y-40'>
           {cards.slice(0, visibleCount).map((card, index) => (
             <EpigramCard

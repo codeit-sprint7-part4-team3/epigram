@@ -6,7 +6,7 @@ interface CardProps {
 
 export default function EpigramCard({ content, author, tags }: CardProps) {
   return (
-    <div className='font-secondary'>
+    <div className='transition-animation font-secondary md:w-294 xl:w-585'>
       <div className='stripe-pattern mb-8 flex min-h-295 flex-col justify-between rounded-2xl bg-blue-100 px-24 py-23'>
         <div className='flex-1'>
           <div className='text-14 font-normal leading-24 md:text-16 md:leading-26 xl:text-24 xl:leading-40'>
