@@ -61,10 +61,14 @@ export default function Form({
   );
 }
 
-function Label({ children, className }: LabelProps) {
+function Label({ children, className, ...rest }: LabelProps) {
   const labelClass = cn('block', className);
 
-  return <label className={labelClass}> {children} </label>;
+  return (
+    <label className={labelClass} {...rest}>
+      {children}
+    </label>
+  );
 }
 
 function LabelHeader({ children, className }: BaseProps) {
