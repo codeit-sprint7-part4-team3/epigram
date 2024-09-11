@@ -75,7 +75,7 @@ export default function CreateEpigramForm() {
         </Form.LabelHeader>
         <Form.Input name='tags' placeholder='입력하여 태그 작성 (최대 10자)' />
       </Form.Label>
-      <Form.Submit>가입하기</Form.Submit>
+      <Form.Submit>작성 완료</Form.Submit>
     </Form>
   );
 }
