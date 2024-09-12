@@ -1,11 +1,13 @@
-import Sort01 from '@/assets/icons/ic-dashboard.svg';
+import SortDouble from '@/assets/icons/ic-dashboard.svg';
 import Up from '@/assets/icons/ic-down-chevron.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
-import Sort02 from '@/assets/icons/ic-sort.svg';
+import SortSingle from '@/assets/icons/ic-sort.svg';
 import Button from '@/components/Button';
 import EpigramCard from '@/shared/EpigramCard';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import { mockDataArray } from './mockData';
 
@@ -27,8 +29,8 @@ export default function Feed() {
   const [cards, setCards] = useState<
     { content: string; author: string; tags: string[] }[]
   >([]);
-
   const [visibleCount, setVisibleCount] = useState(6);
+  const [isSingleColumn, setIsSingleColumn] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -40,6 +42,10 @@ export default function Feed() {
     setVisibleCount(prevCount => prevCount + 4);
   };
 
+  const toggleGridLayout = () => {
+    setIsSingleColumn(prevLayout => !prevLayout);
+  };
+
   return (
     <div className='flex-center h-full w-full flex-col bg-background-100 px-24 pb-100'>
       <div>
@@ -47,12 +53,33 @@ export default function Feed() {
           <h1 className='font-primary text-24 font-semibold md:leading-32'>
             피드
           </h1>
-          <button>
-            <Sort01 className='h-30 w-30 text-gray-200 md:hidden' />
-          </button>
+          <div className='flex space-x-4'>
+            <button onClick={toggleGridLayout} className='md:hidden'>
+              <SortDouble
+                className={clsx('h-30 w-30 text-gray-200', {
+                  hidden: !isSingleColumn,
+                })}
+              />
+            </button>
+            <button onClick={toggleGridLayout} className='md:hidden'>
+              <SortSingle
+                className={clsx('h-30 w-30 text-gray-200', {
+                  hidden: isSingleColumn,
+                })}
+              />
+            </button>
+          </div>
         </div>
 
-        <div className='grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 md:gap-x-12 md:gap-y-24 xl:gap-x-30 xl:gap-y-40'>
+        <div
+          className={twMerge(
+            'grid gap-x-8 gap-y-16 md:gap-x-12 md:gap-y-24 xl:gap-x-30 xl:gap-y-40',
+            clsx({
+              'grid-cols-1 md:grid-cols-2': isSingleColumn,
+              'grid-cols-2': !isSingleColumn,
+            })
+          )}
+        >
           {cards.slice(0, visibleCount).map((card, index) => (
             <EpigramCard
               key={index}
@@ -63,6 +90,7 @@ export default function Feed() {
           ))}
         </div>
       </div>
+
       {visibleCount < cards.length && (
         <div className='pt:56 flex items-center justify-center pb-114 xl:pt-80'>
           <Button variant='round' color='white' onClick={handleLoadMore}>
