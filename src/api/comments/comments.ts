@@ -1,5 +1,3 @@
-import CommentType from '@/types/Comment';
-
 import axios from './axios';
 
 interface CommentsResponse {
