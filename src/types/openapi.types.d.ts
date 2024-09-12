@@ -3,7 +3,7 @@
  * Do not make direct changes to the file.
  */
 
-export interface components {
+interface components {
   schemas: {
     /** Format: int32 */
     Id: number;
@@ -224,8 +224,8 @@ export interface components {
   headers: never;
   pathItems: never;
 }
-export type $defs = Record<string, never>;
-export interface operations {
+type $defs = Record<string, never>;
+interface operations {
   Me: {
     parameters: {
       query?: never;
@@ -1016,7 +1016,7 @@ export interface operations {
   };
 }
 
-export interface paths {
+interface paths {
   '/{teamId}/users/me': {
     parameters: {
       query?: never;
@@ -1354,4 +1354,4 @@ export interface paths {
     trace?: never;
   };
 }
-export type webhooks = Record<string, never>;
+type webhooks = Record<string, never>;
