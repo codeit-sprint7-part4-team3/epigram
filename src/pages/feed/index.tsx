@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { mockDataArray } from './mockData';
+import mockDataArray from './mockData';
 
 export default function Feed() {
   const router = useRouter();

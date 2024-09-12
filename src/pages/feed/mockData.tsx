@@ -67,3 +67,4 @@ export const mockDataArray = [
     tags: ['도전', '성장', '발전'],
   },
 ];
+export default mockDataArray;
