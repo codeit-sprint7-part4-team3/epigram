@@ -19,7 +19,7 @@ export default function Home() {
   };
   return (
     <main>
-      <section className='bg-stripe-pattern bg-stripe-size flex h-744 w-full flex-col items-center xl:h-screen'>
+      <section className='zigzag-bottom flex h-744 w-full flex-col items-center xl:h-screen'>
         <div className='flex flex-col items-center'>
           <h1 className='pt-200 text-center font-secondary text-40 font-normal xl:pt-300'>
             나만 갖고 있기엔
@@ -41,7 +41,7 @@ export default function Home() {
           <DownIcon className='mx-auto h-24 w-24 text-blue-400' />
         </button>
       </section>
-      <div className='bg-zigzag-pattern h-30 w-full'></div>
+
       <section
         id='scrollPoint'
         className='h-full w-full bg-background-100 font-primary'
@@ -120,9 +120,11 @@ export default function Home() {
           width={640}
         />
       </section>
-      <section className='bg-stripe-pattern bg-stripe-size flex h-screen flex-col items-center justify-center gap-y-48'>
-        <EpigramLogo />
-        <Button>시작하기</Button>
+      <section className='zigzag-top'>
+        <div className='flex h-screen flex-col items-center justify-center gap-y-48'>
+          <EpigramLogo />
+          <Button>시작하기</Button>
+        </div>
       </section>
     </main>
   );
