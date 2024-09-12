@@ -1,4 +1,3 @@
-// src/data/mockData.ts
 export const mockDataArray = [
   {
     content: '성공은 최선을 다한 자만이 얻을 수 있다.',
