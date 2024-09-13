@@ -1,5 +1,5 @@
 import SearchIcon from '@/assets/icons/ic-search.svg';
-import Card from '@/shared/Card';
+import EpigramCard from '@/shared/EpigramCard';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -99,7 +99,7 @@ function Search() {
 
       <div>
         {searchResult.map((epigram, index) => (
-          <Card
+          <EpigramCard
             key={index}
             content={epigram.content}
             author={epigram.author}
