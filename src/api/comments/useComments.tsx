@@ -1,4 +1,3 @@
-import CommentType from '@/types/Comment';
 import { useCallback, useEffect, useState } from 'react';
 
 import { fetchComments } from './comments';
