@@ -1,8 +1,13 @@
 import { useState } from 'react';
 
-export default function useToggle(
-  initialState: boolean = false
-): [boolean, () => void, () => void, () => void] {
+interface Toggle {
+  isOpen: boolean;
+  toggle: () => void;
+  close: () => void;
+  open: () => void;
+}
+
+export default function useToggle(initialState: boolean): Toggle {
   const [isOpen, setIsOpen] = useState(initialState);
 
   const toggle = () => {
@@ -17,5 +22,5 @@ export default function useToggle(
     setIsOpen(prev => true);
   };
 
-  return [isOpen, toggle, close, open];
+  return { isOpen, toggle, close, open };
 }

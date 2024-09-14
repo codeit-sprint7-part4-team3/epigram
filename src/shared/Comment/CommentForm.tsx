@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 type EpigramIdOnly = Pick<CreateCommentBody, 'epigramId'>;
 
 export default function CommentForm({ epigramId }: EpigramIdOnly) {
-  const [isPrivate, toggle] = useToggle(true);
+  const { isOpen: isPrivate, toggle } = useToggle(true);
   const methods = useForm();
   const { setValue } = methods;
   return (
@@ -23,6 +23,7 @@ export default function CommentForm({ epigramId }: EpigramIdOnly) {
           name='content'
           placeholder='100자 이내로 입력해주세요.'
           required
+          variant='outlined'
         />
       </Form.Label>
       <div className='flex items-center justify-between'>

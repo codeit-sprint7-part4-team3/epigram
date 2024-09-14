@@ -6,6 +6,7 @@ import VALIDATION_RULES, {
   type Field,
   PASSWORD_CONFIRM_RULES,
 } from '@/constants/formValidation';
+import useToggle from '@/hooks/useToggle';
 import cn from 'clsx';
 import {
   FormHTMLAttributes,
@@ -128,10 +129,8 @@ function PasswordInput({
     formState: { errors },
     getValues,
   } = useFormContext();
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword(prev => !prev);
-  };
+  const { isOpen: showPassword, toggle: togglePasswordVisibility } =
+    useToggle(false);
 
   const inputClass = twMerge(
     baseInputStyle,

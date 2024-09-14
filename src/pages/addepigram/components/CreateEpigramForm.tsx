@@ -1,9 +1,13 @@
-import Form from '@/components/Form';
+import Form, { type InputVariant } from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
 import { useForm } from 'react-hook-form';
 
 export default function CreateEpigramForm() {
-  const [isInputActive, , deactivateInput, activateInput] = useToggle(false);
+  const {
+    isOpen: isInputActive,
+    close: deactivateInput,
+    open: activateInput,
+  } = useToggle(false);
   const methods = useForm();
   const { setValue } = methods;
   return (
@@ -23,6 +27,7 @@ export default function CreateEpigramForm() {
           className='min-h-132 xl:min-h-148'
           placeholder='500자 이내로 입력해주세요.'
           required
+          variant={INPUT_VARIANT}
         />
       </Form.Label>
       <div className='mb-40 xl:mb-54'>
@@ -63,27 +68,39 @@ export default function CreateEpigramForm() {
           name='author'
           placeholder='저자 이름 입력'
           disabled={!isInputActive}
+          variant={INPUT_VARIANT}
         />
       </div>
       <Form.Label className='mb-8 xl:mb-16'>
         <Form.LabelHeader className='mb-8 font-semibold xl:mb-24'>
           출처
         </Form.LabelHeader>
-        <Form.Input name='referenceTitle' placeholder='출처 제목 입력' />
+        <Form.Input
+          name='referenceTitle'
+          placeholder='출처 제목 입력'
+          variant={INPUT_VARIANT}
+        />
       </Form.Label>
       <Form.Label className='mb-40 xl:mb-54'>
         <Form.Input
           name='referenceUrl'
           placeholder='URL (ex. https://www.website.com)'
+          variant={INPUT_VARIANT}
         />
       </Form.Label>
       <Form.Label className='mb-40 xl:mb-54'>
         <Form.LabelHeader className='mb-8 font-semibold xl:mb-24'>
           태그
         </Form.LabelHeader>
-        <Form.Input name='tags' placeholder='입력하여 태그 작성 (최대 10자)' />
+        <Form.Input
+          name='tags'
+          placeholder='입력하여 태그 작성 (최대 10자)'
+          variant={INPUT_VARIANT}
+        />
       </Form.Label>
       <Form.Submit>작성 완료</Form.Submit>
     </Form>
   );
 }
+
+const INPUT_VARIANT: InputVariant = 'outlined';
