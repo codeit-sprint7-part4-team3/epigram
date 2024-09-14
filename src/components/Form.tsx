@@ -23,11 +23,14 @@ interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   methods: ReturnType<typeof useForm>;
 }
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
+export type InputVariant = 'fill' | 'outlined';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: Field;
+  variant?: InputVariant;
 }
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: Field;
+  variant?: InputVariant;
 }
 interface BaseProps {
   children: ReactNode | undefined;
@@ -79,14 +82,19 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 const baseInputStyle =
-  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32 disabled:cursor-not-allowed disabled:text-blue-400';
-function Input({ className, name, ...rest }: InputProps) {
+  'w-full rounded-xl px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32 disabled:cursor-not-allowed disabled:text-blue-400';
+const inputStyleByVariant = {
+  fill: ' bg-blue-200',
+  outlined: 'bg-blue-100 border border-solid border-blue-300',
+};
+function Input({ className, name, variant = 'fill', ...rest }: InputProps) {
   const {
     register,
     formState: { errors },
   } = useFormContext();
   const inputClass = twMerge(
     baseInputStyle,
+    inputStyleByVariant[variant],
     cn({ 'border border-solid border-error': !!errors[name] }),
     className
   );
@@ -109,7 +117,12 @@ function Input({ className, name, ...rest }: InputProps) {
 
 const eyeButtonStyle = 'h-24 w-24 text-gray-200';
 
-function PasswordInput({ className, name, ...rest }: InputProps) {
+function PasswordInput({
+  className,
+  name,
+  variant = 'fill',
+  ...rest
+}: InputProps) {
   const {
     register,
     formState: { errors },
@@ -122,6 +135,8 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
 
   const inputClass = twMerge(
     baseInputStyle,
+    inputStyleByVariant[variant],
+
     cn({ 'border border-solid border-error': !!errors[name] }),
     className
   );
@@ -131,7 +146,7 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
     <ClosedEye className={eyeButtonStyle} />
   );
   const inputType = showPassword ? 'text' : 'password';
-  const placeholder = rest.placeholder ? rest.placeholder : name;
+  const placeholder = rest.placeholder ?? name;
 
   const registerOptions =
     name === 'passwordConfirmation'
@@ -162,7 +177,12 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
   );
 }
 
-function TextArea({ className, name, ...rest }: TextareaProps) {
+function TextArea({
+  className,
+  name,
+  variant = 'fill',
+  ...rest
+}: TextareaProps) {
   const {
     register,
     formState: { errors },
@@ -171,10 +191,11 @@ function TextArea({ className, name, ...rest }: TextareaProps) {
   const inputClass = twMerge(
     'resize-none',
     baseInputStyle,
+    inputStyleByVariant[variant],
     cn({ 'border border-solid border-error': !!errors[name] }),
     className
   );
-  const placeholder = rest.placeholder ? rest.placeholder : name;
+  const placeholder = rest.placeholder ?? name;
 
   return (
     <>
