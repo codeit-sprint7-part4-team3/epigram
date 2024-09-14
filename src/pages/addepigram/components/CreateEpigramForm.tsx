@@ -1,14 +1,18 @@
 import Form from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
+import { useForm } from 'react-hook-form';
 
 export default function CreateEpigramForm() {
   const [isInputActive, , deactivateInput, activateInput] = useToggle(false);
+  const methods = useForm();
+  const { setValue } = methods;
   return (
     <Form
       onSubmit={(data: CreateEpigramBody) => {
         console.log('에피그램 생성 폼 제출');
         console.log(data);
       }}
+      methods={methods}
     >
       <Form.Label className='mb-40 xl:mb-54'>
         <Form.LabelHeader className='mb-8 font-semibold xl:mb-24'>
@@ -30,28 +34,32 @@ export default function CreateEpigramForm() {
             className='flex cursor-pointer items-center gap-8'
             onClick={() => {
               activateInput();
-              console.log('dd');
             }}
           >
-            <Form.RadioInput name='author' value='직접 입력' />
+            <Form.RadioInput name='author' />
             직접 입력
           </Form.Label>
           <Form.Label
             className='flex cursor-pointer items-center gap-8'
-            onClick={deactivateInput}
+            onClick={() => {
+              deactivateInput();
+              setValue('name', '알 수 없음');
+            }}
           >
             <Form.RadioInput name='author' value='알 수 없음' />알 수 없음
           </Form.Label>
           <Form.Label
             className='flex cursor-pointer items-center gap-8'
-            onClick={deactivateInput}
+            onClick={() => {
+              deactivateInput();
+              setValue('name', '알 수 없음');
+            }}
           >
             <Form.RadioInput name='author' value='본인' />
             본인
           </Form.Label>
         </div>
         <Form.Input
-          className='disabled:cursor-not-allowed'
           name='author'
           placeholder='저자 이름 입력'
           disabled={!isInputActive}

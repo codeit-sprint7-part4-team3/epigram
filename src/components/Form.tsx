@@ -20,7 +20,7 @@ import { twMerge } from 'tailwind-merge';
 
 interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
   onSubmit: (data: any) => void;
-  defaultValues?: Record<string, string | number>;
+  methods: ReturnType<typeof useForm>;
 }
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -42,10 +42,8 @@ export default function Form({
   id,
   className,
   children,
-  defaultValues,
+  methods,
 }: FormProps) {
-  const methods = useForm({ defaultValues });
-
   const formClass = cn('w-full', className);
 
   return (
@@ -81,23 +79,18 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 const baseInputStyle =
-  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32';
-
+  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32 disabled:cursor-not-allowed disabled:text-blue-400';
 function Input({ className, name, ...rest }: InputProps) {
   const {
     register,
     formState: { errors },
-    setValue,
   } = useFormContext();
-  if (rest.value) {
-    setValue(name, rest.value);
-  }
   const inputClass = twMerge(
     baseInputStyle,
     cn({ 'border border-solid border-error': !!errors[name] }),
     className
   );
-  const placeholder = rest.placeholder ? rest.placeholder : name;
+  const placeholder = rest.placeholder ?? name;
 
   return (
     <>
@@ -199,10 +192,8 @@ function TextArea({ className, name, ...rest }: TextareaProps) {
 }
 
 function RadioInput({ className, name, ...rest }: InputProps) {
-  const { register, setValue } = useFormContext();
-  if (rest.value) {
-    setValue(name, rest.value);
-  }
+  const { register } = useFormContext();
+
   const inputClass = twMerge('hidden', className);
 
   return (
