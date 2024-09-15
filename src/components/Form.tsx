@@ -2,6 +2,7 @@ import OpenEye from '@/assets/icons/ic-closed-eye.svg';
 import ClosedEye from '@/assets/icons/ic-open-eye.svg';
 import Button from '@/components/Button';
 import type { ButtonSize } from '@/components/Button';
+import Chip from '@/components/Chip';
 import VALIDATION_RULES, {
   type Field,
   PASSWORD_CONFIRM_RULES,
@@ -11,12 +12,18 @@ import cn from 'clsx';
 import {
   FormHTMLAttributes,
   InputHTMLAttributes,
+  KeyboardEventHandler,
   LabelHTMLAttributes,
   ReactNode,
   TextareaHTMLAttributes,
   useState,
 } from 'react';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import {
+  Controller,
+  FormProvider,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
 interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
@@ -229,6 +236,81 @@ function RadioInput({ className, name, ...rest }: InputProps) {
   );
 }
 
+function TagInput({ className, name, variant = 'fill', ...rest }: InputProps) {
+  const {
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+  const [tags, setTags] = useState<TagName[]>([]);
+
+  const inputClass = twMerge(
+    baseInputStyle,
+    inputStyleByVariant[variant],
+    cn({ 'border border-solid border-error': !!errors[name] }),
+    className
+  );
+
+  const handleAddTag = (newTag: TagName) => {
+    if (tags.includes(newTag)) {
+      return;
+    }
+    const updatedTags = [...tags, newTag];
+    setTags(updatedTags);
+    setValue(name, updatedTags);
+  };
+
+  const handleDeleteTag = (index: number) => {
+    const updatedTags = tags.filter((_, i) => i !== index);
+    setTags(updatedTags);
+    setValue(name, updatedTags);
+  };
+
+  const [inputValue, setInputValue] = useState<string>('');
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
+    if (e.key === 'Enter' && inputValue.trim()) {
+      e.preventDefault;
+      handleAddTag(inputValue.trim());
+      setInputValue('');
+    }
+  };
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue={[]}
+      render={() => (
+        <>
+          <input
+            type='text'
+            className={inputClass}
+            value={inputValue}
+            onChange={e => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            {...rest}
+          />
+          <ul className='flex flex-wrap gap-8 xl:gap-16'>
+            {tags.map((tag, index) => (
+              <Chip key={tag}>
+                {tag}
+                <button
+                  type='button'
+                  onClick={() => {
+                    handleDeleteTag(index);
+                  }}
+                >
+                  &times;
+                </button>
+              </Chip>
+            ))}
+          </ul>
+        </>
+      )}
+    />
+  );
+}
+
 function Submit({ className, children, size = 'md' }: SubmitProps) {
   const { formState } = useFormContext();
 
@@ -258,5 +340,6 @@ Form.LabelHeader = LabelHeader;
 Form.Input = Input;
 Form.PasswordInput = PasswordInput;
 Form.RadioInput = RadioInput;
+Form.TagInput = TagInput;
 Form.TextArea = TextArea;
 Form.Submit = Submit;
