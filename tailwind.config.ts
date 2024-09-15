@@ -61,7 +61,7 @@ const colorPalette: Record<
   error: '#FF6577',
 };
 
-const px0_10 = Array.from(Array(11)).reduce(
+const px0_20 = Array.from(Array(21)).reduce(
   (acc, _, i) => {
     acc[i] = `${i}px`;
     return acc;
@@ -94,10 +94,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      borderRadius: {
-        full: '50%',
-      },
-      borderWidth: px0_10,
+      borderRadius: px0_20,
+      borderWidth: px0_20,
       fontSize: px0_100,
       lineHeight: px0_100,
       minWidth: px0_1000,
@@ -105,7 +103,7 @@ const config: Config = {
       spacing: px0_1000,
       margin: px0_100,
       padding: px0_100,
-      gap: px0_10,
+      gap: px0_20,
       colors: colorPalette,
       fontFamily: {
         primary: ['Pretendard', 'sans-serif'],
