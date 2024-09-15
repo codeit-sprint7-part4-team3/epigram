@@ -6,6 +6,9 @@
   border: 0;
   outline: 0;
 }
+li {
+  list-style: none;
+}
 .flex-center {
   @apply flex items-center justify-center;
 }
