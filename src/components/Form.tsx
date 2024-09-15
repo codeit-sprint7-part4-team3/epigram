@@ -247,13 +247,13 @@ function TagInput({ className, name, variant = 'fill', ...rest }: InputProps) {
   const inputClass = twMerge(
     baseInputStyle,
     inputStyleByVariant[variant],
-    cn({ 'border border-solid border-error': !!errors[name] }),
+    cn({ 'border border-solid border-error error': !!errors[name] }),
     className
   );
 
   const handleAddTag = (newTag: TagName) => {
     if (tags.includes(newTag)) {
-      return;
+      throw new Error('이미 작성된 태그입니다.');
     }
     const updatedTags = [...tags, newTag];
     setTags(updatedTags);
@@ -268,10 +268,15 @@ function TagInput({ className, name, variant = 'fill', ...rest }: InputProps) {
 
   const [inputValue, setInputValue] = useState<string>('');
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
+    if (e.nativeEvent.isComposing) return;
     if (e.key === 'Enter' && inputValue.trim()) {
       e.preventDefault;
-      handleAddTag(inputValue.trim());
-      setInputValue('');
+      try {
+        handleAddTag(inputValue.trim());
+        setInputValue('');
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
