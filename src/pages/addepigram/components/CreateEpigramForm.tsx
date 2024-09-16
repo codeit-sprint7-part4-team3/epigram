@@ -1,6 +1,6 @@
 import Form, { type InputVariant } from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 export default function CreateEpigramForm() {
   const {
@@ -9,7 +9,7 @@ export default function CreateEpigramForm() {
     open: activateInput,
   } = useToggle(false);
   const methods = useForm();
-  const { setValue } = methods;
+  const { setValue, control } = methods;
   return (
     <Form
       onSubmit={(data: CreateEpigramBody) => {
@@ -27,6 +27,7 @@ export default function CreateEpigramForm() {
           className='min-h-132 xl:min-h-148'
           placeholder='500자 이내로 입력해주세요.'
           required
+          maxLength={500}
           variant={INPUT_VARIANT}
         />
       </Form.Label>
@@ -48,7 +49,7 @@ export default function CreateEpigramForm() {
             className='flex cursor-pointer items-center gap-8'
             onClick={() => {
               deactivateInput();
-              setValue('name', '알 수 없음');
+              setValue('author', '알 수 없음');
             }}
           >
             <Form.RadioInput name='author' value='알 수 없음' />알 수 없음
@@ -57,7 +58,7 @@ export default function CreateEpigramForm() {
             className='flex cursor-pointer items-center gap-8'
             onClick={() => {
               deactivateInput();
-              setValue('name', '알 수 없음');
+              setValue('author', '본인');
             }}
           >
             <Form.RadioInput name='author' value='본인' />
@@ -92,10 +93,10 @@ export default function CreateEpigramForm() {
         <Form.LabelHeader className='mb-8 font-semibold xl:mb-24'>
           태그
         </Form.LabelHeader>
-        <Form.Input
+        <Form.TagInput
           name='tags'
-          placeholder='입력하여 태그 작성 (최대 10자)'
           variant={INPUT_VARIANT}
+          placeholder='입력하여 태그 작성 (최대 10자)'
         />
       </Form.Label>
       <Form.Submit>작성 완료</Form.Submit>

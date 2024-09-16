@@ -40,6 +40,9 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: Field;
   variant?: InputVariant;
 }
+interface TagInputProps extends InputProps {
+  initialTags?: TagName[];
+}
 interface BaseProps {
   children: ReactNode | undefined;
   className?: string;
@@ -103,7 +106,7 @@ function Input({ className, name, variant = 'fill', ...rest }: InputProps) {
   const inputClass = twMerge(
     baseInputStyle,
     inputStyleByVariant[variant],
-    cn({ 'border border-solid border-error': !!errors[name] }),
+    cn({ 'border border-solid border-error error': !!errors[name] }),
     className
   );
   const placeholder = rest.placeholder ?? name;
@@ -143,7 +146,7 @@ function PasswordInput({
     baseInputStyle,
     inputStyleByVariant[variant],
 
-    cn({ 'border border-solid border-error': !!errors[name] }),
+    cn({ 'border border-solid border-error error': !!errors[name] }),
     className
   );
   const EyeIcon = showPassword ? (
@@ -198,7 +201,7 @@ function TextArea({
     'resize-none',
     baseInputStyle,
     inputStyleByVariant[variant],
-    cn({ 'border border-solid border-error': !!errors[name] }),
+    cn({ 'border border-solid border-error error': !!errors[name] }),
     className
   );
   const placeholder = rest.placeholder ?? name;
@@ -236,13 +239,21 @@ function RadioInput({ className, name, ...rest }: InputProps) {
   );
 }
 
-function TagInput({ className, name, variant = 'fill', ...rest }: InputProps) {
+function TagInput({
+  className,
+  name = 'tags',
+  variant = 'fill',
+  initialTags = [],
+  ...rest
+}: TagInputProps) {
   const {
     control,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useFormContext();
-  const [tags, setTags] = useState<TagName[]>([]);
+  const [tags, setTags] = useState<TagName[]>(initialTags);
 
   const inputClass = twMerge(
     baseInputStyle,
@@ -253,8 +264,27 @@ function TagInput({ className, name, variant = 'fill', ...rest }: InputProps) {
 
   const handleAddTag = (newTag: TagName) => {
     if (tags.includes(newTag)) {
+      setError('tags', {
+        type: 'manual',
+        message: '이미 작성된 태그입니다.',
+      });
       throw new Error('이미 작성된 태그입니다.');
     }
+    if (newTag.length > 10) {
+      setError('tags', {
+        type: 'manual',
+        message: '각 태그는 10자를 넘을 수 없습니다.',
+      });
+      throw new Error('각 태그는 10자를 넘을 수 없습니다.');
+    }
+    if (tags.length >= 3) {
+      setError('tags', {
+        type: 'manual',
+        message: '최대 3개의 태그만 입력 가능합니다.',
+      });
+      throw new Error('최대 3개의 태그만 입력 가능합니다.');
+    }
+    clearErrors();
     const updatedTags = [...tags, newTag];
     setTags(updatedTags);
     setValue(name, updatedTags);
@@ -270,7 +300,7 @@ function TagInput({ className, name, variant = 'fill', ...rest }: InputProps) {
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
     if (e.nativeEvent.isComposing) return;
     if (e.key === 'Enter' && inputValue.trim()) {
-      e.preventDefault;
+      e.preventDefault();
       try {
         handleAddTag(inputValue.trim());
         setInputValue('');
@@ -281,38 +311,42 @@ function TagInput({ className, name, variant = 'fill', ...rest }: InputProps) {
   };
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      defaultValue={[]}
-      render={() => (
-        <>
-          <input
-            type='text'
-            className={inputClass}
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            {...rest}
-          />
-          <ul className='flex flex-wrap gap-8 xl:gap-16'>
-            {tags.map((tag, index) => (
-              <Chip key={tag}>
-                {tag}
-                <button
-                  type='button'
-                  onClick={() => {
-                    handleDeleteTag(index);
-                  }}
-                >
-                  &times;
-                </button>
-              </Chip>
-            ))}
-          </ul>
-        </>
-      )}
-    />
+    <>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={[]}
+        render={({ field, fieldState: { error } }) => (
+          <>
+            <input
+              type='text'
+              className={inputClass}
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              {...rest}
+            />
+            {error && <ErrorMessage>{String(error.message)}</ErrorMessage>}
+          </>
+        )}
+      />
+      <ul className='mt-16 flex flex-wrap gap-8 xl:mt-22 xl:gap-16'>
+        {tags.map((tag, index) => (
+          <Chip key={tag}>
+            {tag}
+            <button
+              type='button'
+              onClick={() => {
+                handleDeleteTag(index);
+                clearErrors();
+              }}
+            >
+              &times;
+            </button>
+          </Chip>
+        ))}
+      </ul>
+    </>
   );
 }
 
