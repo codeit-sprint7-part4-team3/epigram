@@ -6,6 +6,7 @@ export type Field =
   | 'password'
   | 'passwordConfirmation'
   | 'nickname'
+  | 'epigramContent'
   | string;
 
 const FIELD_DICTIONARY: Record<Field, string> = {
@@ -13,17 +14,16 @@ const FIELD_DICTIONARY: Record<Field, string> = {
   password: '비밀번호',
   passwordConfirmation: '비밀번호 확인',
   nickname: '닉네임',
+  epigramContent: '에피그램 내용',
 };
 const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PASSWORD_PATTERN = /^[A-Za-z\d!@#$%^&*]+$/;
 const MAX_NICKNAME_LENGTH = 20;
 const MIN_PASSWORD_LENGTH = 8;
+const MAX_EPIGRAM_CONTENT_LENGTH = 500;
 
 const generateRequiredMessage = (name: Field): string => {
-  if (name === 'passwordConfirmation')
-    return `${FIELD_DICTIONARY[name]}을 입력해주세요.`;
-
-  return `${josa(FIELD_DICTIONARY[name], '은/는')} 필수 입력입니다.`;
+  return `${josa(FIELD_DICTIONARY[name], '을/를')} 입력해주세요.`;
 };
 
 const EMAIL_RULES: RegisterOptions = {
@@ -53,6 +53,13 @@ const PASSWORD_RULES: RegisterOptions = {
     message: '비밀번호는 숫자, 영문, 특수문자(!@#$%^&*)로만 가능합니다.',
   },
 };
+const EPIGRAM_CONTENT_RULES: RegisterOptions = {
+  required: generateRequiredMessage('epigramContent'),
+  maxLength: {
+    value: MAX_EPIGRAM_CONTENT_LENGTH,
+    message: `${MAX_EPIGRAM_CONTENT_LENGTH}자 이내로 입력해주세요`,
+  },
+};
 
 export const PASSWORD_CONFIRM_RULES = (
   passwordValue: string
@@ -66,6 +73,7 @@ const VALIDATION_RULES: Record<Field, RegisterOptions> = {
   password: PASSWORD_RULES,
   passwordConfirmation: {},
   nickname: NICKNAME_RULES,
+  epigramContent: EPIGRAM_CONTENT_RULES,
 };
 
 export default VALIDATION_RULES;

@@ -16,6 +16,7 @@ import {
   LabelHTMLAttributes,
   ReactNode,
   TextareaHTMLAttributes,
+  useEffect,
   useState,
 } from 'react';
 import {
@@ -253,8 +254,10 @@ function TagInput({
     clearErrors,
     formState: { errors },
   } = useFormContext();
-  const [tags, setTags] = useState<TagName[]>(initialTags);
-
+  const [tags, setTags] = useState<TagName[]>([...initialTags]);
+  useEffect(() => {
+    setValue(name, tags);
+  });
   const inputClass = twMerge(
     baseInputStyle,
     inputStyleByVariant[variant],
@@ -284,7 +287,7 @@ function TagInput({
       });
       throw new Error('최대 3개의 태그만 입력 가능합니다.');
     }
-    clearErrors();
+    clearErrors(name);
     const updatedTags = [...tags, newTag];
     setTags(updatedTags);
     setValue(name, updatedTags);
@@ -315,7 +318,7 @@ function TagInput({
       <Controller
         name={name}
         control={control}
-        defaultValue={[]}
+        defaultValue={initialTags}
         render={({ field, fieldState: { error } }) => (
           <>
             <input
@@ -338,7 +341,7 @@ function TagInput({
               type='button'
               onClick={() => {
                 handleDeleteTag(index);
-                clearErrors();
+                clearErrors(name);
               }}
             >
               &times;
