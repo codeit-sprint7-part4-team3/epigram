@@ -9,7 +9,7 @@ export default function CreateEpigramForm() {
     open: activateInput,
   } = useToggle(false);
   const methods = useForm();
-  const { setValue, control } = methods;
+  const { setValue, clearErrors } = methods;
   return (
     <Form
       onSubmit={(data: CreateEpigramBody) => {
@@ -23,11 +23,11 @@ export default function CreateEpigramForm() {
           내용<span className='ml-4 font-medium text-error xl:ml-6'>*</span>
         </Form.LabelHeader>
         <Form.TextArea
-          name='content'
+          name='epigramContent'
           className='min-h-132 xl:min-h-148'
           placeholder='500자 이내로 입력해주세요.'
+          maxLength={501}
           required
-          maxLength={500}
           variant={INPUT_VARIANT}
         />
       </Form.Label>
@@ -50,6 +50,7 @@ export default function CreateEpigramForm() {
             onClick={() => {
               deactivateInput();
               setValue('author', '알 수 없음');
+              clearErrors('author');
             }}
           >
             <Form.RadioInput name='author' value='알 수 없음' />알 수 없음
@@ -59,6 +60,7 @@ export default function CreateEpigramForm() {
             onClick={() => {
               deactivateInput();
               setValue('author', '본인');
+              clearErrors('author');
             }}
           >
             <Form.RadioInput name='author' value='본인' />

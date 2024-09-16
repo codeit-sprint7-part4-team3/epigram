@@ -94,7 +94,7 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 const baseInputStyle =
-  'w-full rounded-xl px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32 disabled:cursor-not-allowed disabled:text-blue-400';
+  'w-full rounded-xl px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32 disabled:cursor-not-allowed disabled:text-blue-400 disabled:bg-blue-200';
 const inputStyleByVariant = {
   fill: ' bg-blue-200',
   outlined: 'bg-transparent border border-solid border-blue-300',

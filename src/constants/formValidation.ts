@@ -1,3 +1,4 @@
+import { isValidURL } from '@/utils/isValidURL';
 import { josa } from 'es-hangul';
 import { RegisterOptions } from 'react-hook-form';
 
@@ -7,6 +8,8 @@ export type Field =
   | 'passwordConfirmation'
   | 'nickname'
   | 'epigramContent'
+  | 'author'
+  | 'referenceUrl'
   | string;
 
 const FIELD_DICTIONARY: Record<Field, string> = {
@@ -14,7 +17,8 @@ const FIELD_DICTIONARY: Record<Field, string> = {
   password: '비밀번호',
   passwordConfirmation: '비밀번호 확인',
   nickname: '닉네임',
-  epigramContent: '에피그램 내용',
+  epigramContent: '내용',
+  author: '저자',
 };
 const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PASSWORD_PATTERN = /^[A-Za-z\d!@#$%^&*]+$/;
@@ -60,6 +64,13 @@ const EPIGRAM_CONTENT_RULES: RegisterOptions = {
     message: `${MAX_EPIGRAM_CONTENT_LENGTH}자 이내로 입력해주세요`,
   },
 };
+const AUTHOR_RULES: RegisterOptions = {
+  required: generateRequiredMessage('author'),
+};
+const REFERENCE_URL_RULES: RegisterOptions = {
+  validate: value =>
+    value.length === 0 || isValidURL(value) || '올바른 URL 양식이 아닙니다.',
+};
 
 export const PASSWORD_CONFIRM_RULES = (
   passwordValue: string
@@ -74,6 +85,8 @@ const VALIDATION_RULES: Record<Field, RegisterOptions> = {
   passwordConfirmation: {},
   nickname: NICKNAME_RULES,
   epigramContent: EPIGRAM_CONTENT_RULES,
+  author: AUTHOR_RULES,
+  referenceUrl: REFERENCE_URL_RULES,
 };
 
 export default VALIDATION_RULES;
