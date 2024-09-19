@@ -3,7 +3,7 @@ import SignupForm from '@/pages/signup/components/SignupForm';
 
 export default function SignupPage() {
   return (
-    <AuthPageLayout>
+    <AuthPageLayout page='signup'>
       <SignupForm />
     </AuthPageLayout>
   );
