@@ -1,12 +1,15 @@
 import Form from '@/components/Form';
+import { useForm } from 'react-hook-form';
 
 export default function LoginForm() {
+  const methods = useForm();
   return (
     <div className='mx-auto w-full md:max-w-384 xl:max-w-640'>
       <Form
         onSubmit={() => {
           console.log('로그인 폼 제출');
         }}
+        methods={methods}
       >
         <Form.Label className='mb-10 xl:mb-16'>
           <Form.Input

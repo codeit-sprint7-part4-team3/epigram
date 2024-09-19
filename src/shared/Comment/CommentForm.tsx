@@ -1,19 +1,21 @@
 import Form from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
 import ToggleButton from '@/shared/ToggleButton';
+import { useForm } from 'react-hook-form';
 
 type EpigramIdOnly = Pick<CreateCommentBody, 'epigramId'>;
 
 export default function CommentForm({ epigramId }: EpigramIdOnly) {
-  const [isPrivate, toggle] = useToggle(true);
-  const defaultValues = { epigramId };
+  const { isOpen: isPrivate, toggle } = useToggle(true);
+  const methods = useForm();
+  const { setValue } = methods;
   return (
     <Form
       onSubmit={(data: CreateCommentBody) => {
         console.log(data);
         console.log('댓글 폼 제출');
       }}
-      defaultValues={defaultValues}
+      methods={methods}
     >
       <Form.Label className='mb-8 xl:mb-16'>
         <Form.TextArea
@@ -21,17 +23,20 @@ export default function CommentForm({ epigramId }: EpigramIdOnly) {
           name='content'
           placeholder='100자 이내로 입력해주세요.'
           required
+          variant='outlined'
         />
       </Form.Label>
       <div className='flex items-center justify-between'>
         <Form.Label className='flex items-center gap-8 text-xs font-semibold leading-20 text-gray-400 transition-colors hover:text-black-600 md:text-sm md:leading-24 xl:text-base xl:leading-26'>
           공개
-          <ToggleButton isOpen={!isPrivate} toggle={toggle} />
-          <Form.Input
-            className='hidden'
-            name='isPrivate'
-            value={String(isPrivate)}
+          <ToggleButton
+            isOpen={!isPrivate}
+            toggle={() => {
+              toggle();
+              setValue('isPrivate', isPrivate);
+            }}
           />
+          <Form.Input className='hidden' name='isPrivate' />
         </Form.Label>
         <Form.Submit className='w-53 xl:w-60' size='sm'>
           저장
