@@ -39,12 +39,9 @@ export default function AuthPageLayout({
         <div className='w-full px-[6.5px] xl:px-[13.5px]'>
           <div className='mb-24 flex items-center justify-between gap-14 xl:mb-40 xl:gap-24'>
             <div className='bg-line-300 h-1 w-full'></div>
-            <a
-              href='#'
-              className='shrink-0 text-xs leading-26 text-gray-500 xl:text-xl'
-            >
+            <span className='shrink-0 text-xs leading-26 text-gray-500 xl:text-xl'>
               SNS 계정으로 {oAuthLabel}
-            </a>
+            </span>
             <div className='bg-line-300 h-1 w-full'></div>
           </div>
           <ul className='flex items-center justify-center gap-16'>
@@ -82,7 +79,7 @@ type AuthPageLabel =
 
 const labelByPage: Record<Page, Record<AuthPageLabel, string>> = {
   signin: {
-    sendToLabel: '이미 가입하셨나요?',
+    sendToLabel: '회원이 아니신가요?',
     sendToLink: '/signup',
     sendToLinkLabel: '가입하기',
     oAuthLabel: '로그인하기',
@@ -91,7 +88,7 @@ const labelByPage: Record<Page, Record<AuthPageLabel, string>> = {
     oAuthLinkNaver: '#',
   },
   signup: {
-    sendToLabel: '회원이 아니신가요?',
+    sendToLabel: '이미 가입하셨나요?',
     sendToLink: '/signin',
     sendToLinkLabel: '로그인하러 가기',
     oAuthLabel: '간편 가입하기',
