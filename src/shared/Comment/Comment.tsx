@@ -40,23 +40,23 @@ export default function Comment({ data }: CommentProps) {
   };
 
   return (
-    <div className='flex gap-16 w-360 md:w-384 xl:w-640 px-24 py-16 md:py-24 xl:py-35 bg-background-100 border-t border-solid border-line-200'>
+    <div className='flex w-360 gap-16 border-t border-solid border-line-200 bg-background-100 px-24 py-16 md:w-384 md:py-24 xl:w-640 xl:py-35'>
       {data.writer.image ? (
         <UserIcon
           imageSource={data.writer.image}
           styles='w-48 h-48 rounded-full'
         />
       ) : (
-        <IconUserSigned className='w-48 h-48' />
+        <IconUserSigned className='h-48 w-48' />
       )}
-      <div className='flex flex-col gap-8 md:gap-12 xl:gap-16 w-0 flex-grow'>
-        <div className='flex justify-between items-center'>
-          <div className='flex justify-between items-center gap-8 font-primary text-black-300 text-12 leading-18 md:text-14 md:leading-24 xl:text-16 xl:leading-26'>
+      <div className='flex w-0 flex-grow flex-col gap-8 md:gap-12 xl:gap-16'>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between gap-8 font-primary text-12 leading-18 text-black-300 md:text-14 md:leading-24 xl:text-16 xl:leading-26'>
             <p>{data.writer.nickname}</p>
             <p>{getTimeAgo(data.createdAt)}</p>
           </div>
           {isWriter && (
-            <div className='flex justify-between items-center gap-16 font-primary font-normal text-12 md:text-14 xl:text-16 leading-18'>
+            <div className='flex items-center justify-between gap-16 font-primary text-12 font-normal leading-18 md:text-14 xl:text-16'>
               <button
                 className='text-black-600 underline'
                 onClick={handleUpdateClick}
@@ -72,7 +72,7 @@ export default function Comment({ data }: CommentProps) {
             </div>
           )}
         </div>
-        <p className='font-primary font-normal text-black-700 text-14 leading-24 md:text-16 md:leading-26 xl:text-20 xl:leading-32'>
+        <p className='font-primary text-14 font-normal leading-24 text-black-700 md:text-16 md:leading-26 xl:text-20 xl:leading-32'>
           {data.content}
         </p>
       </div>
@@ -88,8 +88,12 @@ function getTimeAgo(dateString: string) {
   const seconds = Math.floor(diff / 1000);
   if (seconds < 60) return `${seconds}초 전`;
 
+  console.log(seconds);
+
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}분 전`;
+
+  console.log(minutes);
 
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours}시간 전`;
