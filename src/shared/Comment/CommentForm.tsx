@@ -38,7 +38,7 @@ export default function CommentForm({ epigramId }: EpigramIdOnly) {
           />
           <Form.Input className='hidden' name='isPrivate' />
         </Form.Label>
-        <Form.Submit className='w-53 xl:w-60' size='sm'>
+        <Form.Submit className='w-60 xl:w-70' size='sm'>
           저장
         </Form.Submit>
       </div>
