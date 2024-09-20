@@ -31,8 +31,8 @@ type OptionValue = string | number;
 type OptionLabel = string;
 
 interface OptionProps {
-  value: OptionValue;
-  label: OptionLabel;
+  value?: OptionValue;
+  label?: OptionLabel;
 }
 
 const DropdownContext = createContext<DropdownContextProps>({
@@ -88,7 +88,7 @@ const Menu = ({ children, className }: MenuProps) => {
 
   const { isOpen } = context;
   const menuStyle = twMerge(
-    'absolute right-0 z-10 mt-8 flex flex-col justify-between gap-4 overflow-hidden rounded-16 border border-solid border-blue-300 bg-background-100 p-6',
+    'w-max absolute right-0 z-10 mt-8 flex flex-col overflow-hidden rounded-16 border border-solid border-blue-300 bg-background-100',
     className
   );
 
@@ -101,10 +101,7 @@ const Item = ({ children, className, onClick, value, label }: ItemProps) => {
     throw new Error('Dropdown 없이 하위 컴포넌트를 사용할 수는 없습니다.');
 
   const { toggle, selectOption } = context;
-  const itemStyle = twMerge(
-    'flex w-full items-center px-24 py-8 text-sm text-black-600 hover:bg-gray-300 xl:px-32 xl:py-12 xl:text-xl',
-    className
-  );
+  const itemStyle = twMerge('flex-center', className);
 
   const handleMouseDown = () => {
     value ? onClick(value) : onClick();
