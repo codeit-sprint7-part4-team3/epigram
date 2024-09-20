@@ -15,11 +15,11 @@ export default function useToggle(initialState: boolean): Toggle {
   };
 
   const close = () => {
-    setIsOpen(prev => false);
+    setIsOpen(() => false);
   };
 
   const open = () => {
-    setIsOpen(prev => true);
+    setIsOpen(() => true);
   };
 
   return { isOpen, toggle, close, open };
