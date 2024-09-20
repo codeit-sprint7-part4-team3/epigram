@@ -6,6 +6,9 @@
   border: 0;
   outline: 0;
 }
+li {
+  list-style: none;
+}
 .flex-center {
   @apply flex items-center justify-center;
 }
@@ -55,4 +58,40 @@
     top: 25px;
     filter: drop-shadow(0 2px 1.5px rgba(100, 100, 100, 0.1));
   }
+}
+
+input[type='radio'] {
+  display: none;
+}
+.custom-radio {
+  @apply relative inline-block h-20 w-20 cursor-pointer rounded-full border-2 border-solid border-blue-300 xl:h-24 xl:w-24;
+}
+.custom-radio::before {
+  content: '';
+  @apply absolute left-1/2 top-1/2 block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full xl:h-12 xl:w-12;
+}
+input[type='radio']:checked + .custom-radio::before {
+  @apply bg-blue-800;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.error {
+  animation: shake 0.3s ease;
 }

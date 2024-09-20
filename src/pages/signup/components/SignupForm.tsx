@@ -1,12 +1,15 @@
 import Form from '@/components/Form';
+import { useForm } from 'react-hook-form';
 
 export default function SignupForm() {
+  const methods = useForm();
   return (
     <div className='mx-auto w-full md:max-w-384 xl:max-w-640'>
       <Form
         onSubmit={() => {
           console.log('회원가입 폼 제출');
         }}
+        methods={methods}
       >
         <Form.Label className='mb-20 md:mb-40'>
           <Form.LabelHeader className='mb-16 md:mb-20'>이메일</Form.LabelHeader>
