@@ -1,6 +1,12 @@
 import useToggle from '@/hooks/useToggle';
 import cn from 'clsx';
-import React, { ReactNode, createContext, useContext, useState } from 'react';
+import React, {
+  Children,
+  ReactNode,
+  createContext,
+  useContext,
+  useState,
+} from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface Props {
@@ -67,16 +73,20 @@ const Trigger = ({ children, className }: TriggerProps) => {
   if (!context)
     throw new Error('Dropdown 없이 하위 컴포넌트를 사용할 수는 없습니다.');
 
+  const [firstChild, secondChild] = Children.toArray(children);
   const { toggle, toggleClose, selectedOption } = context;
+  const triggerStyle = twMerge('w-max', className);
+
   return (
     <button
       type='button'
-      className={className}
+      className={triggerStyle}
       onClick={toggle}
       onBlur={toggleClose}
     >
-      {children}
+      {firstChild}
       {selectedOption && selectedOption.label}
+      {secondChild}
     </button>
   );
 };
