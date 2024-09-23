@@ -5,6 +5,7 @@ import React, {
   ReactNode,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -21,36 +22,47 @@ interface TriggerProps extends Props {
   onClick?: () => void;
 }
 interface MenuProps extends Props {}
-interface DropdownMenuItem extends Props {
-  onClick: () => void;
+interface ItemProps extends Props, OptionProps {
+  onClick: (value?: OptionValue) => void;
+  selected?: boolean;
 }
-interface SelectItem extends Props, OptionProps {
-  onClick: (value: OptionValue) => void;
-}
-type ItemProps = DropdownMenuItem | SelectItem;
 
 interface DropdownContextProps {
   isOpen: boolean;
   toggle: () => void;
   toggleClose: () => void;
   selectedOption: OptionProps | null;
-  selectOption: (option: OptionProps) => void;
+  selectOption: (
+    option: OptionProps | ((prevOption: OptionProps | null) => OptionProps)
+  ) => void;
 }
 
-type OptionValue = string | number;
-type OptionLabel = string;
+export type OptionValue = string | number;
+export type OptionLabel = string;
 
 interface OptionProps {
-  value: OptionValue;
-  label: OptionLabel;
+  value?: OptionValue;
+  label?: OptionLabel;
 }
 
 const DropdownContext = createContext<DropdownContextProps>({
   isOpen: false,
-  toggle: () => {},
-  toggleClose: () => {},
+  toggle: () => {
+    console.warn('toggle() is not implemented');
+  },
+  toggleClose: () => {
+    console.warn('toggleClose() is not implemented');
+  },
   selectedOption: null,
-  selectOption: (option: OptionProps) => {},
+  selectOption: (
+    option: OptionProps | ((prevOption: OptionProps | null) => OptionProps)
+  ) => {
+    if (typeof option === 'function') {
+      console.warn('selectOption() with callback is not implemented');
+    } else {
+      console.warn('selectOption() with object is not implemented');
+    }
+  },
 });
 
 function Dropdown({
@@ -109,18 +121,35 @@ const Menu = ({ children, className }: MenuProps) => {
   return isOpen ? <ul className={menuStyle}>{children}</ul> : null;
 };
 
-const Item = ({ children, className, onClick, value, label }: ItemProps) => {
+const Item = ({
+  children,
+  className,
+  onClick,
+  value,
+  label,
+  selected = false,
+}: ItemProps) => {
   const context = useContext(DropdownContext);
   if (!context)
     throw new Error('Dropdown 없이 하위 컴포넌트를 사용할 수는 없습니다.');
 
-  const { toggle, selectOption } = context;
+  const { toggle, selectOption, selectedOption } = context;
   const itemStyle = twMerge('flex-center', className);
-
+  useEffect(() => {
+    if (selectedOption === null && selected) {
+      console.log(selectedOption);
+      selectOption(() => ({ value, label }));
+      console.log(selectedOption);
+    }
+  });
   const handleMouseDown = () => {
-    value ? onClick(value) : onClick();
+    if (value && label) {
+      onClick(value);
+      selectOption({ value, label });
+    } else {
+      onClick();
+    }
     toggle();
-    selectOption({ value, label });
   };
   return (
     <li>
