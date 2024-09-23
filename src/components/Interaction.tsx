@@ -2,8 +2,8 @@ import ExternalLink from '@/assets/icons/ic-external-link.svg';
 import Thumbsup from '@/assets/icons/ic-thumbs-up.svg';
 import Comment from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
+import ChipList from '@/shared/Tagchip';
 import UserIcon from '@/shared/UserIcon';
-import ChipList from '@/shared/tagchip';
 
 // 임시 데이터 생성
 const mockCommentData = [

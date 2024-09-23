@@ -1,4 +1,4 @@
-import axios from './axios';
+import axios from '../instance/axios';
 
 interface CommentsResponse {
   totalCount: number;

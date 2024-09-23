@@ -1,4 +1,4 @@
-import ChipList from '@/shared/tagchip';
+import ChipList from '@/shared/Tagchip';
 import React, { useState } from 'react';
 
 const Test = () => {
@@ -13,7 +13,7 @@ const Test = () => {
   console.log(currentTag);
   return (
     <>
-      <div className='bg-white w-100vh h-100vh'>
+      <div className='w-100vh h-100vh bg-white'>
         <ChipList>
           {DUMMY.map(({ name, id }) => (
             <ChipList.Item
