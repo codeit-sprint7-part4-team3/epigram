@@ -27,7 +27,6 @@ export async function PostReaction(
 }
 
 export async function DeleteReaction(
-  teamId: string,
   epigramId: number
 ): Promise<ReactionResponse> {
   try {
