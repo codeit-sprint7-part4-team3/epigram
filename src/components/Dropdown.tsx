@@ -21,9 +21,13 @@ interface TriggerProps extends Props {
   onClick?: () => void;
 }
 interface MenuProps extends Props {}
-interface ItemProps extends Props, OptionProps {
-  onClick: (value?: OptionValue) => void;
+interface DropdownMenuItem extends Props {
+  onClick: () => void;
 }
+interface SelectItem extends Props, OptionProps {
+  onClick: (value: OptionValue) => void;
+}
+type ItemProps = DropdownMenuItem | SelectItem;
 
 interface DropdownContextProps {
   isOpen: boolean;
@@ -37,8 +41,8 @@ type OptionValue = string | number;
 type OptionLabel = string;
 
 interface OptionProps {
-  value?: OptionValue;
-  label?: OptionLabel;
+  value: OptionValue;
+  label: OptionLabel;
 }
 
 const DropdownContext = createContext<DropdownContextProps>({
@@ -98,7 +102,7 @@ const Menu = ({ children, className }: MenuProps) => {
 
   const { isOpen } = context;
   const menuStyle = twMerge(
-    'w-max absolute right-0 z-10 mt-8 flex flex-col overflow-hidden rounded-16 border border-solid border-blue-300 bg-background-100',
+    'absolute right-0 z-10 mt-8 flex w-max flex-col overflow-hidden rounded-16 border border-solid border-blue-300 bg-background-100',
     className
   );
 
