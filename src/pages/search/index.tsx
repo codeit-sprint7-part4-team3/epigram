@@ -1,5 +1,5 @@
 import SearchIcon from '@/assets/icons/ic-search.svg';
-import EpigramCard from '@/shared/EpigramCard';
+import SearchResult from '@/pages/search/components/SearchResult';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -60,10 +60,11 @@ function Search() {
           type='text'
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
-          onKeyPress={e => e.key === 'Enter' && handleSearch()}
+          onKeyDown={e => e.key === 'Enter' && handleSearch()}
           placeholder='Search...'
-          className='border-black w-full border-b-2 py-2 pr-10 focus:outline-none'
+          className='border-black w-full border-b-2 border-solid py-2 pr-10 focus:outline-none'
         />
+
         <button
           onClick={handleSearch}
           className='absolute right-0 top-0 flex h-full items-center justify-center pr-2'
@@ -99,7 +100,7 @@ function Search() {
 
       <div>
         {searchResult.map((epigram, index) => (
-          <EpigramCard
+          <SearchResult
             key={index}
             content={epigram.content}
             author={epigram.author}
