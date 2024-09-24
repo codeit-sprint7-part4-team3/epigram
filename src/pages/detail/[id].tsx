@@ -1,38 +1,64 @@
 import { useComments } from '@/api/comments/useComments';
+import { GetDetailEpigram } from '@/api/epigram/fetchEpigram';
 import Interaction from '@/components/Interaction';
-import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-interface DetailPageProps {
-  epigramData: EpigramDetailType;
-}
+export default function DetailPage() {
+  const router = useRouter();
+  const { id } = router.query;
 
-export default function DetailPage({ epigramData }: DetailPageProps) {
+  const [epigramData, setEpigramData] = useState<EpigramDetailType | null>(
+    null
+  );
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const {
+    comments,
+    totalCount,
+    isLoading: isCommentsLoading,
+    error: commentsError,
+    loadMore,
+    hasMore,
+  } = useComments(10);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        setLoading(true);
+        try {
+          const epigram = await GetDetailEpigram({ id: Number(id) });
+          setEpigramData(epigram);
+        } catch (err) {
+          setError('에피그램 데이터를 불러오는 데 실패했습니다.');
+          console.error('Error fetching epigram data:', err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  if (loading || isCommentsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || commentsError) {
+    return <div>{error || commentsError}</div>;
+  }
+
   if (!epigramData) return <div>Epigram not found</div>;
 
-  return <Interaction epigramData={epigramData} />;
+  return (
+    <Interaction
+      epigramData={epigramData}
+      comments={comments}
+      totalComments={totalCount}
+      loadMoreComments={loadMore}
+      hasMoreComments={hasMore}
+    />
+  );
 }
-
-export const getServerSideProps: GetServerSideProps<
-  DetailPageProps
-> = async context => {
-  const { id } = context.params as { id: string };
-
-  //   try {
-  //     const response = await fetch(`${process.env.API_URL}/api/epigrams/${id}`);
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to fetch epigram');
-  //     }
-
-  //     const epigramData: EpigramDetailType = await response.json();
-
-  //     return {
-  //       props: { epigramData },
-  //     };
-  //   } catch (error) {
-  //     console.error('Error fetching epigram:', error);
-  //     return {
-  //       notFound: true, // 404 페이지를 보여줍니다
-  //     };
-  //   }
-};

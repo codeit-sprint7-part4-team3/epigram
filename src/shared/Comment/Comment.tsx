@@ -9,13 +9,48 @@ const mockSignedInUserData: User = {
   id: 0,
 };
 
-interface User {
-  image: string;
+// export interface User {
+//   image: string;
+//   nickname: string;
+//   id: number;
+// }
+
+// export interface Comment {
+//   epigramId: number;
+//   writer: User;
+//   updatedAt: string;
+//   createdAt: string;
+//   isPrivate: boolean;
+//   content: string;
+//   id: number;
+// }
+
+// export interface CommentProps {
+//   data: Comment;
+// }
+
+// /// 타입 추가
+// export interface CommentType {
+//   epigramId: number;
+//   writer: {
+//     image: string | null;
+//     nickname: string;
+//     id: number;
+//   };
+//   updatedAt: string;
+//   createdAt: string;
+//   isPrivate: boolean;
+//   content: string;
+//   id: number;
+// }
+
+export interface User {
+  image: string | null;
   nickname: string;
   id: number;
 }
 
-interface Comment {
+export interface CommentType {
   epigramId: number;
   writer: User;
   updatedAt: string;
@@ -25,8 +60,14 @@ interface Comment {
   id: number;
 }
 
-interface CommentProps {
-  data: Comment;
+export interface FetchCommentsResponse {
+  totalCount: number;
+  nextCursor: number | null;
+  list: CommentType[];
+}
+
+export interface CommentProps {
+  data: CommentType;
 }
 
 export default function Comment({ data }: CommentProps) {
