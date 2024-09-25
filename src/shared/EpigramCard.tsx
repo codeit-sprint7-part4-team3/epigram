@@ -17,12 +17,18 @@ export default function EpigramCard({
   variant = 'normal',
 }: CardProps) {
   const EpigramCardStyle = twMerge(
-    'stripe-pattern mb-8 flex flex-col justify-between rounded-2xl bg-blue-100 px-24 py-23',
+    'transition-animation font-secondary',
     styleByVariant[variant]
   );
+
   return (
-    <div className='transition-animation font-secondary'>
-      <div className={EpigramCardStyle}>
+    <div className={EpigramCardStyle}>
+      <div
+        className={clsx(
+          'stripe-pattern mb-8 flex flex-col justify-between rounded-2xl bg-blue-100 px-24 py-23',
+          { 'min-h-140 md:min-h-180 xl:min-h-295': variant === 'feed' }
+        )}
+      >
         <div className='flex-1'>
           <div className='text-14 font-normal leading-24 md:text-16 md:leading-26 xl:text-24 xl:leading-40'>
             {content}
@@ -34,13 +40,13 @@ export default function EpigramCard({
       </div>
       {/* TODO: tag 컴포넌트 연결 */}
       <div className='text-right text-14 font-normal leading-24 text-blue-400 md:text-16 md:leading-26 xl:text-24 xl:leading-40'>
-        {tags}
+        {tags.join(', ')}
       </div>
     </div>
   );
 }
 
 const styleByVariant: Record<EpigramVariant, string> = {
-  feed: 'md:w-294 xl:w-585 xl:min-h-295 md:min-h-180 min-h-140',
+  feed: 'md:w-294 xl:w-585',
   normal: 'xl:w-640 md:w-384 w-312',
 };
