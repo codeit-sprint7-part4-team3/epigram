@@ -1,5 +1,6 @@
-import { signinUser } from '@/api/auth/authApi';
 import Form from '@/components/Form';
+import { signinUser } from '@/lib/api/auth';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
@@ -19,6 +20,19 @@ export default function SignInForm() {
       setError(errorDetail, { message: errorMessage });
     },
   });
+
+  const handleClick = async () => {
+    try {
+      const response = await axios.get('/api/users/me', {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Form
@@ -45,6 +59,9 @@ export default function SignInForm() {
         />
       </Form.Label>
       <Form.Submit>로그인</Form.Submit>
+      <button type='button' onClick={handleClick}>
+        유후
+      </button>
     </Form>
   );
 }
