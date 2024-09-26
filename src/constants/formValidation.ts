@@ -1,4 +1,4 @@
-import { isValidURL } from '@/utils/isValidURL';
+import { isValidURL } from '@/lib/utils/isValidURL';
 import { josa } from 'es-hangul';
 import { RegisterOptions } from 'react-hook-form';
 
