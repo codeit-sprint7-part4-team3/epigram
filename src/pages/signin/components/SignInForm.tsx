@@ -1,18 +1,20 @@
 import Form from '@/components/Form';
 import { signinUser } from '@/lib/api/auth';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 export default function SignInForm() {
   const methods = useForm();
+  const router = useRouter();
   const { setError } = methods;
   const mutation = useMutation(signinUser, {
     onSuccess: data => {
-      // 로그인 성공 시
       // 1. 리다이렉트
-      // 2. 유저 정보 저장
       console.log(data);
+      // 2. 유저 정보 저장
+      router.push('/');
     },
     onError: (error: any) => {
       const errorMessage = error.response.data.message;
@@ -59,9 +61,6 @@ export default function SignInForm() {
         />
       </Form.Label>
       <Form.Submit>로그인</Form.Submit>
-      <button type='button' onClick={handleClick}>
-        유후
-      </button>
     </Form>
   );
 }
