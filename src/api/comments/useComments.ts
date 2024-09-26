@@ -1,17 +1,10 @@
-import { Comment } from '@/shared/Comment/Comment';
+import { CommentType } from '@/shared/Comment/Comment';
 import { useCallback, useEffect, useState } from 'react';
 
-import { fetchComments } from './comments';
+import { CommentsResponse, fetchComments } from './comments';
 
-// fetchComments 함수의 반환 타입을 명시적으로 정의
-interface FetchCommentsResult {
-  list: Comment[];
-  totalCount: number;
-  nextCursor: number | null;
-}
-
-export const useComments = (initialLimit: number = 10) => {
-  const [comments, setComments] = useState<Comment[]>([]);
+export const useComments = (epigramId: number, initialLimit: number = 10) => {
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [nextCursor, setNextCursor] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +14,8 @@ export const useComments = (initialLimit: number = 10) => {
     async (cursor?: number) => {
       setIsLoading(true);
       try {
-        const data: FetchCommentsResult = await fetchComments(
+        const data: CommentsResponse = await fetchComments(
+          epigramId,
           initialLimit,
           cursor
         );
@@ -37,7 +31,7 @@ export const useComments = (initialLimit: number = 10) => {
         setIsLoading(false);
       }
     },
-    [initialLimit]
+    [epigramId, initialLimit]
   );
 
   useEffect(() => {
