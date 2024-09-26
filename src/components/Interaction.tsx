@@ -62,7 +62,7 @@ export default function Interaction({
           <p className='mb-24'>댓글 ({totalComments})</p>
           <div className='flex'>
             <UserIcon
-              imageSource={comments[0].writer.image}
+              imageSource={comments[0]?.writer.image}
               styles='w-48 h-48 rounded-full mr-21'
             />
             <CommentForm epigramId={epigramData.id} />

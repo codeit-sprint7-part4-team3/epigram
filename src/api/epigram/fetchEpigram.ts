@@ -1,10 +1,12 @@
 import axios from '../instance/axios';
 
-export async function GetEpigram() {}
-
-export async function GetDetailEpigram({ id }: Pick<EpigramListType, 'id'>) {
+export async function GetDetailEpigram(id: number) {
   try {
-    const res = await axios.get(`epigram/${id}`);
+    const url = `epigrams/${id}`;
+    console.log('Full Request URL:', `${axios.defaults.baseURL}${url}`);
+
+    const res = await axios.get(url);
+    console.log('Response:', res);
     return res.data;
   } catch (error) {
     console.log('Error fetching Detail Epigram', error);

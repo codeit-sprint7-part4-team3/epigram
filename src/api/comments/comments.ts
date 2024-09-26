@@ -25,11 +25,21 @@ export const fetchComments = async (
   limit: number,
   cursor?: number
 ): Promise<CommentsResponse> => {
-  const response = await axios.get<CommentsResponse>(`${epigramId}/comments`, {
-    params: {
-      limit,
-      cursor,
-    },
-  });
-  return response.data;
+  const endpoint = `epigrams/${epigramId}/comments`;
+  const fullUrl = `${axios.defaults.baseURL}${endpoint}`;
+  const params = { limit, cursor };
+
+  console.log('Fetching comments with:');
+  console.log('Full URL:', fullUrl);
+  console.log('Params:', params);
+
+  try {
+    const response = await axios.get<CommentsResponse>(endpoint, { params });
+    console.log('Response status:', response.status);
+    console.log('Response data:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    throw error;
+  }
 };
