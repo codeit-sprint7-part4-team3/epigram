@@ -1,4 +1,4 @@
-import axios from 'axios';
+import instance from '@/api/comments/axios';
 import { parse } from 'cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -29,8 +29,8 @@ export default async function handler(
   }
 
   try {
-    const apiResponse = await axios({
-      url: `https://fe-project-epigram-api.vercel.app/7-3/${endpoint}`,
+    const apiResponse = await instance({
+      url: endpoint,
       method,
       headers: {
         Authorization: `Bearer ${accessToken}`,
