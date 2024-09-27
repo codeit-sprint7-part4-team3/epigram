@@ -23,19 +23,6 @@ export default function SignInForm() {
     },
   });
 
-  const handleClick = async () => {
-    try {
-      const response = await axios.get('/api/users/me', {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      });
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <Form
       onSubmit={(data: SignInRequestBody) => {
