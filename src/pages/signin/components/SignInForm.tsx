@@ -27,7 +27,6 @@ export default function SignInForm() {
     <Form
       onSubmit={(data: SignInRequestBody) => {
         mutation.mutate(data);
-        console.log('로그인 폼 제출');
       }}
       methods={methods}
     >
