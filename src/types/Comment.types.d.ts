@@ -14,6 +14,12 @@ interface CommentType extends Timestamps {
   id: Id;
 }
 
+interface CursorBasedPaginationResponse_CommentType {
+  totalCount: number;
+  nextCursor: number | null;
+  list: CommentType;
+}
+
 interface CreateCommentBody {
   epigramId: Id;
   isPrivate: boolean;

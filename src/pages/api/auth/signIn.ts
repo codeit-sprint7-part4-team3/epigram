@@ -2,7 +2,7 @@ import instance from '@/api/comments/axios';
 import { serialize } from 'cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function signInHandler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

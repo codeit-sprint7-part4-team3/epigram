@@ -2,7 +2,7 @@ import instance from '@/api/comments/axios';
 import axios from 'axios';
 
 const signinUser = async (data: SignInRequestBody) => {
-  const response = await axios.post('/api/auth/signInHandler', data, {
+  const response = await axios.post('/api/auth/signIn', data, {
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
   });
