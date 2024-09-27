@@ -1,4 +1,4 @@
-import instance from '@/api/comments/axios';
+import axios from 'axios';
 import { parse } from 'cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -20,8 +20,8 @@ export default async function handler(
     '/images',
     '/epigrams',
     '/emotionLogs',
-    'comments',
-    'auth',
+    '/comments',
+    '/auth',
   ];
 
   if (!allowedEndpoints.some(allowed => endpoint.startsWith(allowed))) {
@@ -29,8 +29,8 @@ export default async function handler(
   }
 
   try {
-    const apiResponse = await instance({
-      url: endpoint,
+    const apiResponse = await axios({
+      url: `https://fe-project-epigram-api.vercel.app/7-3/${endpoint}`,
       method,
       headers: {
         Authorization: `Bearer ${accessToken}`,
