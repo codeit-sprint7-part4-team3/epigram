@@ -1,18 +1,20 @@
-import axios from 'axios';
+import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 
 const fetchEpigramDetailComments = async ({
   id: epigramId,
   limit,
   cursor = 0,
 }: BasicQuery) => {
-  const response = await axios.get(
-    `/api/epigrams/${epigramId}/comments?limit=${limit}&cursor=${cursor}`,
-    {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    }
-  );
-  return response.data;
+  try {
+    const data = await apiRequestWithAtuh({
+      endpoint: `/epigrams/${epigramId}/comments?limit=${limit}&cursor=${cursor}`,
+      method: 'GET',
+    });
+
+    console.log('응답 데이터:', data);
+  } catch (error) {
+    console.error('댓글 가져오기 실패:', error);
+  }
 };
 
 export { fetchEpigramDetailComments };

@@ -14,6 +14,7 @@ import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
+import { fetchEpigramDetailComments } from '@/lib/api/epigrams';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
@@ -41,6 +42,18 @@ export default function Home() {
             다른 사람들과 감정을 공유해 보세요
           </p>
           <Button>시작하기</Button>
+          <Button
+            onClick={async () => {
+              const response = await fetchEpigramDetailComments({
+                id: 1,
+                limit: 5,
+                cursor: 1,
+              });
+              console.log(response);
+            }}
+          >
+            야호
+          </Button>
         </div>
         <button
           onClick={handlePageScroll}

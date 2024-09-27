@@ -9,6 +9,7 @@ export default async function handler(
     return res.status(405).json({ message: 'Method not allowed' });
   }
   const { id, limit, cursor } = req.query;
+  console.log(req.query);
   try {
     const data = await fetchWithAuth(
       req,
