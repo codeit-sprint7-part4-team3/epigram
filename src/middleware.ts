@@ -18,5 +18,6 @@ export const config = {
     // '/feed/:path*',
     // '/mypage/:path*',
     // '/main/:path*',
+    '/epigrams/:path*',
   ],
 };
