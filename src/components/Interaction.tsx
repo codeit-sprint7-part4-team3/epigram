@@ -1,9 +1,13 @@
+import { DeleteReaction, PostReaction } from '@/api/reaction/fetchReaction';
 import ExternalLink from '@/assets/icons/ic-external-link.svg';
 import Thumbsup from '@/assets/icons/ic-thumbs-up.svg';
 import Comment, { CommentType } from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
+import DropdownMenu from '@/shared/DropdownMenu';
 import ChipList from '@/shared/Tagchip';
 import UserIcon from '@/shared/UserIcon';
+import { label } from 'framer-motion/client';
+import { useCallback, useState } from 'react';
 
 interface InteractionProps {
   epigramData: EpigramDetailType;
@@ -20,6 +24,38 @@ export default function Interaction({
   loadMoreComments,
   hasMoreComments,
 }: InteractionProps) {
+  const [likeCount, setLikeCount] = useState(epigramData.likeCount);
+  const [isLiked, setIsLiked] = useState(epigramData.isLiked);
+
+  const toggleLike = useCallback(async () => {
+    try {
+      if (isLiked) {
+        const response = await DeleteReaction(epigramData.id);
+        setLikeCount(response.likeCount);
+        console.log(epigramData.likeCount);
+        setIsLiked(false);
+      } else {
+        const response = await PostReaction(epigramData.id);
+        setLikeCount(response.likeCount);
+        setIsLiked(true);
+      }
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  }, [epigramData.id, isLiked]);
+
+  const handleEdit = () => {
+    console.log('수정하기 눌렀다');
+  };
+
+  const handleDelete = () => {
+    console.log('삭제하기 눌렀다.');
+  };
+
+  const dropOptions = [
+    { label: '수정하기', method: handleEdit },
+    { label: '삭제하기', method: handleDelete },
+  ];
   return (
     <div className='flex min-h-screen flex-col'>
       <header className='flex-center w-full'>
@@ -30,7 +66,10 @@ export default function Interaction({
                 <ChipList.Item key={tag.id} name={`#${tag.name}`} />
               ))}
             </ChipList>
-            <span>더보기</span>
+            {/* <span>더보기</span> */}
+            <span>
+              <DropdownMenu options={dropOptions} />
+            </span>
           </div>
           <p className='font-secondary text-32 font-normal text-black-700'>
             {epigramData.content}
@@ -40,17 +79,31 @@ export default function Interaction({
           </span>
           <div className='flex-center'>
             <div className='mr-16 flex h-48 w-102'>
-              <button className='flex-center w-full gap-4 rounded-[100px] bg-black-600 text-white'>
+              <button
+                className={`flex-center w-full gap-4 rounded-[100px] ${
+                  isLiked ? 'bg-blue-400' : 'bg-black-600'
+                } text-white shadow-md transition-all duration-100 ease-in-out hover:shadow-sm active:translate-y-0.5 active:transform active:shadow-inner`}
+                onClick={toggleLike}
+              >
                 <Thumbsup width={36} height={36} aria-label='좋아요' />
-                <span className='text-20'>{epigramData.likeCount}</span>
+                <span className='text-20'>{likeCount}</span>
               </button>
             </div>
             {epigramData.referenceUrl && (
-              <div className='flex-center h-48 w-200'>
-                <button className='flex-center h-full w-full rounded-[100px] bg-line-100 text-20 font-medium text-gray-300'>
+              <div className='flex-center h-48 w-220'>
+                {/* <button className='flex-center h-full w-full rounded-[100px] bg-line-100 text-20 font-medium text-gray-300'>
                   <span>{epigramData.referenceTitle || '외부 링크'}</span>
                   <ExternalLink width={36} height={36} aria-label='외부링크' />
-                </button>
+                </button> */}
+                <a
+                  href={epigramData.referenceUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='flex-center h-full w-full rounded-[100px] bg-line-100 text-20 font-medium text-gray-300 shadow-md transition-all duration-100 ease-in-out hover:shadow-sm active:translate-y-0.5 active:transform active:shadow-inner'
+                >
+                  <span>{epigramData.referenceTitle || '외부 링크'}</span>
+                  <ExternalLink width={36} height={36} aria-label='외부링크' />
+                </a>
               </div>
             )}
           </div>

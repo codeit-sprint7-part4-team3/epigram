@@ -86,6 +86,7 @@ export default function Feed() {
               content={card.content}
               author={card.author}
               tags={card.tags.map(tag => `#${tag} `)}
+              variant='feed'
             />
           ))}
         </div>

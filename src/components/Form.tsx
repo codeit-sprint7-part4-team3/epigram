@@ -107,7 +107,7 @@ function Input({ className, name, variant = 'fill', ...rest }: InputProps) {
   const inputClass = twMerge(
     baseInputStyle,
     inputStyleByVariant[variant],
-    cn({ 'border border-solid border-error error': !!errors[name] }),
+    cn({ 'error border border-solid border-error': !!errors[name] }),
     className
   );
   const placeholder = rest.placeholder ?? name;
@@ -147,7 +147,7 @@ function PasswordInput({
     baseInputStyle,
     inputStyleByVariant[variant],
 
-    cn({ 'border border-solid border-error error': !!errors[name] }),
+    cn({ 'error border border-solid border-error': !!errors[name] }),
     className
   );
   const EyeIcon = showPassword ? (
@@ -174,6 +174,7 @@ function PasswordInput({
           placeholder={placeholder}
         />
         <button
+          type='button'
           className='absolute bottom-10 right-16 xl:bottom-20'
           onClick={togglePasswordVisibility}
         >
@@ -202,7 +203,7 @@ function TextArea({
     'resize-none',
     baseInputStyle,
     inputStyleByVariant[variant],
-    cn({ 'border border-solid border-error error': !!errors[name] }),
+    cn({ 'error border border-solid border-error': !!errors[name] }),
     className
   );
   const placeholder = rest.placeholder ?? name;
@@ -261,7 +262,7 @@ function TagInput({
   const inputClass = twMerge(
     baseInputStyle,
     inputStyleByVariant[variant],
-    cn({ 'border border-solid border-error error': !!errors[name] }),
+    cn({ 'error border border-solid border-error': !!errors[name] }),
     className
   );
 

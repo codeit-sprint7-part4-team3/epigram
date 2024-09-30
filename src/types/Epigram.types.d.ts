@@ -28,6 +28,12 @@ interface EpigramListType {
   id: Id;
 }
 
+interface CursorBasedPaginationResponse_EpigramListType {
+  totalCount: number;
+  nextCursor: number | null;
+  list: EpigramListType;
+}
+
 interface EpigramDetailType extends EpigramListType {
   isLiked?: boolean;
 }
