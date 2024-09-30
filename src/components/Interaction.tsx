@@ -4,7 +4,7 @@ import Thumbsup from '@/assets/icons/ic-thumbs-up.svg';
 import Comment, { CommentType } from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
 import DropdownMenu from '@/shared/DropdownMenu';
-import ChipList from '@/shared/Tagchip';
+import ChipList from '@/shared/TagChip';
 import UserIcon from '@/shared/UserIcon';
 import { label } from 'framer-motion/client';
 import { useCallback, useState } from 'react';
