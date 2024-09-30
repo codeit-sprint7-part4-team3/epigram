@@ -17,8 +17,16 @@ import Button from '@/components/Button';
 import { fetchEpigramDetailComments } from '@/lib/api/epigrams';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleStartClick = () => {
+    // 로그인 여부는 미들웨어에서 처리
+    router.push('/epigrams');
+  };
+
   const handlePageScroll = () => {
     const element = document.getElementById('scrollPoint');
     if (element) {
@@ -41,7 +49,7 @@ export default function Home() {
           <p className='pb-24 pt-8 text-center font-secondary text-14 font-normal md:pb-32 md:pt-24 md:text-20 xl:pb-48 xl:pt-40'>
             다른 사람들과 감정을 공유해 보세요
           </p>
-          <Button>시작하기</Button>
+          <Button onClick={handleStartClick}>시작하기</Button>
           <Button
             onClick={async () => {
               const response = await fetchEpigramDetailComments({
@@ -240,7 +248,7 @@ export default function Home() {
         <div className='transition-animation flex-center h-600 flex-col gap-y-48 md:h-528 xl:h-screen'>
           <LogoLg className='hidden xl:block' />
           <LogoMd className='block xl:hidden' />
-          <Button>시작하기</Button>
+          <Button onClick={handleStartClick}>시작하기</Button>
         </div>
       </section>
     </main>
