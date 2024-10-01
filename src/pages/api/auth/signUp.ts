@@ -7,10 +7,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const data: SignInRequestBody = req.body;
+    const data: SignUpRequestBody = req.body;
 
     try {
-      const response = await instance.post<SignInResponse>('auth/signIn', data);
+      const response = await instance.post<SignUpResponse>('auth/signUp', data);
 
       const { user, accessToken, refreshToken } = response.data;
       res.setHeader('Set-Cookie', [
@@ -29,7 +29,7 @@ export default async function handler(
           path: '/',
         }),
       ]);
-      res.status(200).json({ message: '로그인에 성공했습니다.', user });
+      res.status(200).json({ message: '회원가입에 성공했습니다.', user });
     } catch (error: any) {
       const errorStatus = error.response?.status || 500;
       res.status(errorStatus).json(error.response?.data);
