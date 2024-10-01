@@ -10,7 +10,7 @@ export default async function handler(
     const data: SignInRequestBody = req.body;
 
     try {
-      const response = await instance.post<SignInResponse>('auth/signUp', data);
+      const response = await instance.post<SignUpResponse>('auth/signUp', data);
 
       const { user, accessToken, refreshToken } = response.data;
       res.setHeader('Set-Cookie', [
