@@ -16,7 +16,7 @@ export default function CreateEpigramForm() {
     close: deactivateInput,
     open: activateInput,
   } = useToggle(false);
-  const methods: UseFormReturn<CreateEpigramBody> = useForm<CreateEpigramBody>({
+  const methods = useForm<CreateEpigramBody>({
     defaultValues: CREATE_EPIGRAM_FORM_DEFAULT_VALUES,
   });
   const { register, setValue, clearErrors, watch } = methods;

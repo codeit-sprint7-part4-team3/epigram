@@ -24,13 +24,12 @@ import {
   FieldValues,
   FormProvider,
   UseFormReturn,
-  useForm,
   useFormContext,
 } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
 interface FormProps<T extends FieldValues>
-  extends FormHTMLAttributes<HTMLFormElement> {
+  extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: T) => void;
   methods: UseFormReturn<T>;
 }
