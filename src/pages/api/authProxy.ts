@@ -1,4 +1,5 @@
 import instance from '@/api/comments/axios';
+import { allowedEndpoints } from '@/constants/apiConstants';
 import { parse } from 'cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -14,15 +15,6 @@ export default async function handler(
   }
 
   const { endpoint, method = 'GET', data = {} } = req.body;
-  const allowedEndpoints = [
-    '/users',
-    '/oauthApps',
-    '/images',
-    '/epigrams',
-    '/emotionLogs',
-    '/comments',
-    '/auth',
-  ];
 
   if (!allowedEndpoints.some(allowed => endpoint.startsWith(allowed))) {
     return res.status(403).json({ message: 'Forbidden endpoint' });
