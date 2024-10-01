@@ -1,5 +1,13 @@
 import EditEpigramForm from '@/pages/feed/[id]/editepigram/components/EditEpigramForm';
 
+const DEFAULT_EPIGRAM_BODY: EpigramBaseBody = {
+  content: '룰루랄라',
+  author: '랄랄랄라',
+  tags: ['란', '랄', '루'],
+  referenceTitle: '',
+  referenceUrl: '',
+};
+
 export default function EditEpigramPage() {
   return (
     <section className='mx-auto mb-30 mt-24 w-312 md:mt-32 md:w-384 xl:mt-56 xl:w-640'>
@@ -10,8 +18,3 @@ export default function EditEpigramPage() {
     </section>
   );
 }
-const DEFAULT_EPIGRAM_BODY = {
-  content: '룰루랄라',
-  author: '랄랄랄라',
-  tags: ['란', '랄', '루'],
-};

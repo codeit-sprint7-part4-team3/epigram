@@ -17,7 +17,7 @@ export default function EditEpigramForm({
 }: {
   epigramBody: EpigramBaseBody;
 }) {
-  const { content, ...rest } = epigramBody;
+  const { content = '', ...rest } = epigramBody;
   const transformedEpigramBody: EpigramWithEpigramContent = {
     ...rest,
     epigramContent: content,

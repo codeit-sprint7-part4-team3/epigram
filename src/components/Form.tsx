@@ -45,7 +45,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant?: InputVariant;
 }
 interface TagInputProps extends InputProps {
-  initialTags?: TagName[];
+  initialTags?: EpigramTagName[];
 }
 interface BaseProps {
   children: ReactNode | undefined;
@@ -270,7 +270,7 @@ function TagInput({
     clearErrors,
     formState: { errors },
   } = useFormContext();
-  const [tags, setTags] = useState<TagName[]>([...initialTags]);
+  const [tags, setTags] = useState<EpigramTagName[]>([...initialTags]);
   useEffect(() => {
     setValue(name, tags);
   });
@@ -281,7 +281,7 @@ function TagInput({
     className
   );
 
-  const handleAddTag = (newTag: TagName) => {
+  const handleAddTag = (newTag: EpigramTagName) => {
     if (tags.includes(newTag)) {
       setError('tags', {
         type: 'duplicationCheck',
