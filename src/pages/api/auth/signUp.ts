@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const data: SignInRequestBody = req.body;
+    const data: SignUpRequestBody = req.body;
 
     try {
       const response = await instance.post<SignUpResponse>('auth/signUp', data);
