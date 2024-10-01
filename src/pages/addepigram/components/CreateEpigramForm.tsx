@@ -33,10 +33,9 @@ export default function CreateEpigramForm() {
     if (isDirectInputSelected && transformedData.authorInput) {
       transformedData.author = transformedData.authorInput;
     }
-    delete data.authorInput;
+    delete transformedData.authorInput;
     delete transformedData.epigramContent;
 
-    console.log('에피그램 생성 폼 제출');
     console.log(transformedData);
   };
 
