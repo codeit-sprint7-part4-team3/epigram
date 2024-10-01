@@ -31,8 +31,6 @@ export default async function handler(
       ]);
       res.status(200).json({ message: '로그인에 성공했습니다.', user });
     } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.message || error.message || 'Unknown error';
       const errorStatus = error.response?.status || 500;
       res.status(errorStatus).json(error.response?.data);
     }

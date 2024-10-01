@@ -17,9 +17,4 @@ const signupUser = async (data: SignUpRequestBody) => {
   return response.data;
 };
 
-const refreshToken = async (refreshToken: RefreshToken) => {
-  const response = await instance.post('auth/refresh-token', refreshToken);
-  return response.data;
-};
-
-export { signinUser, signupUser, refreshToken };
+export { signinUser, signupUser };
