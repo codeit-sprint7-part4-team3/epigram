@@ -1,6 +1,14 @@
 import Form, { type InputVariant } from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, UseFormReturn, useForm } from 'react-hook-form';
+
+const CREATE_EPIGRAM_FORM_DEFAULT_VALUES: CreateEpigramBody = {
+  tags: [],
+  referenceUrl: '',
+  referenceTitle: '',
+  author: '',
+  content: '',
+};
 
 export default function CreateEpigramForm() {
   const {
@@ -8,8 +16,10 @@ export default function CreateEpigramForm() {
     close: deactivateInput,
     open: activateInput,
   } = useToggle(false);
-  const methods = useForm();
-  const { setValue, clearErrors } = methods;
+  const methods: UseFormReturn<CreateEpigramBody> = useForm<CreateEpigramBody>({
+    defaultValues: CREATE_EPIGRAM_FORM_DEFAULT_VALUES,
+  });
+  const { register, setValue, clearErrors, watch } = methods;
   return (
     <Form
       onSubmit={(data: CreateEpigramBody) => {
@@ -49,8 +59,8 @@ export default function CreateEpigramForm() {
             className='flex cursor-pointer items-center gap-8'
             onClick={() => {
               deactivateInput();
-              setValue('author', '알 수 없음');
               clearErrors('author');
+              setValue('author', '알 수 없음');
             }}
           >
             <Form.RadioInput name='author' value='알 수 없음' />알 수 없음
@@ -59,8 +69,8 @@ export default function CreateEpigramForm() {
             className='flex cursor-pointer items-center gap-8'
             onClick={() => {
               deactivateInput();
-              setValue('author', '본인');
               clearErrors('author');
+              setValue('author', '본인');
             }}
           >
             <Form.RadioInput name='author' value='본인' />
@@ -89,6 +99,7 @@ export default function CreateEpigramForm() {
           name='referenceUrl'
           placeholder='URL (ex. https://www.website.com)'
           variant={INPUT_VARIANT}
+          disabled={!watch('referenceTitle')}
         />
       </Form.Label>
       <Form.Label className='mb-40 xl:mb-54'>

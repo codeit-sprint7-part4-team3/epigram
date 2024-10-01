@@ -21,16 +21,20 @@ import {
 } from 'react';
 import {
   Controller,
+  FieldValues,
   FormProvider,
+  UseFormReturn,
   useForm,
   useFormContext,
 } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
-interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
-  onSubmit: (data: any) => void;
-  methods: ReturnType<typeof useForm>;
+interface FormProps<T extends FieldValues>
+  extends FormHTMLAttributes<HTMLFormElement> {
+  onSubmit: (data: T) => void;
+  methods: UseFormReturn<T>;
 }
+
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 export type InputVariant = 'fill' | 'outlined';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -52,13 +56,13 @@ interface BaseProps {
 interface SubmitProps extends BaseProps {
   size?: ButtonSize;
 }
-export default function Form({
+export default function Form<T extends FieldValues>({
   onSubmit,
   id,
   className,
   children,
   methods,
-}: FormProps) {
+}: FormProps<T>) {
   const formClass = cn('w-full', className);
 
   return (
