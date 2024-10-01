@@ -10,7 +10,10 @@ const signinUser = async (data: SignInRequestBody) => {
 };
 
 const signupUser = async (data: SignUpRequestBody) => {
-  const response = await instance.post('auth/signUp', data);
+  const response = await axios.post('/api/auth/signUp', data, {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  });
   return response.data;
 };
 

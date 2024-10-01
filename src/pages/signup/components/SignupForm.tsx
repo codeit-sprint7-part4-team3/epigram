@@ -10,7 +10,7 @@ export default function SignupForm() {
   const { setError } = methods;
   const mutation = useMutation(signupUser, {
     onSuccess: data => {
-      router.push('/signin');
+      router.push('/');
     },
     onError: (error: any) => {
       if (error.response.status === 500) {
@@ -24,7 +24,6 @@ export default function SignupForm() {
   return (
     <Form
       onSubmit={(data: SignUpRequestBody) => {
-        console.log(data);
         mutation.mutate(data);
       }}
       methods={methods}
