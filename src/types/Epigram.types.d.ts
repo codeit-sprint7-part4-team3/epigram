@@ -10,11 +10,11 @@ interface EpigramTag {
 }
 
 interface EpigramBaseBody {
-  tags: EpigramTag[];
-  referenceUrl?: UrlType;
-  referenceTitle?: EpigramReferenceTitle;
-  author: EpigramAuthor;
   content: EpigramContent;
+  author: EpigramAuthor;
+  referenceTitle?: EpigramReferenceTitle;
+  referenceUrl?: UrlType;
+  tags: EpigramTag[];
 }
 
 interface EpigramListType {

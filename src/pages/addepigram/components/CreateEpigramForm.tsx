@@ -3,11 +3,11 @@ import useToggle from '@/hooks/useToggle';
 import { Controller, UseFormReturn, useForm } from 'react-hook-form';
 
 const CREATE_EPIGRAM_FORM_DEFAULT_VALUES: CreateEpigramBody = {
-  tags: [],
-  referenceUrl: '',
-  referenceTitle: '',
-  author: '',
   content: '',
+  author: '',
+  referenceTitle: '',
+  referenceUrl: '',
+  tags: [],
 };
 
 export default function CreateEpigramForm() {
@@ -28,12 +28,13 @@ export default function CreateEpigramForm() {
       }}
       methods={methods}
     >
+      <button>hi</button>
       <Form.Label className='mb-40 xl:mb-54'>
         <Form.LabelHeader className='mb-8 font-semibold xl:mb-24'>
           내용<span className='ml-4 font-medium text-error xl:ml-6'>*</span>
         </Form.LabelHeader>
         <Form.TextArea
-          name='epigramContent'
+          name='content'
           className='min-h-132 xl:min-h-148'
           placeholder='500자 이내로 입력해주세요.'
           maxLength={501}
