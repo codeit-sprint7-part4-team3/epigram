@@ -1,12 +1,12 @@
 import { DeleteReaction, PostReaction } from '@/api/reaction/fetchReaction';
 import ExternalLink from '@/assets/icons/ic-external-link.svg';
 import Thumbsup from '@/assets/icons/ic-thumbs-up.svg';
+import { useLikeToggle } from '@/hooks/useLikeToggle';
 import Comment, { CommentType } from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
 import DropdownMenu from '@/shared/DropdownMenu';
 import ChipList from '@/shared/TagChip';
 import UserIcon from '@/shared/UserIcon';
-import { label } from 'framer-motion/client';
 import { useCallback, useState } from 'react';
 
 interface InteractionProps {
@@ -24,25 +24,11 @@ export default function Interaction({
   loadMoreComments,
   hasMoreComments,
 }: InteractionProps) {
-  const [likeCount, setLikeCount] = useState(epigramData.likeCount);
-  const [isLiked, setIsLiked] = useState(epigramData.isLiked);
-
-  const toggleLike = useCallback(async () => {
-    try {
-      if (isLiked) {
-        const response = await DeleteReaction(epigramData.id);
-        setLikeCount(response.likeCount);
-        console.log(epigramData.likeCount);
-        setIsLiked(false);
-      } else {
-        const response = await PostReaction(epigramData.id);
-        setLikeCount(response.likeCount);
-        setIsLiked(true);
-      }
-    } catch (error) {
-      console.error('Error toggling like:', error);
-    }
-  }, [epigramData.id, isLiked]);
+  const { likeCount, isLiked, toggleLike } = useLikeToggle(
+    epigramData.likeCount,
+    epigramData.isLiked,
+    epigramData.id
+  );
 
   const handleEdit = () => {
     console.log('수정하기 눌렀다');
@@ -59,8 +45,8 @@ export default function Interaction({
   return (
     <div className='flex min-h-screen flex-col'>
       <header className='flex-center w-full'>
-        <div className='flex w-640 flex-col gap-32 py-40'>
-          <div className='flex w-640 justify-between'>
+        <div className='flex w-312 flex-col gap-16 py-40 md:w-384 lg:w-640 lg:gap-32'>
+          <div className='flex w-312 justify-between md:w-384 lg:w-640'>
             <ChipList>
               {epigramData.tags.map(tag => (
                 <ChipList.Item key={tag.id} name={`#${tag.name}`} />
