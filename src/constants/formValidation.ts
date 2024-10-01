@@ -24,7 +24,7 @@ const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PASSWORD_PATTERN = /^[A-Za-z\d!@#$%^&*]+$/;
 const MAX_NICKNAME_LENGTH = 20;
 const MIN_PASSWORD_LENGTH = 8;
-const MAX_EPIGRAM_CONTENT_LENGTH = 500;
+export const MAX_EPIGRAM_CONTENT_LENGTH: number = 500;
 
 const generateRequiredMessage = (name: Field): string => {
   return `${josa(FIELD_DICTIONARY[name], '을/를')} 입력해주세요.`;
@@ -69,7 +69,7 @@ const AUTHOR_RULES: RegisterOptions = {
 };
 const REFERENCE_URL_RULES: RegisterOptions = {
   validate: value =>
-    value.length === 0 || isValidURL(value) || '올바른 URL 양식이 아닙니다.',
+    !value || isValidURL(value) || '올바른 URL 양식이 아닙니다.',
 };
 
 export const PASSWORD_CONFIRM_RULES = (

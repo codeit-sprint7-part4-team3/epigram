@@ -1,20 +1,24 @@
 import Form, { type InputVariant } from '@/components/Form';
-import useToggle from '@/hooks/useToggle';
-import { Controller, UseFormReturn, useForm } from 'react-hook-form';
+import { MAX_EPIGRAM_CONTENT_LENGTH } from '@/constants/formValidation';
+import { CreateEpigram } from '@/lib/api/epigrams';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 
 const DIRECT_INPUT = '직접 입력';
 
 const CREATE_EPIGRAM_FORM_DEFAULT_VALUES: EpigramWithEpigramContent = {
   epigramContent: '',
   author: DIRECT_INPUT,
-  referenceTitle: '',
-  referenceUrl: '',
+  referenceTitle: undefined,
+  referenceUrl: undefined,
   tags: [],
+  authorInput: '',
 };
 
 interface EpigramWithEpigramContent extends Omit<EpigramBaseBody, 'content'> {
-  epigramContent?: EpigramContent;
-  authorInput?: string;
+  epigramContent: EpigramContent;
+  authorInput: string;
 }
 
 export default function CreateEpigramForm() {
@@ -22,26 +26,47 @@ export default function CreateEpigramForm() {
     defaultValues: CREATE_EPIGRAM_FORM_DEFAULT_VALUES,
   });
   const { watch, register } = methods;
+  const router = useRouter();
+  const mutation = useMutation(CreateEpigram, {
+    onSuccess: (data: EpigramListType) => {
+      router.push(`/feed/${data.id}`);
+    },
+    onError: (error: any) => {
+      console.error(error);
+    },
+  });
+
   const selectedAuthor = methods.watch('author');
   const isDirectInputSelected = selectedAuthor === DIRECT_INPUT;
 
   const handleSubmit = async (data: EpigramWithEpigramContent) => {
-    const transformedData = {
-      ...data,
-      content: data.epigramContent,
-    };
-    if (isDirectInputSelected && transformedData.authorInput) {
-      transformedData.author = transformedData.authorInput;
-    }
-    delete transformedData.authorInput;
-    delete transformedData.epigramContent;
+    const {
+      epigramContent,
+      authorInput,
+      tags,
+      author,
+      referenceTitle,
+      referenceUrl,
+    } = data;
 
+    const transformedData: CreateEpigramBody = {
+      content: epigramContent,
+      tags,
+      author,
+    };
+    if (isDirectInputSelected && authorInput) {
+      transformedData.author = authorInput;
+    }
+    if (referenceTitle && referenceUrl) {
+      transformedData.referenceTitle = referenceTitle;
+      transformedData.referenceUrl = referenceUrl;
+    }
     console.log(transformedData);
+    mutation.mutate(transformedData);
   };
 
   return (
     <Form onSubmit={handleSubmit} methods={methods}>
-      <button>hi</button>
       <Form.Label className='mb-40 xl:mb-54'>
         <Form.LabelHeader className='mb-8 font-semibold xl:mb-24'>
           내용<span className='ml-4 font-medium text-error xl:ml-6'>*</span>
@@ -51,6 +76,7 @@ export default function CreateEpigramForm() {
           className='min-h-132 xl:min-h-148'
           placeholder='500자 이내로 입력해주세요.'
           variant={INPUT_VARIANT}
+          maxLength={MAX_EPIGRAM_CONTENT_LENGTH + 1}
         />
       </Form.Label>
       <div className='mb-40 xl:mb-54'>

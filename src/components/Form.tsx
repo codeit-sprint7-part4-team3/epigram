@@ -316,6 +316,7 @@ function TagInput({
   };
 
   const [inputValue, setInputValue] = useState<string>('');
+
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
     if (e.nativeEvent.isComposing) return;
     if (e.key === 'Enter' && inputValue.trim()) {
