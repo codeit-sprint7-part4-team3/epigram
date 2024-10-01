@@ -226,21 +226,33 @@ function TextArea({
   );
 }
 
-function RadioInput({ className, name, ...rest }: InputProps) {
-  const { register } = useFormContext();
+function RadioInput({ className, name, value }: InputProps) {
+  const { control } = useFormContext();
 
-  const inputClass = twMerge('hidden', className);
+  const radioClass = twMerge(
+    'flex cursor-pointer items-center gap-8',
+    className
+  );
 
   return (
-    <>
-      <input
-        {...register(name)}
-        className={inputClass}
-        {...rest}
-        type='radio'
-      />
-      <span className='custom-radio'></span>
-    </>
+    <Controller
+      name={name}
+      control={control}
+      rules={VALIDATION_RULES[name]}
+      render={({ field }) => (
+        <label className={radioClass}>
+          <input
+            {...field}
+            type='radio'
+            value={value}
+            checked={field.value === value}
+            onChange={field.onChange}
+          />
+          <span className='custom-radio'></span>
+          {value}
+        </label>
+      )}
+    />
   );
 }
 
@@ -272,7 +284,7 @@ function TagInput({
   const handleAddTag = (newTag: TagName) => {
     if (tags.includes(newTag)) {
       setError('tags', {
-        type: 'manual',
+        type: 'duplicationCheck',
         message: '이미 작성된 태그입니다.',
       });
       throw new Error('이미 작성된 태그입니다.');
@@ -323,7 +335,7 @@ function TagInput({
         name={name}
         control={control}
         defaultValue={initialTags}
-        render={({ field, fieldState: { error } }) => (
+        render={({ fieldState: { error } }) => (
           <>
             <input
               type='text'
@@ -358,15 +370,17 @@ function TagInput({
 }
 
 function Submit({ className, children, size = 'md' }: SubmitProps) {
-  const { formState } = useFormContext();
-
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const hasErrors = Object.keys(errors).length > 0;
   return (
     <Button
       type='submit'
       className={className}
       size={size}
       variant='wide'
-      disabled={!formState.isValid}
+      disabled={hasErrors}
     >
       {children}
     </Button>

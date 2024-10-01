@@ -2,43 +2,55 @@ import Form, { type InputVariant } from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
 import { Controller, UseFormReturn, useForm } from 'react-hook-form';
 
-const CREATE_EPIGRAM_FORM_DEFAULT_VALUES: CreateEpigramBody = {
-  content: '',
-  author: '',
+const DIRECT_INPUT = '직접 입력';
+
+const CREATE_EPIGRAM_FORM_DEFAULT_VALUES: EpigramWithEpigramContent = {
+  epigramContent: '',
+  author: DIRECT_INPUT,
   referenceTitle: '',
   referenceUrl: '',
   tags: [],
 };
 
+interface EpigramWithEpigramContent extends Omit<EpigramBaseBody, 'content'> {
+  epigramContent?: EpigramContent;
+  authorInput?: string;
+}
+
 export default function CreateEpigramForm() {
-  const {
-    isOpen: isInputActive,
-    close: deactivateInput,
-    open: activateInput,
-  } = useToggle(false);
-  const methods = useForm<CreateEpigramBody>({
+  const methods = useForm<EpigramWithEpigramContent>({
     defaultValues: CREATE_EPIGRAM_FORM_DEFAULT_VALUES,
   });
-  const { register, setValue, clearErrors, watch } = methods;
+  const { watch, register } = methods;
+  const selectedAuthor = methods.watch('author');
+  const isDirectInputSelected = selectedAuthor === DIRECT_INPUT;
+
+  const handleSubmit = async (data: EpigramWithEpigramContent) => {
+    const transformedData = {
+      ...data,
+      content: data.epigramContent,
+    };
+    if (isDirectInputSelected && transformedData.authorInput) {
+      transformedData.author = transformedData.authorInput;
+    }
+    delete data.authorInput;
+    delete transformedData.epigramContent;
+
+    console.log('에피그램 생성 폼 제출');
+    console.log(transformedData);
+  };
+
   return (
-    <Form
-      onSubmit={(data: CreateEpigramBody) => {
-        console.log('에피그램 생성 폼 제출');
-        console.log(data);
-      }}
-      methods={methods}
-    >
+    <Form onSubmit={handleSubmit} methods={methods}>
       <button>hi</button>
       <Form.Label className='mb-40 xl:mb-54'>
         <Form.LabelHeader className='mb-8 font-semibold xl:mb-24'>
           내용<span className='ml-4 font-medium text-error xl:ml-6'>*</span>
         </Form.LabelHeader>
         <Form.TextArea
-          name='content'
+          name='epigramContent'
           className='min-h-132 xl:min-h-148'
           placeholder='500자 이내로 입력해주세요.'
-          maxLength={501}
-          required
           variant={INPUT_VARIANT}
         />
       </Form.Label>
@@ -47,42 +59,19 @@ export default function CreateEpigramForm() {
           저자<span className='ml-4 font-medium text-error xl:ml-6'>*</span>
         </Form.LabelHeader>
         <div className='mb-12 flex gap-16 text-base font-medium leading-26 text-black-600 xl:mb-16 xl:gap-24 xl:text-xl xl:leading-32'>
-          <Form.Label
-            className='flex cursor-pointer items-center gap-8'
-            onClick={() => {
-              activateInput();
-            }}
-          >
-            <Form.RadioInput name='author' />
-            직접 입력
-          </Form.Label>
-          <Form.Label
-            className='flex cursor-pointer items-center gap-8'
-            onClick={() => {
-              deactivateInput();
-              clearErrors('author');
-              setValue('author', '알 수 없음');
-            }}
-          >
-            <Form.RadioInput name='author' value='알 수 없음' />알 수 없음
-          </Form.Label>
-          <Form.Label
-            className='flex cursor-pointer items-center gap-8'
-            onClick={() => {
-              deactivateInput();
-              clearErrors('author');
-              setValue('author', '본인');
-            }}
-          >
-            <Form.RadioInput name='author' value='본인' />
-            본인
-          </Form.Label>
+          <Form.RadioInput name='author' value={DIRECT_INPUT} />
+          <Form.RadioInput name='author' value={'알 수 없음'} />
+          <Form.RadioInput name='author' value={'본인'} />
         </div>
         <Form.Input
-          name='author'
           placeholder='저자 이름 입력'
-          disabled={!isInputActive}
+          disabled={!isDirectInputSelected}
           variant={INPUT_VARIANT}
+          {...register('authorInput', {
+            required: isDirectInputSelected
+              ? '저자 이름을 입력해 주세요'
+              : false,
+          })}
         />
       </div>
       <Form.Label className='mb-8 xl:mb-16'>
