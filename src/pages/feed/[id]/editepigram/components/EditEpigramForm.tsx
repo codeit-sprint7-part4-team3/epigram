@@ -7,23 +7,28 @@ import { useMutation } from 'react-query';
 
 const DIRECT_INPUT = '직접 입력';
 
-const CREATE_EPIGRAM_FORM_DEFAULT_VALUES: EpigramWithEpigramContent = {
-  epigramContent: '',
-  author: DIRECT_INPUT,
-  referenceTitle: undefined,
-  referenceUrl: undefined,
-  tags: [],
-  authorInput: '',
-};
-
 interface EpigramWithEpigramContent extends Omit<EpigramBaseBody, 'content'> {
   epigramContent: EpigramContent;
   authorInput: string;
 }
 
-export default function CreateEpigramForm() {
+export default function EditEpigramForm({
+  epigramBody,
+}: {
+  epigramBody: EpigramBaseBody;
+}) {
+  const { content, ...rest } = epigramBody;
+  const transformedEpigramBody: EpigramWithEpigramContent = {
+    ...rest,
+    epigramContent: content,
+    authorInput: '',
+  };
+  if (!['본인', '알 수 없음'].includes(rest.author)) {
+    transformedEpigramBody.authorInput = transformedEpigramBody.author;
+    transformedEpigramBody.author = DIRECT_INPUT;
+  }
   const methods = useForm<EpigramWithEpigramContent>({
-    defaultValues: CREATE_EPIGRAM_FORM_DEFAULT_VALUES,
+    defaultValues: transformedEpigramBody,
   });
   const { watch, register } = methods;
   const router = useRouter();
@@ -126,9 +131,10 @@ export default function CreateEpigramForm() {
           name='tags'
           variant={INPUT_VARIANT}
           placeholder='입력하여 태그 작성 (최대 10자)'
+          initialTags={epigramBody.tags}
         />
       </Form.Label>
-      <Form.Submit>작성 완료</Form.Submit>
+      <Form.Submit>수정 완료</Form.Submit>
     </Form>
   );
 }

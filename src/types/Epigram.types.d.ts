@@ -2,10 +2,10 @@ type EpigramContent = string;
 type EpigramAuthor = string;
 type EpigramReferenceTitle = string;
 type LikeCount = number;
-type TagName = string;
+type EpigramTagName = string;
 
 interface EpigramTag {
-  name: TagName;
+  name: EpigramTagName;
   id: Id;
 }
 
@@ -14,7 +14,7 @@ interface EpigramBaseBody {
   author: EpigramAuthor;
   referenceTitle?: EpigramReferenceTitle;
   referenceUrl?: UrlType;
-  tags: EpigramTag[];
+  tags: EpigramTagName[];
 }
 
 interface EpigramListType {
