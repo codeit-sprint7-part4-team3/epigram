@@ -6,9 +6,11 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 const DIRECT_INPUT = '직접 입력';
+const AUTHOR_UNKNOWN = '알 수 없음';
+const AUTHOR_SELF = '본인';
 
 interface EpigramWithEpigramContent extends Omit<EpigramBaseBody, 'content'> {
-  epigramContent: string;
+  epigramContent: EpigramContent;
   authorInput: string;
 }
 
@@ -24,7 +26,7 @@ export default function EditEpigramForm({ epigramBody }: Props) {
     authorInput: '',
     tags,
   };
-  if (!['본인', '알 수 없음'].includes(rest.author)) {
+  if (![AUTHOR_UNKNOWN, AUTHOR_SELF].includes(rest.author)) {
     transformedEpigramBody.authorInput = transformedEpigramBody.author;
     transformedEpigramBody.author = DIRECT_INPUT;
   }
@@ -92,8 +94,8 @@ export default function EditEpigramForm({ epigramBody }: Props) {
         </Form.LabelHeader>
         <div className='mb-12 flex gap-16 text-base font-medium leading-26 text-black-600 xl:mb-16 xl:gap-24 xl:text-xl xl:leading-32'>
           <Form.RadioInput name='author' value={DIRECT_INPUT} />
-          <Form.RadioInput name='author' value={'알 수 없음'} />
-          <Form.RadioInput name='author' value={'본인'} />
+          <Form.RadioInput name='author' value={AUTHOR_UNKNOWN} />
+          <Form.RadioInput name='author' value={AUTHOR_SELF} />
         </div>
         <Form.Input
           placeholder='저자 이름 입력'
