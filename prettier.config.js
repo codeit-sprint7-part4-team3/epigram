@@ -13,7 +13,7 @@ module.exports = {
     'prettier-plugin-tailwindcss',
   ],
   tailwindConfig: './tailwind.config.ts',
-  tailwindFunctions: ['clsx', 'tw'],
+  tailwindFunctions: ['clsx', 'twMerge'],
   importOrder: ['^@core/(.*)$', '^@server/(.*)$', '^@ui/(.*)$', '^[./]'],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,

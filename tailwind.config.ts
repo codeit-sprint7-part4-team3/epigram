@@ -33,6 +33,7 @@ const colorPalette: Record<
     200: '#C4C4C4',
     300: '#ABABAB',
     400: '#919191',
+    500: '#ABB8CE',
   },
   illust: {
     yellow: '#FBC85B',
@@ -54,6 +55,7 @@ const colorPalette: Record<
   line: {
     100: '#F2F2F2',
     200: '#CFDBEA',
+    300: '#E0E0E0',
   },
   background: {
     100: '#F5F7FA',
@@ -67,7 +69,7 @@ const colorPalette: Record<
   },
 };
 
-const px0_10 = Array.from(Array(11)).reduce(
+const px0_20 = Array.from(Array(21)).reduce(
   (acc, _, i) => {
     acc[i] = `${i}px`;
     return acc;
@@ -97,11 +99,12 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/shared/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/layouts/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
-      borderWidth: px0_10,
       borderRadius: px0_100,
+      borderWidth: px0_20,
       fontSize: px0_100,
       lineHeight: px0_100,
       minWidth: px0_1000,
@@ -109,7 +112,7 @@ const config: Config = {
       spacing: px0_1000,
       margin: px0_100,
       padding: px0_100,
-      gap: px0_10,
+      gap: px0_20,
       colors: colorPalette,
       fontFamily: {
         primary: ['Pretendard', 'sans-serif'],

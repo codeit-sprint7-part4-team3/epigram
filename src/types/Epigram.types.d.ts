@@ -4,13 +4,13 @@ type EpigramReferenceTitle = string;
 type LikeCount = number;
 type TagName = string;
 
-interface Tag {
+interface EpigramTag {
   name: TagName;
   id: Id;
 }
 
 interface EpigramBaseBody {
-  tags: Tag[];
+  tags: EpigramTag[];
   referenceUrl?: UrlType;
   referenceTitle?: EpigramReferenceTitle;
   author: EpigramAuthor;
@@ -19,13 +19,19 @@ interface EpigramBaseBody {
 
 interface EpigramListType {
   likeCount: LikeCount;
-  tags: Tag[];
+  tags: EpigramTag[];
   writerId: Id;
   referenceUrl: UrlType | null;
   referenceTitle: EpigramReferenceTitle | null;
   author: EpigramAuthor;
   content: EpigramContent;
   id: Id;
+}
+
+interface CursorBasedPaginationResponse_EpigramListType {
+  totalCount: number;
+  nextCursor: number | null;
+  list: EpigramListType;
 }
 
 interface EpigramDetailType extends EpigramListType {

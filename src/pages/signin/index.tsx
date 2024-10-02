@@ -1,9 +1,10 @@
-import SigninForm from '@/pages/signin/components/SigninForm';
+import AuthPageLayout from '@/layouts/AuthPagegLayout';
+import SignInForm from '@/pages/signin/components/SignInForm';
 
-export default function LoginPage() {
+export default function SignInPage() {
   return (
-    <div>
-      <SigninForm />
-    </div>
+    <AuthPageLayout page='signin'>
+      <SignInForm />
+    </AuthPageLayout>
   );
 }
