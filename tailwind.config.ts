@@ -62,6 +62,7 @@ const colorPalette: Record<
   etc: {
     emotion: {
       background: '#F3F5F8',
+      textNotSelected: '#999999',
     },
   },
 };

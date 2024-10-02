@@ -52,8 +52,10 @@ export default function EmotionCard({
   const selectedBorder = isSelected ? borderBase + borderColor : '';
 
   const padding = isSelected ? 'p-9 md:p-13 xl:p-20' : 'p-12 md:p-16 xl:p-24';
-
   const backgroundColor = isSelected ? '' : 'bg-etc-emotion-background';
+  const textColor = isSelected
+    ? 'text-illust-sub-blue01'
+    : 'text-etc-emotion-textNotSelected';
 
   const handleClick = () => {
     handleCardClick(emotionType);
@@ -65,11 +67,15 @@ export default function EmotionCard({
       onClick={handleClick}
     >
       <div
-        className={`box-border h-56 w-56 md:h-64 md:w-64 xl:h-96 xl:w-96 ${padding} ${selectedBorder} rounded-2xl ${backgroundColor}`}
+        className={`box-border w-56 md:w-64 xl:w-96 ${padding} ${selectedBorder} rounded-2xl ${backgroundColor}`}
       >
         {emotionData.render}
       </div>
-      <p className={`text-center`}>{emotionData.name}</p>
+      <p
+        className={`text-center font-primary text-12 font-semibold md:text-14 xl:text-24 ${textColor}`}
+      >
+        {emotionData.name}
+      </p>
     </div>
   );
 }
