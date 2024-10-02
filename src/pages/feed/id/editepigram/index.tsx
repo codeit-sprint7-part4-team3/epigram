@@ -1,4 +1,4 @@
-import EditEpigramForm from '@/pages/feed/[id]/editepigram/components/EditEpigramForm';
+import EditEpigramForm from '@/pages/feed/id/editepigram/components/EditEpigramForm';
 
 const DEFAULT_EPIGRAM_BODY: EpigramBaseBody = {
   content: '룰루랄라',

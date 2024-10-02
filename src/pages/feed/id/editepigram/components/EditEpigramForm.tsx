@@ -8,20 +8,21 @@ import { useMutation } from 'react-query';
 const DIRECT_INPUT = '직접 입력';
 
 interface EpigramWithEpigramContent extends Omit<EpigramBaseBody, 'content'> {
-  epigramContent: EpigramContent;
+  epigramContent: string;
   authorInput: string;
 }
 
-export default function EditEpigramForm({
-  epigramBody,
-}: {
+interface Props {
   epigramBody: EpigramBaseBody;
-}) {
-  const { content = '', ...rest } = epigramBody;
+}
+
+export default function EditEpigramForm({ epigramBody }: Props) {
+  const { content = '', tags = [], ...rest } = epigramBody || {};
   const transformedEpigramBody: EpigramWithEpigramContent = {
     ...rest,
     epigramContent: content,
     authorInput: '',
+    tags,
   };
   if (!['본인', '알 수 없음'].includes(rest.author)) {
     transformedEpigramBody.authorInput = transformedEpigramBody.author;
@@ -131,7 +132,7 @@ export default function EditEpigramForm({
           name='tags'
           variant={INPUT_VARIANT}
           placeholder='입력하여 태그 작성 (최대 10자)'
-          initialTags={epigramBody.tags}
+          initialTags={transformedEpigramBody.tags}
         />
       </Form.Label>
       <Form.Submit>수정 완료</Form.Submit>
