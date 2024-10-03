@@ -30,6 +30,7 @@ export default function Interaction({
     epigramData.id
   );
 
+  console.log('data:::::::', epigramData);
   const handleEdit = () => {
     console.log('수정하기 눌렀다');
   };

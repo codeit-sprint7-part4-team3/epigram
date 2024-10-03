@@ -1,3 +1,5 @@
+import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
+
 import axios from '../instance/axios';
 
 export interface CommentType {

@@ -1,4 +1,4 @@
-import instance from '@/api/comments/axios';
+import instance from '@/api/instance/axios';
 import { parse } from 'cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
