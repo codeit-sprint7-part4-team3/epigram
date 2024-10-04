@@ -1,7 +1,9 @@
 import Form from '@/components/Form';
 import useToggle from '@/hooks/useToggle';
+import { createComments } from '@/lib/api/comments';
 import ToggleButton from '@/shared/ToggleButton';
 import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 
 type EpigramIdOnly = Pick<CreateCommentBody, 'epigramId'>;
 interface CommentWithCommentContent extends Omit<CreateCommentBody, 'content'> {
@@ -9,6 +11,14 @@ interface CommentWithCommentContent extends Omit<CreateCommentBody, 'content'> {
 }
 
 export default function CommentForm({ epigramId }: EpigramIdOnly) {
+  const mutation = useMutation(createComments, {
+    onSuccess: data => {
+      console.log(data);
+    },
+    onError: (error: any) => {
+      console.error(error);
+    },
+  });
   const DEFAULT_COMMENT_FORM_BODY: CommentWithCommentContent = {
     commentContent: '',
     isPrivate: true,
@@ -18,20 +28,26 @@ export default function CommentForm({ epigramId }: EpigramIdOnly) {
   const methods = useForm<CommentWithCommentContent>({
     defaultValues: DEFAULT_COMMENT_FORM_BODY,
   });
-  const { setValue } = methods;
+  const { setValue, reset } = methods;
 
   const handleToggle = () => {
     setValue('isPrivate', !isPrivate);
     toggle();
   };
+  const handleSubmit = async (data: CommentWithCommentContent) => {
+    const { commentContent, isPrivate, epigramId } = data;
+
+    const transformedData: CreateCommentBody = {
+      content: commentContent,
+      isPrivate,
+      epigramId,
+    };
+
+    mutation.mutate(transformedData);
+    reset();
+  };
   return (
-    <Form
-      onSubmit={(data: CommentWithCommentContent) => {
-        console.log(data);
-        console.log('댓글 폼 제출');
-      }}
-      methods={methods}
-    >
+    <Form onSubmit={handleSubmit} methods={methods}>
       <Form.Label className='mb-8 xl:mb-16'>
         <Form.TextArea
           className='text-black h-auto max-h-500 border border-solid border-line-200 bg-transparent px-16 pb-30 pt-12 text-black-700 focus:border-black-600 md:pb-42 xl:px-16 xl:pb-60 xl:pt-12'
