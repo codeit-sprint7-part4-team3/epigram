@@ -1,4 +1,5 @@
 import Form from '@/components/Form';
+import { MAX_COMMENT_CONTENT_LENGTH } from '@/constants/formValidation';
 import useToggle from '@/hooks/useToggle';
 import { createComments } from '@/lib/api/comments';
 import ToggleButton from '@/shared/ToggleButton';
@@ -9,6 +10,8 @@ type EpigramIdOnly = Pick<CreateCommentBody, 'epigramId'>;
 interface CommentWithCommentContent extends Omit<CreateCommentBody, 'content'> {
   commentContent: CommentContent;
 }
+
+const DEFAULT_ISPRIVATE = false;
 
 export default function CommentForm({ epigramId }: EpigramIdOnly) {
   const mutation = useMutation(createComments, {
@@ -21,10 +24,10 @@ export default function CommentForm({ epigramId }: EpigramIdOnly) {
   });
   const DEFAULT_COMMENT_FORM_BODY: CommentWithCommentContent = {
     commentContent: '',
-    isPrivate: true,
+    isPrivate: DEFAULT_ISPRIVATE,
     epigramId,
   };
-  const { isOpen: isPrivate, toggle } = useToggle(true);
+  const { isOpen: isPrivate, toggle } = useToggle(DEFAULT_ISPRIVATE);
   const methods = useForm<CommentWithCommentContent>({
     defaultValues: DEFAULT_COMMENT_FORM_BODY,
   });
@@ -52,8 +55,8 @@ export default function CommentForm({ epigramId }: EpigramIdOnly) {
         <Form.TextArea
           className='text-black h-auto max-h-500 border border-solid border-line-200 bg-transparent px-16 pb-30 pt-12 text-black-700 focus:border-black-600 md:pb-42 xl:px-16 xl:pb-60 xl:pt-12'
           name='commentContent'
-          placeholder='100자 이내로 입력해주세요.'
-          maxLength={101}
+          placeholder={`${MAX_COMMENT_CONTENT_LENGTH}자 이내로 입력해주세요.`}
+          maxLength={MAX_COMMENT_CONTENT_LENGTH + 1}
           required
           variant='outlined'
         />
