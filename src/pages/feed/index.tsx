@@ -3,15 +3,54 @@ import Up from '@/assets/icons/ic-down-chevron.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
 import SortSingle from '@/assets/icons/ic-sort.svg';
 import Button from '@/components/Button';
+import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 import EpigramCard from '@/shared/EpigramCard';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import mockDataArray from '../../data/mockData';
+interface Epigram {
+  id: number;
+  content: string;
+  author: string;
+  tags: string[];
+}
+
+interface BasicQuery {
+  limit?: number;
+  cursor?: number;
+}
+
+const fetchEpigramCards = async ({ limit = 3, cursor = 0 }: BasicQuery) => {
+  try {
+    const data = await apiRequestWithAtuh({
+      endpoint: `/epigrams?limit=${limit}&cursor=${cursor}`,
+      method: 'GET',
+    });
+    console.log('응답 데이터:', data);
+
+    return data.list.map((item: any) => ({
+      id: item.id,
+      content: item.content,
+      author: item.author,
+      // tags 배열의 name 값을 추출해서 표시
+      tags: Array.isArray(item.tags)
+        ? item.tags.map((tag: any) => tag.name)
+        : [], // tags가 배열일 때만 처리, 아닐 경우 빈 배열
+    }));
+  } catch (error) {
+    console.error('에피그램 가져오기 실패:', error);
+    return [];
+  }
+};
 
 export default function Feed() {
+  const [cards, setCards] = useState<Epigram[]>([]);
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [isSingleColumn, setIsSingleColumn] = useState(true);
+  const [cursor, setCursor] = useState(0);
+
   const router = useRouter();
 
   const handleAddEpigramButtonClick = () => {
@@ -26,20 +65,20 @@ export default function Feed() {
     });
   };
 
-  const [cards, setCards] = useState<
-    { content: string; author: string; tags: string[] }[]
-  >([]);
-  const [visibleCount, setVisibleCount] = useState(6);
-  const [isSingleColumn, setIsSingleColumn] = useState(true);
-
   useEffect(() => {
-    setTimeout(() => {
-      setCards(mockDataArray);
-    }, 500);
+    const loadEpigrams = async () => {
+      const epigramData = await fetchEpigramCards({
+        limit: 10,
+        cursor,
+      });
+      setCards(epigramData);
+    };
+    loadEpigrams();
   }, []);
 
   const handleLoadMore = () => {
     setVisibleCount(prevCount => prevCount + 4);
+    setCursor(cards.length > 0 ? cards[cards.length - 1].id : 0); // 마지막 아이템의 id를 커서로 설정
   };
 
   const toggleGridLayout = () => {
