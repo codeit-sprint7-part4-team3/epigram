@@ -12,6 +12,7 @@ interface Epigram {
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [highlightTerm, setHighlightTerm] = useState<string>(''); // 추가된 상태
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [searchResult, setSearchResult] = useState<Epigram[]>([]);
   const router = useRouter();
@@ -38,8 +39,17 @@ function Search() {
       const response = await axios.get(
         `https://fe-project-epigram-api.vercel.app/7-3/epigrams?limit=10000&keyword=${encodedKeyword}`
       );
-      console.log(response);
-      setSearchResult(response.data.list);
+
+      // 검색어를 포함하는 필터링 로직 추가
+      const filteredResults = response.data.list.filter(
+        (epigram: Epigram) =>
+          epigram.content.includes(searchTerm) ||
+          epigram.author.includes(searchTerm) ||
+          epigram.tags.some(tag => tag.name.includes(searchTerm))
+      );
+
+      setSearchResult(filteredResults);
+      setHighlightTerm(searchTerm); // 검색이 실행될 때 highlightTerm을 업데이트
     }
   };
 
@@ -55,14 +65,14 @@ function Search() {
 
   return (
     <div className='mx-auto max-w-lg p-4'>
-      <div className='relative mb-4'>
+      <div className='relative mb-10'>
         <input
           type='text'
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSearch()}
           placeholder='Search...'
-          className='border-black w-full border-b-2 border-solid py-2 pr-10 focus:outline-none'
+          className='w-full border-b-4 border-solid border-blue-800 py-2 pr-10 focus:outline-none'
         />
 
         <button
@@ -75,7 +85,7 @@ function Search() {
 
       {searchHistory.length > 0 && (
         <div className='mt-4'>
-          <div className='flex items-center justify-between'>
+          <div className='mb-10 flex items-center justify-between'>
             <h3 className='text-lg font-bold'>최근 검색어</h3>
             <button
               onClick={handleClearHistory}
@@ -84,11 +94,11 @@ function Search() {
               모두 지우기
             </button>
           </div>
-          <ul className='mt-2 flex flex-wrap gap-2'>
+          <ul className='mt-2 flex flex-wrap gap-10 p-10'>
             {searchHistory.map((term, index) => (
               <li
                 key={index}
-                className='cursor-pointer rounded-full bg-gray-200 px-2 py-1 text-gray-700'
+                className='cursor-pointer rounded-full bg-gray-50 px-14 py-12 text-gray-700'
                 onClick={() => handleTagClick(term)}
               >
                 {term}
@@ -105,6 +115,7 @@ function Search() {
             content={epigram.content}
             author={epigram.author}
             tags={epigram.tags.map(tag => tag.name)} // tags 배열을 문자열 배열로 변환
+            searchTerm={highlightTerm} // highlightTerm 전달
           />
         ))}
       </div>
