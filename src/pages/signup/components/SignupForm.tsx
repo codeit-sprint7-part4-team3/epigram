@@ -10,6 +10,8 @@ export default function SignupForm() {
   const { setError } = methods;
   const mutation = useMutation(signupUser, {
     onSuccess: data => {
+      const userData = JSON.stringify(data.user);
+      sessionStorage.setItem('userData', userData);
       router.push('/');
     },
     onError: (error: any) => {
