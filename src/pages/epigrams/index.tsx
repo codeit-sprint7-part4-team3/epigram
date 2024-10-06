@@ -1,3 +1,4 @@
+import { useComments } from '@/api/comments/useComments';
 import Plus from '@/assets/icons/ic-plus.svg';
 import Button from '@/components/Button';
 import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
@@ -12,16 +13,6 @@ interface BasicQuery {
   limit?: number;
 }
 
-const commentData = {
-  epigramId: 3,
-  writer: 'User',
-  updatedAt: '2024-01-02',
-  createdAt: '2024-01-02',
-  isPrivate: true,
-  content: 'hi code it',
-  id: 3,
-};
-
 // 오늘의 에피그램 불러오기
 const fetchTodayEpigram = async () => {
   try {
@@ -30,7 +21,6 @@ const fetchTodayEpigram = async () => {
       method: 'GET',
     });
 
-    // 데이터가 배열 형태로 반환될 경우, 첫 번째 항목을 사용
     return {
       id: data.id,
       content: data.content,
@@ -41,7 +31,7 @@ const fetchTodayEpigram = async () => {
     };
   } catch (error) {
     console.error('오늘의 에피그램 가져오기 실패:', error);
-    return null; // 실패 시 null 반환
+    return null;
   }
 };
 
@@ -58,7 +48,6 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
         id: epigramCard.id,
         content: epigramCard.content,
         author: epigramCard.author,
-        // tags 배열의 name 값을 추출해서 표시
         tags: Array.isArray(epigramCard.tags)
           ? epigramCard.tags.map((tag: any) => tag.name)
           : [],
@@ -77,6 +66,14 @@ export default function Epigrams() {
   const [todayEpigram, setTodayEpigram] = useState<EpigramBaseBody | null>(
     null
   );
+
+  //최신 댓글 불러오기
+  const {
+    comments,
+    isLoading: commentsLoading,
+    loadMore: loadMoreComments,
+    hasMore: hasMoreComments,
+  } = useComments(3);
 
   useEffect(() => {
     const loadEpigrams = async () => {
@@ -135,9 +132,8 @@ export default function Epigrams() {
             최신 에피그램
           </h1>
           {cards.slice(0, visibleCount).map(card => (
-            <div className='mb-16'>
+            <div className='mb-16' key={card.id}>
               <EpigramCard
-                key={card.id}
                 content={card.content}
                 author={card.author}
                 tags={card.tags.map(tag => `#${tag} `)}
@@ -152,17 +148,25 @@ export default function Epigrams() {
             </Button>
           </div>
         </div>
+        {/* Latest comments section */}
         <div className='mt-72 xl:mt-160'>
           <h1 className='mb-16 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
             최신 댓글
           </h1>
-          <Comment data={commentData} />
-          <div className='flex-center mb-114 mt-40 md:mb-270 xl:mb-119 xl:mt-72'>
-            <Button variant='round' color='white'>
-              <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
-              최신 댓글 더보기
-            </Button>
+          <div className='mb-16'>
+            {comments.map(comment => (
+              <Comment key={comment.id} data={comment} />
+            ))}
           </div>
+          <div className='flex-center mb-114 mt-40 md:mb-270 xl:mb-119 xl:mt-72'>
+            {hasMoreComments && (
+              <Button variant='round' color='white' onClick={loadMoreComments}>
+                <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+                최신 댓글 더보기
+              </Button>
+            )}
+          </div>
+          {commentsLoading && <p>댓글을 불러오는 중입니다...</p>}
         </div>
       </div>
       <div className='fixed bottom-104 right-24 md:bottom-92 md:right-72 xl:bottom-80 xl:right-120'>
