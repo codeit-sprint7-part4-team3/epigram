@@ -1,7 +1,5 @@
 import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 
-import axios from '../instance/axios';
-
 export interface CommentType {
   id: number;
   content: string;
@@ -27,19 +25,25 @@ export const fetchComments = async (
   limit: number,
   cursor?: number
 ): Promise<CommentsResponse> => {
-  const endpoint = `epigrams/${epigramId}/comments`;
-  const fullUrl = `${axios.defaults.baseURL}${endpoint}`;
-  const params = { limit, cursor };
+  const endpoint = `/epigrams/${epigramId}/comments`;
+  const params = new URLSearchParams();
+  params.append('limit', limit.toString());
+  if (cursor !== undefined) {
+    params.append('cursor', cursor.toString());
+  }
 
   console.log('Fetching comments with:');
-  console.log('Full URL:', fullUrl);
-  console.log('Params:', params);
+  console.log('Endpoint:', endpoint);
+  console.log('Params:', params.toString());
 
   try {
-    const response = await axios.get<CommentsResponse>(endpoint, { params });
-    console.log('Response status:', response.status);
-    console.log('Response data:', response.data);
-    return response.data;
+    const response = await apiRequestWithAtuh({
+      endpoint: `${endpoint}?${params.toString()}`,
+      method: 'GET',
+    });
+
+    console.log('Response data:', response);
+    return response;
   } catch (error) {
     console.error('Error fetching comments:', error);
     throw error;

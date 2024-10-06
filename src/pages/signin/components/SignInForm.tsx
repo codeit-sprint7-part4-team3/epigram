@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 export default function SignInForm() {
-  const methods = useForm();
+  const methods = useForm<SignInRequestBody>();
   const router = useRouter();
   const { setError } = methods;
   const mutation = useMutation(signinUser, {
@@ -19,7 +19,12 @@ export default function SignInForm() {
     onError: (error: any) => {
       const errorMessage = error.response.data.message;
       const errorDetail = Object.keys(error.response.data.details)[0];
-      setError(errorDetail, { message: errorMessage });
+
+      if (['email', 'password'].includes(errorDetail)) {
+        setError(errorDetail as keyof SignInRequestBody, {
+          message: errorMessage,
+        });
+      }
     },
   });
 

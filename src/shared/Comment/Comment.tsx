@@ -73,9 +73,7 @@ export interface CommentProps {
 export default function Comment({ data }: CommentProps) {
   const isWriter = mockSignedInUserData.id === data.writer.id;
 
-  const handleUpdateClick = () => {
-    // 수정 로직
-  };
+  const handleUpdateClick = () => {};
   const handleDeleteClick = () => {
     // 삭제 로직
   };

@@ -61,6 +61,12 @@ const colorPalette: Record<
     100: '#F5F7FA',
   },
   error: '#FF6577',
+  etc: {
+    emotion: {
+      background: '#F3F5F8',
+      textNotSelected: '#999999',
+    },
+  },
 };
 
 const px0_20 = Array.from(Array(21)).reduce(
@@ -97,7 +103,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      borderRadius: px0_20,
+      borderRadius: px0_100,
       borderWidth: px0_20,
       fontSize: px0_100,
       lineHeight: px0_100,

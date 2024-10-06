@@ -8,6 +8,7 @@ import DropdownMenu from '@/shared/DropdownMenu';
 import ChipList from '@/shared/TagChip';
 import UserIcon from '@/shared/UserIcon';
 import { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface InteractionProps {
   epigramData: EpigramDetailType;
@@ -24,6 +25,7 @@ export default function Interaction({
   loadMoreComments,
   hasMoreComments,
 }: InteractionProps) {
+  const navigate = useNavigate();
   const { likeCount, isLiked, toggleLike } = useLikeToggle(
     epigramData.likeCount,
     epigramData.isLiked,
@@ -32,7 +34,7 @@ export default function Interaction({
 
   console.log('data:::::::', epigramData);
   const handleEdit = () => {
-    console.log('수정하기 눌렀다');
+    navigate(`epigram/${epigramData.id}/editEpigram`);
   };
 
   const handleDelete = () => {
