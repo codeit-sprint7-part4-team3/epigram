@@ -12,7 +12,9 @@ export default function SignInForm() {
   const mutation = useMutation(signinUser, {
     onSuccess: data => {
       // 1. 리다이렉트
-      console.log(data);
+      const userData = JSON.stringify(data.user);
+      sessionStorage.setItem('userData', userData);
+
       // 2. 유저 정보 저장
       router.push('/');
     },
