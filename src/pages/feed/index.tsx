@@ -10,13 +10,6 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface Epigram {
-  id: number;
-  content: string;
-  author: string;
-  tags: string[];
-}
-
 interface BasicQuery {
   limit?: number;
 }
@@ -49,7 +42,7 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
 };
 
 export default function Feed() {
-  const [cards, setCards] = useState<Epigram[]>([]);
+  const [cards, setCards] = useState<EpigramBaseBody[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [isSingleColumn, setIsSingleColumn] = useState(true);
   const [cursor, setCursor] = useState(0);

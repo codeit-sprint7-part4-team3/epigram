@@ -10,6 +10,7 @@ interface EpigramTag {
 }
 
 interface EpigramBaseBody {
+  id: number;
   content: EpigramContent;
   author: EpigramAuthor;
   referenceTitle?: EpigramReferenceTitle;

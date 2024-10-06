@@ -8,13 +8,6 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
-interface Epigram {
-  id: number;
-  content: string;
-  author: string;
-  tags: string[];
-}
-
 interface BasicQuery {
   limit?: number;
 }
@@ -79,9 +72,11 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
 };
 
 export default function Epigrams() {
-  const [cards, setCards] = useState<Epigram[]>([]);
+  const [cards, setCards] = useState<EpigramBaseBody[]>([]);
   const [visibleCount, setVisibleCount] = useState(3);
-  const [todayEpigram, setTodayEpigram] = useState<Epigram | null>(null);
+  const [todayEpigram, setTodayEpigram] = useState<EpigramBaseBody | null>(
+    null
+  );
 
   useEffect(() => {
     const loadEpigrams = async () => {
