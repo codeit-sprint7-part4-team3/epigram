@@ -21,16 +21,19 @@ import {
 } from 'react';
 import {
   Controller,
+  FieldValues,
   FormProvider,
-  useForm,
+  UseFormReturn,
   useFormContext,
 } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
-interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
-  onSubmit: (data: any) => void;
-  methods: ReturnType<typeof useForm>;
+interface FormProps<T extends FieldValues>
+  extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
+  onSubmit: (data: T) => void;
+  methods: UseFormReturn<T>;
 }
+
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
 export type InputVariant = 'fill' | 'outlined';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -42,7 +45,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   variant?: InputVariant;
 }
 interface TagInputProps extends InputProps {
-  initialTags?: TagName[];
+  initialTags?: EpigramTagName[];
 }
 interface BaseProps {
   children: ReactNode | undefined;
@@ -52,13 +55,13 @@ interface BaseProps {
 interface SubmitProps extends BaseProps {
   size?: ButtonSize;
 }
-export default function Form({
+export default function Form<T extends FieldValues>({
   onSubmit,
   id,
   className,
   children,
   methods,
-}: FormProps) {
+}: FormProps<T>) {
   const formClass = cn('w-full', className);
 
   return (
@@ -223,21 +226,33 @@ function TextArea({
   );
 }
 
-function RadioInput({ className, name, ...rest }: InputProps) {
-  const { register } = useFormContext();
+function RadioInput({ className, name, value }: InputProps) {
+  const { control } = useFormContext();
 
-  const inputClass = twMerge('hidden', className);
+  const radioClass = twMerge(
+    'flex cursor-pointer items-center gap-8',
+    className
+  );
 
   return (
-    <>
-      <input
-        {...register(name)}
-        className={inputClass}
-        {...rest}
-        type='radio'
-      />
-      <span className='custom-radio'></span>
-    </>
+    <Controller
+      name={name}
+      control={control}
+      rules={VALIDATION_RULES[name]}
+      render={({ field }) => (
+        <label className={radioClass}>
+          <input
+            {...field}
+            type='radio'
+            value={value}
+            checked={field.value === value}
+            onChange={field.onChange}
+          />
+          <span className='custom-radio'></span>
+          {value}
+        </label>
+      )}
+    />
   );
 }
 
@@ -255,7 +270,7 @@ function TagInput({
     clearErrors,
     formState: { errors },
   } = useFormContext();
-  const [tags, setTags] = useState<TagName[]>([...initialTags]);
+  const [tags, setTags] = useState<EpigramTagName[]>([...initialTags]);
   useEffect(() => {
     setValue(name, tags);
   });
@@ -266,10 +281,10 @@ function TagInput({
     className
   );
 
-  const handleAddTag = (newTag: TagName) => {
+  const handleAddTag = (newTag: EpigramTagName) => {
     if (tags.includes(newTag)) {
       setError('tags', {
-        type: 'manual',
+        type: 'duplicationCheck',
         message: '이미 작성된 태그입니다.',
       });
       throw new Error('이미 작성된 태그입니다.');
@@ -301,6 +316,7 @@ function TagInput({
   };
 
   const [inputValue, setInputValue] = useState<string>('');
+
   const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
     if (e.nativeEvent.isComposing) return;
     if (e.key === 'Enter' && inputValue.trim()) {
@@ -320,7 +336,7 @@ function TagInput({
         name={name}
         control={control}
         defaultValue={initialTags}
-        render={({ field, fieldState: { error } }) => (
+        render={({ fieldState: { error } }) => (
           <>
             <input
               type='text'
@@ -355,15 +371,17 @@ function TagInput({
 }
 
 function Submit({ className, children, size = 'md' }: SubmitProps) {
-  const { formState } = useFormContext();
-
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const hasErrors = Object.keys(errors).length > 0;
   return (
     <Button
       type='submit'
       className={className}
       size={size}
       variant='wide'
-      disabled={!formState.isValid}
+      disabled={hasErrors}
     >
       {children}
     </Button>
