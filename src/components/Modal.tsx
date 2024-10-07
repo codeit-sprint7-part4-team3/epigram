@@ -1,24 +1,32 @@
 import Portal from '@/components/Portal';
-import { ReactNode } from 'react';
+import useModalStore from '@/lib/store/useModalStore';
+import { useEffect } from 'react';
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: ReactNode;
-}
+export default function Modal() {
+  const { isOpen, content, closeModal } = useModalStore();
+  useEffect(() => {
+    if (isOpen) {
+      const handleEsc = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          closeModal();
+        }
+      };
+      window.addEventListener('keydown', handleEsc);
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+      };
+    }
+  }, [isOpen, closeModal]);
 
-export default function Modal({ isOpen, onClose, children }: ModalProps) {
   if (!isOpen) return null;
 
   return (
     <Portal>
       <div
-        className={
-          'bg-black-default fixed inset-0 flex h-screen w-screen items-center justify-center bg-opacity-60'
-        }
-        onClick={onClose}
+        className={`fixed inset-0 flex h-screen w-screen items-center justify-center bg-black-default bg-opacity-60 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+        onClick={closeModal}
       >
-        {children}
+        <div onClick={e => e.stopPropagation()}>{content}</div>
       </div>
     </Portal>
   );
