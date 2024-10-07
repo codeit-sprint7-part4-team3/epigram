@@ -10,12 +10,7 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface Epigram {
-  id: number;
-  content: string;
-  author: string;
-  tags: string[];
-}
+import SkeletonCard from './skeletonCard';
 
 interface BasicQuery {
   limit?: number;
@@ -28,14 +23,12 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
       endpoint: `/epigrams?limit=${limit}`,
       method: 'GET',
     });
-    // console.log('응답 데이터:', data);
 
     return {
       list: data.list.map((epigramCard: any) => ({
         id: epigramCard.id,
         content: epigramCard.content,
         author: epigramCard.author,
-        // tags 배열의 name 값을 추출해서 표시
         tags: Array.isArray(epigramCard.tags)
           ? epigramCard.tags.map((tag: any) => tag.name)
           : [],
@@ -49,35 +42,29 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
 };
 
 export default function Feed() {
-  const [cards, setCards] = useState<Epigram[]>([]);
+  const [cards, setCards] = useState<EpigramBaseBody[]>([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const [visibleCount, setVisibleCount] = useState(6);
   const [isSingleColumn, setIsSingleColumn] = useState(true);
   const [cursor, setCursor] = useState(0);
 
   useEffect(() => {
     const loadEpigrams = async () => {
-      // totalCount 불러오기
-      const { list: initialEpigrams, totalCount } = await fetchEpigramCards({
-        limit: 10,
-      });
-
-      // totalCount 값을 limit으로 설정해서 다시 데이터 불러오기
-      const { list: fullEpigrams } = await fetchEpigramCards({
-        limit: totalCount,
-      });
-
+      setLoading(true); // Start loading
+      const { list: fullEpigrams } = await fetchEpigramCards({ limit: 10 });
       setCards(fullEpigrams);
+      setLoading(false); // End loading
     };
     loadEpigrams();
   }, []);
 
-  //에피그램 더보기
+  // 에피그램 더보기
   const handleLoadMore = () => {
     setVisibleCount(prevCount => prevCount + 4);
     setCursor(cards.length > 0 ? cards[cards.length - 1].id : 0); // 마지막 아이템의 id를 커서로 설정
   };
 
-  //그리드 레이아웃 변경 토글
+  // 그리드 레이아웃 변경 토글
   const toggleGridLayout = () => {
     setIsSingleColumn(prevLayout => !prevLayout);
   };
@@ -106,6 +93,7 @@ export default function Feed() {
             </button>
           </div>
         </div>
+
         <div
           className={twMerge(
             'grid gap-x-8 gap-y-16 md:gap-x-12 md:gap-y-24 xl:gap-x-30 xl:gap-y-40',
@@ -115,26 +103,34 @@ export default function Feed() {
             })
           )}
         >
-          {cards.slice(0, visibleCount).map((card, index) => (
-            <EpigramCard
-              key={index}
-              content={card.content}
-              author={card.author}
-              tags={card.tags.map(tag => `#${tag} `)}
-              variant='feed'
-            />
-          ))}
+          {/* 로딩시 스켈레톤 보여주기 */}
+          {loading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
+            : cards
+                .slice(0, visibleCount)
+                .map((card, index) => (
+                  <EpigramCard
+                    key={index}
+                    content={card.content}
+                    author={card.author}
+                    tags={card.tags.map(tag => `#${tag} `)}
+                    variant='feed'
+                  />
+                ))}
         </div>
       </div>
 
-      {visibleCount < cards.length && (
-        <div className='flex items-center justify-center pb-114 pt-56 xl:pt-80'>
+      {!loading && visibleCount < cards.length && (
+        <div className='pt:56 flex items-center justify-center pb-114 xl:pt-80'>
           <Button variant='round' color='white' onClick={handleLoadMore}>
             <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
             에피그램 더보기
           </Button>
         </div>
       )}
+
       <div className='fixed bottom-104 right-24 md:bottom-92 md:right-72 xl:bottom-80 xl:right-120'>
         <div className='grid justify-items-end'>
           <AddEpigramButton />
