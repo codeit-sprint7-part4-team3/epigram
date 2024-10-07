@@ -17,6 +17,7 @@ export default function Document() {
       </Head>
       <body className='font-primary'>
         <Main />
+        <div id='portal-root' />
         <NextScript />
       </body>
     </Html>
