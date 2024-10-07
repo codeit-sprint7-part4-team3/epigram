@@ -42,7 +42,7 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
 };
 
 export default function Feed() {
-  const [cards, setCards] = useState<EpigramBaseBody[]>([]);
+  const [cards, setCards] = useState<EpigramListType[]>([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [visibleCount, setVisibleCount] = useState(6);
   const [isSingleColumn, setIsSingleColumn] = useState(true);
