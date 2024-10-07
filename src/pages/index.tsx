@@ -50,9 +50,6 @@ export default function Home() {
             다른 사람들과 감정을 공유해 보세요
           </p>
           <Button onClick={handleStartClick}>시작하기</Button>
-          <Button variant='round' color='white'>
-            에피그램 더보기
-          </Button>
           <Button
             onClick={async () => {
               const response = await fetchEpigramDetailComments({

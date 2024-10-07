@@ -60,7 +60,7 @@ const styleByVariant: Record<ButtonVariant, string> = {
 const styleByColor: Record<ButtonColor, string> = {
   primary:
     'bg-black-500 text-blue-100 hover:bg-black-600 active:bg-black-700 disabled:bg-blue-300 disabled:outline disabled:outline-blue-100 disabled:cursor-not-allowed',
-  white: 'bg-background-100 border border-solid border-line-200 text-blue-500',
+  white: 'bg-background-100 border border-line-200 text-blue-500',
   blue: 'bg-blue-900 text-blue-100',
 };
 
