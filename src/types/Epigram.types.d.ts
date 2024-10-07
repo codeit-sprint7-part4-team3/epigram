@@ -15,6 +15,7 @@ interface EpigramBaseBody {
   referenceTitle?: EpigramReferenceTitle;
   referenceUrl?: UrlType;
   tags: EpigramTagName[];
+  id: number;
 }
 
 interface EpigramListType {
