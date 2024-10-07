@@ -6,6 +6,19 @@ export default function Modal() {
   const { isOpen, content, closeModal } = useModalStore();
   useEffect(() => {
     if (isOpen) {
+    } else {
+    }
+
+    // 컴포넌트가 언마운트될 때도 스크롤 복구
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+
       const handleEsc = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
           closeModal();
@@ -15,7 +28,12 @@ export default function Modal() {
       return () => {
         window.removeEventListener('keydown', handleEsc);
       };
+    } else {
+      document.body.style.overflow = '';
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [isOpen, closeModal]);
 
   if (!isOpen) return null;
