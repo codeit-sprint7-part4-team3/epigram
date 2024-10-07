@@ -14,13 +14,15 @@ import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
-import Modal from '@/components/Modal';
 import { signoutUser } from '@/lib/api/auth';
+import useModalStore from '@/lib/store/useModalStore';
+import DeleteAlertModalContent from '@/shared/Modal/DeleteAlertModalContent';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export default function Home() {
+  const { openModal } = useModalStore();
   const router = useRouter();
 
   const handleStartClick = () => {
@@ -40,9 +42,6 @@ export default function Home() {
 
   return (
     <main>
-      <Modal isOpen={true} onClose={() => {}}>
-        dasdasd
-      </Modal>
       <section className='transition-animation zigzag-bottom flex h-744 w-full flex-col items-center xl:h-screen'>
         <div className='flex flex-col items-center'>
           <h1 className='transition-animation pt-200 text-center font-secondary text-24 font-normal md:text-32 xl:pt-300 xl:text-40'>
@@ -54,7 +53,19 @@ export default function Home() {
             다른 사람들과 감정을 공유해 보세요
           </p>
           <Button onClick={handleStartClick}>시작하기</Button>
-          <Button onClick={signoutUser}>로그아웃</Button>
+          <Button
+            onClick={() => {
+              // signoutUser();
+              openModal(
+                <DeleteAlertModalContent
+                  deleteTargetLabel={'게시물'}
+                  onDelete={() => {}}
+                />
+              );
+            }}
+          >
+            로그아웃
+          </Button>
         </div>
         <button
           onClick={handlePageScroll}

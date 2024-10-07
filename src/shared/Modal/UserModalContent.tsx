@@ -1,6 +1,6 @@
 import Close from '@/assets/icons/ic-close.svg';
-import Button from '@/components/Button';
 import useModalStore from '@/lib/store/useModalStore';
+import Profile from '@/shared/Profile';
 
 interface Props {
   writer: Writer;
@@ -23,7 +23,9 @@ export default function UserModalContent({ writer }: Props) {
       >
         <Close className={'h-20 w-20 text-blue-500'} />
       </button>
-      <div className={'mb-24'}></div>
+      <div className={'mb-24'}>
+        <Profile image={image} />
+      </div>
       <div>
         <span
           className={
