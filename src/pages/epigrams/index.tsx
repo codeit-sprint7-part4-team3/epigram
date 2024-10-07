@@ -61,9 +61,9 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
 };
 
 export default function Epigrams() {
-  const [cards, setCards] = useState<EpigramBaseBody[]>([]);
+  const [cards, setCards] = useState<EpigramListType[]>([]);
   const [visibleCount, setVisibleCount] = useState(3);
-  const [todayEpigram, setTodayEpigram] = useState<EpigramBaseBody | null>(
+  const [todayEpigram, setTodayEpigram] = useState<EpigramListType | null>(
     null
   );
 
