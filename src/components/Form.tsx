@@ -2,31 +2,50 @@ import OpenEye from '@/assets/icons/ic-closed-eye.svg';
 import ClosedEye from '@/assets/icons/ic-open-eye.svg';
 import Button from '@/components/Button';
 import type { ButtonSize } from '@/components/Button';
+import Chip from '@/components/Chip';
 import VALIDATION_RULES, {
   type Field,
   PASSWORD_CONFIRM_RULES,
 } from '@/constants/formValidation';
+import useToggle from '@/hooks/useToggle';
 import cn from 'clsx';
 import {
   FormHTMLAttributes,
   InputHTMLAttributes,
+  KeyboardEventHandler,
   LabelHTMLAttributes,
   ReactNode,
   TextareaHTMLAttributes,
+  useEffect,
   useState,
 } from 'react';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import {
+  Controller,
+  FieldValues,
+  FormProvider,
+  UseFormReturn,
+  useFormContext,
+} from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
-interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
-  onSubmit: (data: any) => void;
-  defaultValues?: Record<string, string | number>;
+interface FormProps<T extends FieldValues>
+  extends Omit<FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
+  onSubmit: (data: T) => void;
+  methods: UseFormReturn<T>;
 }
+
 interface LabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
+export type InputVariant = 'fill' | 'outlined';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: Field;
+  variant?: InputVariant;
 }
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   name: Field;
+  variant?: InputVariant;
+}
+interface TagInputProps extends InputProps {
+  initialTags?: EpigramTagName[];
 }
 interface BaseProps {
   children: ReactNode | undefined;
@@ -36,15 +55,13 @@ interface BaseProps {
 interface SubmitProps extends BaseProps {
   size?: ButtonSize;
 }
-export default function Form({
+export default function Form<T extends FieldValues>({
   onSubmit,
   id,
   className,
   children,
-  defaultValues,
-}: FormProps) {
-  const methods = useForm({ defaultValues });
-
+  methods,
+}: FormProps<T>) {
   const formClass = cn('w-full', className);
 
   return (
@@ -60,10 +77,14 @@ export default function Form({
   );
 }
 
-function Label({ children, className }: LabelProps) {
+function Label({ children, className, ...rest }: LabelProps) {
   const labelClass = cn('block', className);
 
-  return <label className={labelClass}> {children} </label>;
+  return (
+    <label className={labelClass} {...rest}>
+      {children}
+    </label>
+  );
 }
 
 function LabelHeader({ children, className }: BaseProps) {
@@ -76,23 +97,23 @@ function LabelHeader({ children, className }: BaseProps) {
 }
 
 const baseInputStyle =
-  'w-full rounded-xl bg-blue-200 px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32';
-
-function Input({ className, name, ...rest }: InputProps) {
+  'w-full rounded-xl px-16 py-9 text-16 font-normal leading-26 text-black-950 placeholder:text-blue-400 xl:py-16 xl:text-20 xl:leading-32 disabled:cursor-not-allowed disabled:text-blue-400 disabled:bg-blue-200';
+const inputStyleByVariant = {
+  fill: ' bg-blue-200',
+  outlined: 'bg-transparent border border-solid border-blue-300',
+};
+function Input({ className, name, variant = 'fill', ...rest }: InputProps) {
   const {
     register,
     formState: { errors },
-    setValue,
   } = useFormContext();
-  if (rest.value) {
-    setValue(name, rest.value);
-  }
-  const inputClass = cn(
+  const inputClass = twMerge(
     baseInputStyle,
-    { 'border border-solid border-error': !!errors[name] },
+    inputStyleByVariant[variant],
+    cn({ 'error border border-solid border-error': !!errors[name] }),
     className
   );
-  const placeholder = rest.placeholder ? rest.placeholder : name;
+  const placeholder = rest.placeholder ?? name;
 
   return (
     <>
@@ -111,20 +132,25 @@ function Input({ className, name, ...rest }: InputProps) {
 
 const eyeButtonStyle = 'h-24 w-24 text-gray-200';
 
-function PasswordInput({ className, name, ...rest }: InputProps) {
+function PasswordInput({
+  className,
+  name,
+  variant = 'fill',
+  ...rest
+}: InputProps) {
   const {
     register,
     formState: { errors },
     getValues,
   } = useFormContext();
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword(prev => !prev);
-  };
+  const { isOpen: showPassword, toggle: togglePasswordVisibility } =
+    useToggle(false);
 
-  const inputClass = cn(
+  const inputClass = twMerge(
     baseInputStyle,
-    { 'border border-solid border-error': !!errors[name] },
+    inputStyleByVariant[variant],
+
+    cn({ 'error border border-solid border-error': !!errors[name] }),
     className
   );
   const EyeIcon = showPassword ? (
@@ -133,7 +159,7 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
     <ClosedEye className={eyeButtonStyle} />
   );
   const inputType = showPassword ? 'text' : 'password';
-  const placeholder = rest.placeholder ? rest.placeholder : name;
+  const placeholder = rest.placeholder ?? name;
 
   const registerOptions =
     name === 'passwordConfirmation'
@@ -151,6 +177,7 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
           placeholder={placeholder}
         />
         <button
+          type='button'
           className='absolute bottom-10 right-16 xl:bottom-20'
           onClick={togglePasswordVisibility}
         >
@@ -164,19 +191,25 @@ function PasswordInput({ className, name, ...rest }: InputProps) {
   );
 }
 
-function TextArea({ className, name, ...rest }: TextareaProps) {
+function TextArea({
+  className,
+  name,
+  variant = 'fill',
+  ...rest
+}: TextareaProps) {
   const {
     register,
     formState: { errors },
   } = useFormContext();
 
-  const inputClass = cn(
-    baseInputStyle,
+  const inputClass = twMerge(
     'resize-none',
-    { 'border border-solid border-error': !!errors[name] },
+    baseInputStyle,
+    inputStyleByVariant[variant],
+    cn({ 'error border border-solid border-error': !!errors[name] }),
     className
   );
-  const placeholder = rest.placeholder ? rest.placeholder : name;
+  const placeholder = rest.placeholder ?? name;
 
   return (
     <>
@@ -193,16 +226,162 @@ function TextArea({ className, name, ...rest }: TextareaProps) {
   );
 }
 
-function Submit({ className, children, size = 'md' }: SubmitProps) {
-  const { formState } = useFormContext();
+function RadioInput({ className, name, value }: InputProps) {
+  const { control } = useFormContext();
 
+  const radioClass = twMerge(
+    'flex cursor-pointer items-center gap-8',
+    className
+  );
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      rules={VALIDATION_RULES[name]}
+      render={({ field }) => (
+        <label className={radioClass}>
+          <input
+            {...field}
+            type='radio'
+            value={value}
+            checked={field.value === value}
+            onChange={field.onChange}
+          />
+          <span className='custom-radio'></span>
+          {value}
+        </label>
+      )}
+    />
+  );
+}
+
+function TagInput({
+  className,
+  name = 'tags',
+  variant = 'fill',
+  initialTags = [],
+  ...rest
+}: TagInputProps) {
+  const {
+    control,
+    setValue,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useFormContext();
+  const [tags, setTags] = useState<EpigramTagName[]>([...initialTags]);
+  useEffect(() => {
+    setValue(name, tags);
+  });
+  const inputClass = twMerge(
+    baseInputStyle,
+    inputStyleByVariant[variant],
+    cn({ 'error border border-solid border-error': !!errors[name] }),
+    className
+  );
+
+  const handleAddTag = (newTag: EpigramTagName) => {
+    if (tags.includes(newTag)) {
+      setError('tags', {
+        type: 'duplicationCheck',
+        message: '이미 작성된 태그입니다.',
+      });
+      throw new Error('이미 작성된 태그입니다.');
+    }
+    if (newTag.length > 10) {
+      setError('tags', {
+        type: 'manual',
+        message: '각 태그는 10자를 넘을 수 없습니다.',
+      });
+      throw new Error('각 태그는 10자를 넘을 수 없습니다.');
+    }
+    if (tags.length >= 3) {
+      setError('tags', {
+        type: 'manual',
+        message: '최대 3개의 태그만 입력 가능합니다.',
+      });
+      throw new Error('최대 3개의 태그만 입력 가능합니다.');
+    }
+    clearErrors(name);
+    const updatedTags = [...tags, newTag];
+    setTags(updatedTags);
+    setValue(name, updatedTags);
+  };
+
+  const handleDeleteTag = (index: number) => {
+    const updatedTags = tags.filter((_, i) => i !== index);
+    setTags(updatedTags);
+    setValue(name, updatedTags);
+  };
+
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = e => {
+    if (e.nativeEvent.isComposing) return;
+    if (e.key === 'Enter' && inputValue.trim()) {
+      e.preventDefault();
+      try {
+        handleAddTag(inputValue.trim());
+        setInputValue('');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  return (
+    <>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={initialTags}
+        render={({ fieldState: { error } }) => (
+          <>
+            <input
+              type='text'
+              className={inputClass}
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              {...rest}
+            />
+            {error && <ErrorMessage>{String(error.message)}</ErrorMessage>}
+          </>
+        )}
+      />
+      <ul className='mt-16 flex flex-wrap gap-8 xl:mt-22 xl:gap-16'>
+        {tags.map((tag, index) => (
+          <Chip key={tag}>
+            {tag}
+            <button
+              type='button'
+              onClick={() => {
+                handleDeleteTag(index);
+                clearErrors(name);
+              }}
+            >
+              &times;
+            </button>
+          </Chip>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function Submit({ className, children, size = 'md' }: SubmitProps) {
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const hasErrors = Object.keys(errors).length > 0;
   return (
     <Button
       type='submit'
       className={className}
       size={size}
       variant='wide'
-      disabled={!formState.isValid}
+      disabled={hasErrors}
     >
       {children}
     </Button>
@@ -221,5 +400,7 @@ Form.Label = Label;
 Form.LabelHeader = LabelHeader;
 Form.Input = Input;
 Form.PasswordInput = PasswordInput;
+Form.RadioInput = RadioInput;
+Form.TagInput = TagInput;
 Form.TextArea = TextArea;
 Form.Submit = Submit;

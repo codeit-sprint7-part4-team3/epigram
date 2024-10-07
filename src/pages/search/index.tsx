@@ -10,11 +10,15 @@ interface Epigram {
   tags: { id: number; name: string }[]; // tags 배열에 객체가 포함된 경우
 }
 
+const RESULTS_PER_PAGE = 5;
+
 function Search() {
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [highlightTerm, setHighlightTerm] = useState<string>(''); // 추가된 상태
+  const [highlightTerm, setHighlightTerm] = useState<string>('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [searchResult, setSearchResult] = useState<Epigram[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [totalResults, setTotalResults] = useState<number>(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,22 +39,43 @@ function Search() {
       localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
       router.push(`/search?query=${searchTerm}`);
 
-      const encodedKeyword = encodeURIComponent(searchTerm);
-      const response = await axios.get(
-        `https://fe-project-epigram-api.vercel.app/7-3/epigrams?limit=10000&keyword=${encodedKeyword}`
-      );
-
-      // 검색어를 포함하는 필터링 로직 추가
-      const filteredResults = response.data.list.filter(
-        (epigram: Epigram) =>
-          epigram.content.includes(searchTerm) ||
-          epigram.author.includes(searchTerm) ||
-          epigram.tags.some(tag => tag.name.includes(searchTerm))
-      );
-
-      setSearchResult(filteredResults);
-      setHighlightTerm(searchTerm); // 검색이 실행될 때 highlightTerm을 업데이트
+      setPage(1); // Reset page to 1 on new search
+      fetchResults(searchTerm, 1, true); // Fetch initial results
     }
+  };
+
+  const fetchResults = async (
+    term: string,
+    page: number,
+    isNewSearch: boolean = false
+  ) => {
+    const encodedKeyword = encodeURIComponent(term);
+    const response = await axios.get(
+      `https://fe-project-epigram-api.vercel.app/7-3/epigrams?limit=1000&keyword=${encodedKeyword}`
+    );
+
+    // 검색어를 포함하는 필터링 로직 추가
+    const filteredResults = response.data.list.filter(
+      (epigram: Epigram) =>
+        epigram.content.includes(term) ||
+        epigram.author.includes(term) ||
+        epigram.tags.some(tag => tag.name.includes(term))
+    );
+
+    const startIndex = (page - 1) * RESULTS_PER_PAGE;
+    const paginatedResults = filteredResults.slice(
+      startIndex,
+      startIndex + RESULTS_PER_PAGE
+    );
+
+    if (isNewSearch) {
+      setSearchResult(paginatedResults);
+      setTotalResults(filteredResults.length);
+    } else {
+      setSearchResult(prevResults => [...prevResults, ...paginatedResults]);
+    }
+
+    setHighlightTerm(term); // 검색이 실행될 때 highlightTerm을 업데이트
   };
 
   const handleClearHistory = () => {
@@ -61,6 +86,12 @@ function Search() {
   const handleTagClick = (term: string) => {
     setSearchTerm(term);
     handleSearch();
+  };
+
+  const handleLoadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchResults(searchTerm, nextPage);
   };
 
   return (
@@ -119,6 +150,15 @@ function Search() {
           />
         ))}
       </div>
+
+      {searchResult.length < totalResults && (
+        <button
+          onClick={handleLoadMore}
+          className='mt-4 w-full rounded bg-blue-500 py-2 text-white'
+        >
+          더 보기
+        </button>
+      )}
     </div>
   );
 }
