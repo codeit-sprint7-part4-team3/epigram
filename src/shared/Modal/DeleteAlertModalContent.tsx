@@ -7,7 +7,7 @@ interface Props {
   onDelete: () => void;
 }
 
-export default function DeleteAlertContent({
+export default function DeleteAlertModalContent({
   deleteTargetLabel,
   onDelete,
 }: Props) {
