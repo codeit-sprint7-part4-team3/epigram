@@ -3,6 +3,7 @@ import Plus from '@/assets/icons/ic-plus.svg';
 import SortSingle from '@/assets/icons/ic-sort.svg';
 import Button from '@/components/Button';
 import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
+import { fetchEpigramCards } from '@/lib/api/getEpigramCard';
 import EpigramCard from '@/shared/EpigramCard';
 import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
@@ -11,35 +12,6 @@ import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import SkeletonCard from './skeletonCard';
-
-interface BasicQuery {
-  limit?: number;
-}
-
-// 에피그램 카드 불러오기
-const fetchEpigramCards = async ({ limit }: BasicQuery) => {
-  try {
-    const data = await apiRequestWithAtuh({
-      endpoint: `/epigrams?limit=${limit}`,
-      method: 'GET',
-    });
-
-    return {
-      list: data.list.map((epigramCard: any) => ({
-        id: epigramCard.id,
-        content: epigramCard.content,
-        author: epigramCard.author,
-        tags: Array.isArray(epigramCard.tags)
-          ? epigramCard.tags.map((tag: any) => tag.name)
-          : [],
-      })),
-      totalCount: data.totalCount,
-    };
-  } catch (error) {
-    console.error('에피그램 가져오기 실패:', error);
-    return { list: [], totalCount: 0 };
-  }
-};
 
 export default function Feed() {
   const [cards, setCards] = useState<EpigramListType[]>([]);
