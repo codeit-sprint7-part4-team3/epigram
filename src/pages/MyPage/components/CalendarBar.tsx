@@ -5,9 +5,9 @@ import IconSad from '@/assets/icons/ic-emotion-sad.svg';
 import IconWorried from '@/assets/icons/ic-emotion-worried.svg';
 import { getMonthKey, getToday } from '@/constants/utils';
 
-import { mockMonthlyEmotionDatas } from './mockDatas';
+import { mockMonthlyEmotionDatas } from '../../../data/mockMonthlyEmotionDatas';
 
-const iconSize = 'h-24 w-24 xl:h-36 xl:w-36';
+const iconSize = 'w-18 h-18 md:h-24 md:w-24 xl:h-36 xl:w-36';
 const iconByEmotion: Record<string, JSX.Element> = {
   MOVED: <IconMoved className={iconSize} />,
   HAPPY: <IconHappy className={iconSize} />,
@@ -52,7 +52,7 @@ export default function CalendarBar({
 
         const highlightToday =
           key === getToday()
-            ? 'border-3 xl:border-6 border-solid border-illust-red rounded-3'
+            ? 'border-3 xl:border-6 border-solid border-illust-red rounded-3 box-border'
             : '';
 
         const emotionOfDay = convertedMonthlyEmotionData[key];
@@ -64,7 +64,7 @@ export default function CalendarBar({
           calendarItem.data && (
             <div
               key={calendarItem.key}
-              className={`flex aspect-square w-1 grow flex-col items-center justify-center text-center text-gray-200 ${highlightToday} ${fontSize}`}
+              className={`flex aspect-square w-44 grow flex-col items-center justify-center text-center text-gray-200 ${highlightToday} ${fontSize}`}
             >
               {calendarItem.data}
               {emotionOfDay}
