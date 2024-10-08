@@ -11,9 +11,11 @@ export default function SignInForm() {
   const { setError } = methods;
   const mutation = useMutation(signinUser, {
     onSuccess: data => {
-      // 1. 리다이렉트
-      console.log(data);
-      // 2. 유저 정보 저장
+      // 1. 유저 정보 저장
+      const userData = JSON.stringify(data.user);
+      sessionStorage.setItem('userData', userData);
+
+      // 2. 리다이렉트
       router.push('/');
     },
     onError: (error: any) => {

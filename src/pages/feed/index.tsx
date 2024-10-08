@@ -1,47 +1,70 @@
 import SortDouble from '@/assets/icons/ic-dashboard.svg';
-import Up from '@/assets/icons/ic-down-chevron.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
 import SortSingle from '@/assets/icons/ic-sort.svg';
 import Button from '@/components/Button';
+import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 import EpigramCard from '@/shared/EpigramCard';
+import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
+import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import clsx from 'clsx';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import mockDataArray from '../../data/mockData';
+import SkeletonCard from './skeletonCard';
+
+interface BasicQuery {
+  limit?: number;
+}
+
+// 에피그램 카드 불러오기
+const fetchEpigramCards = async ({ limit }: BasicQuery) => {
+  try {
+    const data = await apiRequestWithAtuh({
+      endpoint: `/epigrams?limit=${limit}`,
+      method: 'GET',
+    });
+
+    return {
+      list: data.list.map((epigramCard: any) => ({
+        id: epigramCard.id,
+        content: epigramCard.content,
+        author: epigramCard.author,
+        tags: Array.isArray(epigramCard.tags)
+          ? epigramCard.tags.map((tag: any) => tag.name)
+          : [],
+      })),
+      totalCount: data.totalCount,
+    };
+  } catch (error) {
+    console.error('에피그램 가져오기 실패:', error);
+    return { list: [], totalCount: 0 };
+  }
+};
 
 export default function Feed() {
-  const router = useRouter();
-
-  const handleAddEpigramButtonClick = () => {
-    if (router.pathname === '/addepigram') return;
-    router.push('/addepigram');
-  };
-
-  const handlePageUp = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  const [cards, setCards] = useState<
-    { content: string; author: string; tags: string[] }[]
-  >([]);
+  const [cards, setCards] = useState<EpigramListType[]>([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const [visibleCount, setVisibleCount] = useState(6);
   const [isSingleColumn, setIsSingleColumn] = useState(true);
+  const [cursor, setCursor] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
-      setCards(mockDataArray);
-    }, 500);
+    const loadEpigrams = async () => {
+      setLoading(true); // Start loading
+      const { list: fullEpigrams } = await fetchEpigramCards({ limit: 10 });
+      setCards(fullEpigrams);
+      setLoading(false); // End loading
+    };
+    loadEpigrams();
   }, []);
 
+  // 에피그램 더보기
   const handleLoadMore = () => {
     setVisibleCount(prevCount => prevCount + 4);
+    setCursor(cards.length > 0 ? cards[cards.length - 1].id : 0); // 마지막 아이템의 id를 커서로 설정
   };
 
+  // 그리드 레이아웃 변경 토글
   const toggleGridLayout = () => {
     setIsSingleColumn(prevLayout => !prevLayout);
   };
@@ -80,19 +103,26 @@ export default function Feed() {
             })
           )}
         >
-          {cards.slice(0, visibleCount).map((card, index) => (
-            <EpigramCard
-              key={index}
-              content={card.content}
-              author={card.author}
-              tags={card.tags.map(tag => `#${tag} `)}
-              variant='feed'
-            />
-          ))}
+          {/* 로딩시 스켈레톤 보여주기 */}
+          {loading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
+            : cards
+                .slice(0, visibleCount)
+                .map((card, index) => (
+                  <EpigramCard
+                    key={index}
+                    content={card.content}
+                    author={card.author}
+                    tags={card.tags.map(tag => `#${tag} `)}
+                    variant='feed'
+                  />
+                ))}
         </div>
       </div>
 
-      {visibleCount < cards.length && (
+      {!loading && visibleCount < cards.length && (
         <div className='pt:56 flex items-center justify-center pb-114 xl:pt-80'>
           <Button variant='round' color='white' onClick={handleLoadMore}>
             <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
@@ -100,20 +130,11 @@ export default function Feed() {
           </Button>
         </div>
       )}
+
       <div className='fixed bottom-104 right-24 md:bottom-92 md:right-72 xl:bottom-80 xl:right-120'>
         <div className='grid justify-items-end'>
-          <Button
-            variant='round'
-            onClick={handleAddEpigramButtonClick}
-            color='blue'
-            className='mb-8'
-          >
-            <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
-            에피그램 만들기
-          </Button>
-          <Button onClick={handlePageUp} color='blue' variant='round'>
-            <Up className='h-24 w-24 rotate-180' />
-          </Button>
+          <AddEpigramButton />
+          <PageUpButton />
         </div>
       </div>
     </div>

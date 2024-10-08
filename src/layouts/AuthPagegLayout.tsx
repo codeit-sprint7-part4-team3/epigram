@@ -2,6 +2,7 @@ import GoogleLogo from '@/assets/logos/logo-google.svg';
 import KakaoLogo from '@/assets/logos/logo-kakao.svg';
 import NaverLogo from '@/assets/logos/logo-naver.svg';
 import Logo from '@/components/Logo';
+import { KAKAO_REDIRECT_URL } from '@/constants/apiConstants';
 import { ReactNode } from 'react';
 
 interface AuthPageLayoutProps {
@@ -38,11 +39,11 @@ export default function AuthPageLayout({
         </span>
         <div className='w-full px-[6.5px] xl:px-[13.5px]'>
           <div className='mb-24 flex items-center justify-between gap-14 xl:mb-40 xl:gap-24'>
-            <div className='bg-line-300 h-1 w-full'></div>
+            <div className='h-1 w-full bg-line-300'></div>
             <span className='shrink-0 text-xs leading-26 text-gray-500 xl:text-xl'>
               SNS 계정으로 {oAuthLabel}
             </span>
-            <div className='bg-line-300 h-1 w-full'></div>
+            <div className='h-1 w-full bg-line-300'></div>
           </div>
           <ul className='flex items-center justify-center gap-16'>
             <li>
@@ -51,7 +52,7 @@ export default function AuthPageLayout({
               </a>
             </li>
             <li>
-              <a href={oAuthLinkKakao}>
+              <a href={oAuthLinkKakao} onClick={handleKakaoLogin}>
                 <KakaoLogo className={socialLogoClass} />
               </a>
             </li>
@@ -66,6 +67,7 @@ export default function AuthPageLayout({
     </div>
   );
 }
+
 type Page = 'signin' | 'signup';
 
 type AuthPageLabel =
@@ -99,3 +101,9 @@ const labelByPage: Record<Page, Record<AuthPageLabel, string>> = {
 };
 
 const socialLogoClass = 'h-40 w-40 xl:h-60 xl:w-60';
+
+const handleKakaoLogin = () => {
+  Kakao.Auth.authorize({
+    redirectUri: KAKAO_REDIRECT_URL,
+  });
+};

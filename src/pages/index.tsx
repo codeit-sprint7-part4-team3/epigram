@@ -14,12 +14,15 @@ import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
-import { fetchEpigramDetailComments } from '@/lib/api/epigrams';
+import { signoutUser } from '@/lib/api/auth';
+import useModalStore from '@/lib/store/useModalStore';
+import DeleteAlertModalContent from '@/shared/Modal/DeleteAlertModalContent';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 export default function Home() {
+  const { openModal } = useModalStore();
   const router = useRouter();
 
   const handleStartClick = () => {
@@ -51,16 +54,17 @@ export default function Home() {
           </p>
           <Button onClick={handleStartClick}>시작하기</Button>
           <Button
-            onClick={async () => {
-              const response = await fetchEpigramDetailComments({
-                id: 1,
-                limit: 5,
-                cursor: 1,
-              });
-              console.log(response);
+            onClick={() => {
+              // signoutUser();
+              openModal(
+                <DeleteAlertModalContent
+                  deleteTargetLabel={'게시물'}
+                  onDelete={() => {}}
+                />
+              );
             }}
           >
-            야호
+            로그아웃
           </Button>
         </div>
         <button

@@ -1,4 +1,4 @@
-import instance from '@/api/comments/axios';
+import instance from '@/api/instance/axios';
 import { allowedEndpoints } from '@/constants/apiConstants';
 import { parse, serialize } from 'cookie';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -22,7 +22,7 @@ export default async function handler(
         serialize('accessToken', accessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV !== 'development',
-          maxAge: 60 * 60,
+          maxAge: 60 * 30,
           sameSite: 'strict',
           path: '/',
         }),
