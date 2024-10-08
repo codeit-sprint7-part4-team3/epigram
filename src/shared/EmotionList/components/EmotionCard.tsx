@@ -6,38 +6,37 @@ import IconWorried from '@/assets/icons/ic-emotion-worried.svg';
 
 const iconSize = 'w-32 h-32 xl:w-48 xl:h-48';
 const dataByEmotionType = {
-  moved: {
+  MOVED: {
     name: '감동',
     render: <IconMoved className={iconSize} />,
     borderColor: 'border-illust-yellow',
   },
-  happy: {
+  HAPPY: {
     name: '기쁨',
     render: <IconHappy className={iconSize} />,
     borderColor: 'border-illust-green',
   },
-  worried: {
+  WORRIED: {
     name: '고민',
     render: <IconWorried className={iconSize} />,
     borderColor: 'border-illust-purple',
   },
-  sad: {
+  SAD: {
     name: '슬픔',
     render: <IconSad className={iconSize} />,
     borderColor: 'border-illust-blue',
   },
-  angry: {
+  ANGRY: {
     name: '분노',
     render: <IconAngry className={iconSize} />,
     borderColor: 'border-illust-red',
   },
 };
 
-type EmotionType = 'moved' | 'happy' | 'worried' | 'sad' | 'angry';
 interface EmotionCardProps {
-  emotionType: EmotionType;
+  emotionType: Emotion;
   isSelected?: boolean;
-  handleCardClick: (emotion: EmotionType) => void;
+  handleCardClick: (emotion: Emotion) => void;
 }
 
 export default function EmotionCard({

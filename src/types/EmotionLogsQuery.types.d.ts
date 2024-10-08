@@ -1,0 +1,3 @@
+interface getEmotionLogsTodayProps {
+  userId: string;
+}
