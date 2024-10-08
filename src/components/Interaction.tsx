@@ -1,14 +1,25 @@
-import { DeleteReaction, PostReaction } from '@/api/reaction/fetchReaction';
+import { DeleteEpigram } from '@/api/epigram/fetchEpigram';
 import ExternalLink from '@/assets/icons/ic-external-link.svg';
 import Thumbsup from '@/assets/icons/ic-thumbs-up.svg';
+import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
 import { useLikeToggle } from '@/hooks/useLikeToggle';
 import Comment, { CommentType } from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
 import DropdownMenu from '@/shared/DropdownMenu';
 import ChipList from '@/shared/TagChip';
 import UserIcon from '@/shared/UserIcon';
-import { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+interface UserData {
+  id: number;
+  nickname: string;
+  teamId: string;
+  createdAt: string;
+  updatedAt: string;
+  image: string | null;
+  email: string;
+}
 
 interface InteractionProps {
   epigramData: EpigramDetailType;
@@ -25,7 +36,27 @@ export default function Interaction({
   loadMoreComments,
   hasMoreComments,
 }: InteractionProps) {
-  const navigate = useNavigate();
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedData = sessionStorage.getItem('userData');
+
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setUserData(parsedData);
+
+      console.log('유저정보보보보', parsedData);
+
+      console.log('유저정보보보보', userData);
+    } else {
+      console.log('세션 스토리지에 데이터가 없습니다.');
+    }
+
+    console.log('sessionStorage data:', sessionStorage.getItem('userData'));
+  }, []);
+
   const { likeCount, isLiked, toggleLike } = useLikeToggle(
     epigramData.likeCount,
     epigramData.isLiked,
@@ -34,11 +65,23 @@ export default function Interaction({
 
   console.log('data:::::::', epigramData);
   const handleEdit = () => {
-    navigate(`epigram/${epigramData.id}/editEpigram`);
+    router.push(`/epigram/${epigramData.id}/editEpigram`);
   };
 
-  const handleDelete = () => {
-    console.log('삭제하기 눌렀다.');
+  const handleDelete = async () => {
+    if (window.confirm('정말로 이 에피그램을 삭제하시겠습니까?')) {
+      setIsDeleting(true);
+      try {
+        await DeleteEpigram(epigramData.id);
+        alert('에피그램이 성공적으로 삭제되었습니다.');
+        router.push('/');
+      } catch (error) {
+        console.error('에피그램 삭제 중 오류 발생:', error);
+        alert('에피그램 삭제에 실패했습니다. 다시 시도해주세요.');
+      } finally {
+        setIsDeleting(false);
+      }
+    }
   };
 
   const dropOptions = [
@@ -55,10 +98,11 @@ export default function Interaction({
                 <ChipList.Item key={tag.id} name={`#${tag.name}`} />
               ))}
             </ChipList>
-            {/* <span>더보기</span> */}
-            <span>
-              <DropdownMenu options={dropOptions} />
-            </span>
+            {userData && (
+              <span>
+                <DropdownMenu options={dropOptions} />
+              </span>
+            )}
           </div>
           <p className='font-secondary text-32 font-normal text-black-700'>
             {epigramData.content}
@@ -80,10 +124,6 @@ export default function Interaction({
             </div>
             {epigramData.referenceUrl && (
               <div className='flex-center h-48 w-220'>
-                {/* <button className='flex-center h-full w-full rounded-[100px] bg-line-100 text-20 font-medium text-gray-300'>
-                  <span>{epigramData.referenceTitle || '외부 링크'}</span>
-                  <ExternalLink width={36} height={36} aria-label='외부링크' />
-                </button> */}
                 <a
                   href={epigramData.referenceUrl}
                   target='_blank'
@@ -103,10 +143,20 @@ export default function Interaction({
         <div className='w-640'>
           <p className='mb-24'>댓글 ({totalComments})</p>
           <div className='flex'>
-            <UserIcon
-              imageSource={comments[0]?.writer.image}
-              styles='w-48 h-48 rounded-full mr-21'
-            />
+            {userData?.image ? (
+              <div className='flex flex-col justify-center'>
+                <UserIcon
+                  imageSource={userData.image}
+                  styles='w-48 h-48 rounded-full'
+                />
+                <span className='ml-2 mt-2 text-sm'>{userData?.nickname}</span>
+              </div>
+            ) : (
+              <div className='mr-21 flex flex-col'>
+                <IconUserSigned className='h-48 w-48' />
+                <span className='mt-2 text-sm'>{userData?.nickname}</span>
+              </div>
+            )}
             <CommentForm epigramId={epigramData.id} />
           </div>
         </div>

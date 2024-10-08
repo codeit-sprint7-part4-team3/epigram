@@ -1,5 +1,5 @@
 interface UserIconProps {
-  imageSource: string | null;
+  imageSource: string | null | undefined;
   styles?: string;
 }
 
