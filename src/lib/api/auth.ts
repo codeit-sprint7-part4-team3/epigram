@@ -17,4 +17,12 @@ const signupUser = async (data: SignUpRequestBody) => {
   return response.data;
 };
 
-export { signinUser, signupUser };
+const signoutUser = async () => {
+  const response = await axios.post('/api/clearCookie', {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export { signinUser, signupUser, signoutUser };
