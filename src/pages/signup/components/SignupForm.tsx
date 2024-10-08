@@ -1,12 +1,36 @@
 import Form from '@/components/Form';
+import { signupUser } from '@/lib/api/auth';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 
 export default function SignupForm() {
-  const methods = useForm();
+  const methods = useForm<SignUpRequestBody>();
+  const router = useRouter();
+  const { setError } = methods;
+  const mutation = useMutation(signupUser, {
+    onSuccess: data => {
+      const userData = JSON.stringify(data.user);
+      sessionStorage.setItem('userData', userData);
+      router.push('/');
+    },
+    onError: (error: any) => {
+      if (error.response.status === 500) {
+        setError('nickname', { message: '이미 존재하는 닉네임입니다.' });
+      }
+      const errorMessage = error.response.data.message;
+      const errorDetail = Object.keys(error.response.data.details)[0];
+      if (['email', 'password'].includes(errorDetail)) {
+        setError(errorDetail as keyof SignInRequestBody, {
+          message: errorMessage,
+        });
+      }
+    },
+  });
   return (
     <Form
-      onSubmit={() => {
-        console.log('회원가입 폼 제출');
+      onSubmit={(data: SignUpRequestBody) => {
+        mutation.mutate(data);
       }}
       methods={methods}
     >

@@ -15,11 +15,13 @@
     "cookie": "^0.6.0",
     "es-hangul": "^2.1.0",
     "framer-motion": "^11.5.4",
+    "kakao-js-sdk": "^1.2.3",
     "next": "14.2.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
-    "react-query": "^3.39.3"
+    "react-query": "^3.39.3",
+    "zustand": "5.0.0-rc.2"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",

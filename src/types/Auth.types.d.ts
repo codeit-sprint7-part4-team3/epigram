@@ -8,6 +8,8 @@ interface UserWithEmail extends User {
 }
 
 interface SignUpResponse {
+  refreshToken: RefreshToken;
+  accessToken: AccessToken;
   user: UserWithEmail;
 }
 
