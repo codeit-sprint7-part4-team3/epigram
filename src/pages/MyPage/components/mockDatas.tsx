@@ -94,3 +94,5 @@ export const mockMonthlyEmotionDatas: Record<string, any> = {
     },
   ],
 };
+
+export default mockMonthlyEmotionDatas;

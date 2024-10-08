@@ -1,7 +1,13 @@
 import IconLeftChevron from '@/assets/icons/ic-left-chevron.svg';
+import Plus from '@/assets/icons/ic-plus.svg';
 import IconRightChevron from '@/assets/icons/ic-right-chevron.svg';
+import Button from '@/components/Button';
 import { getMonthKey, getToday } from '@/constants/utils';
+import mockCommentDataArray from '@/data/mockCommentData';
+import mockEpigramDataArray from '@/data/mockEpigramData';
+import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
+import EpigramCard from '@/shared/EpigramCard';
 import { useEffect, useState } from 'react';
 
 import EmotionCalendar from './components/EmotionCalendar';
@@ -26,6 +32,14 @@ export default function MyPage() {
   const [monthlyEmotionDataForChart, setMonthlyEmotionDataForChart] = useState(
     tempMonthlyEmotionDataForChart
   );
+  const [selectedBoard, setSelectedBoard] = useState<'epigram' | 'comment'>(
+    'epigram'
+  );
+  const [myEpigrams, setMyEpigrams] =
+    useState<EpigramListType[]>(mockEpigramDataArray);
+  const [myComments, setMyComments] =
+    useState<CommentType[]>(mockCommentDataArray);
+  const [visibleCount, setVisibleCount] = useState(3);
 
   const handleLeftClick = () => {
     const previousYear = month !== 1 ? year : year - 1;
@@ -39,6 +53,20 @@ export default function MyPage() {
     const nextMonth = month !== 12 ? ((month + 1) as Month) : 1;
     setYear(nextYear);
     setMonth(nextMonth);
+  };
+
+  const handleEpigramClick = () => {
+    setSelectedBoard('epigram');
+    setVisibleCount(3);
+  };
+
+  const handleCommentClick = () => {
+    setSelectedBoard('comment');
+    setVisibleCount(3);
+  };
+
+  const handleLoadMore = () => {
+    setVisibleCount(prevCount => prevCount + 3);
   };
 
   useEffect(() => {
@@ -135,6 +163,79 @@ export default function MyPage() {
                 />
               </div>
             </section>
+          </div>
+        </div>
+      </div>
+      <div className='m-auto w-312 pb-114 pt-56 md:w-384 md:pb-233 xl:w-640 xl:pb-336 xl:pt-96'>
+        <div className='flex flex-col gap-40 xl:gap-72'>
+          <div className='flex flex-col gap-16 md:gap-32 xl:gap-48'>
+            <div className='flex gap-16 xl:gap-24'>
+              <button
+                className={`font-primary text-16 font-semibold xl:text-24 ${selectedBoard === 'epigram' ? 'text-black-600' : 'text-gray-300'}`}
+                onClick={handleEpigramClick}
+              >{`내 에피그램(${myEpigrams.length})`}</button>
+              <button
+                className={`font-primary text-16 font-semibold xl:text-24 ${selectedBoard === 'comment' ? 'text-black-600' : 'text-gray-300'}`}
+                onClick={handleCommentClick}
+              >{`내 댓글(${myComments.length})`}</button>
+            </div>
+            {selectedBoard === 'epigram' && (
+              <>
+                <div>
+                  {myEpigrams &&
+                    myEpigrams
+                      .slice(0, visibleCount)
+                      .map(myEpigram => (
+                        <EpigramCard
+                          key={myEpigram.id}
+                          content={myEpigram.content}
+                          author={myEpigram.author}
+                          tags={myEpigram.tags.map(tag => `#${tag.name} `)}
+                        />
+                      ))}
+                </div>
+                <div>
+                  {visibleCount < myEpigrams.length && (
+                    <div className='pt:56 flex items-center justify-center pb-114 xl:pt-80'>
+                      <Button
+                        variant='round'
+                        color='white'
+                        onClick={handleLoadMore}
+                      >
+                        <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+                        에피그램 더보기
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+            {selectedBoard === 'comment' && (
+              <>
+                <div>
+                  {myComments &&
+                    myComments
+                      .slice(0, visibleCount)
+                      .map(myComment => (
+                        <Comment key={myComment.id} data={myComment} />
+                      ))}
+                </div>
+                <div>
+                  {visibleCount < myComments.length && (
+                    <div className='pt:56 flex items-center justify-center pb-114 xl:pt-80'>
+                      <Button
+                        variant='round'
+                        color='white'
+                        onClick={handleLoadMore}
+                      >
+                        <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+                        댓글 더보기
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -2,20 +2,12 @@ import { useState } from 'react';
 
 import EmotionCard from './components/EmotionCard';
 
-type EmotionType = 'moved' | 'happy' | 'worried' | 'sad' | 'angry';
-
-const emotionList: EmotionType[] = [
-  'moved',
-  'happy',
-  'worried',
-  'sad',
-  'angry',
-];
+const emotionList: Emotion[] = ['MOVED', 'HAPPY', 'WORRIED', 'SAD', 'ANGRY'];
 
 export default function EmotionList() {
   const [selectedEmotion, setSelectedEmotion] = useState('');
 
-  const handleCardClick = (emotion: EmotionType) => {
+  const handleCardClick = (emotion: Emotion) => {
     setSelectedEmotion(emotion);
   };
 

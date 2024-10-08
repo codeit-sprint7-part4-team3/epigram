@@ -15,18 +15,8 @@ interface User {
   id: number;
 }
 
-interface Comment {
-  epigramId: number;
-  writer: User;
-  updatedAt: string;
-  createdAt: string;
-  isPrivate: boolean;
-  content: string;
-  id: number;
-}
-
 interface CommentProps {
-  data: Comment;
+  data: CommentType;
 }
 
 export default function Comment({ data }: CommentProps) {
