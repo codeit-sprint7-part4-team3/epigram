@@ -23,41 +23,41 @@ export default function CalendarBar({
   year,
   month,
 }: CalendarBarProps) {
-  const [monthlyEmotionData, setMonthlyEmotionData] =
-    useState<Record<string, JSX.Element>>();
+  const [monthlyEmotionData, setMonthlyEmotionData] = useState<
+    Record<string, JSX.Element>
+  >({});
 
   useEffect(() => {
     const fetchEmotionLogs = async () => {
-      const emotionLogsMonthly = await getEmotionLogsMonthly(year, month);
-      emotionLogsMonthly.forEach((mockMonthlyEmotionData: EmotionLogType) => {
-        if (!iconByEmotion[mockMonthlyEmotionData.emotion]) {
-          return;
-        }
+      try {
+        const emotionLogsMonthly = await getEmotionLogsMonthly(year, month);
+        emotionLogsMonthly.forEach((mockMonthlyEmotionData: EmotionLogType) => {
+          if (!iconByEmotion[mockMonthlyEmotionData.emotion]) {
+            return;
+          }
 
-        const [formattedDate] = mockMonthlyEmotionData.createdAt.split('T');
-        convertedMonthlyEmotionData[formattedDate] =
-          iconByEmotion[mockMonthlyEmotionData.emotion];
-      });
+          const [formattedDate] = mockMonthlyEmotionData.createdAt.split('T');
+          convertedMonthlyEmotionData[formattedDate] =
+            iconByEmotion[mockMonthlyEmotionData.emotion];
+        });
 
-      setMonthlyEmotionData(convertedMonthlyEmotionData);
+        setMonthlyEmotionData(convertedMonthlyEmotionData);
+      } catch (error) {
+        console.error('Error fetching emotion logs:', error);
+      }
     };
 
     fetchEmotionLogs();
   }, [year, month]);
 
-  if (monthlyEmotionData) {
-  }
   return (
     <div className={`flex w-308 flex-row items-center md:w-379 xl:w-640`}>
-      {calendarData.map(calendarItem => {
+      {(calendarData || []).map(calendarItem => {
         const key = calendarItem.key
           .split('-')
-          .map(dateString => {
-            if (dateString.length === 1) {
-              return '0' + dateString;
-            }
-            return dateString;
-          })
+          .map(dateString =>
+            dateString.length === 1 ? '0' + dateString : dateString
+          )
           .join('-');
 
         const highlightToday =
@@ -65,7 +65,7 @@ export default function CalendarBar({
             ? 'border-3 xl:border-6 border-solid border-illust-red rounded-3 box-border'
             : '';
 
-        const emotionOfDay = convertedMonthlyEmotionData[key];
+        const emotionOfDay = monthlyEmotionData[key];
         const fontSize = emotionOfDay
           ? 'text-8 leading-16 md:text-10 xl:text-16 font-bold'
           : 'text-16 font-semibold leading-26 xl:text-24 xl:leading-32';

@@ -52,10 +52,8 @@ export default function MyPage() {
   const [selectedBoard, setSelectedBoard] = useState<'epigram' | 'comment'>(
     'epigram'
   );
-  const [myEpigrams, setMyEpigrams] =
-    useState<EpigramListType[]>(mockEpigramDataArray);
-  const [myComments, setMyComments] =
-    useState<CommentType[]>(mockCommentDataArray);
+  const [myEpigrams, setMyEpigrams] = useState<EpigramListType[]>([]);
+  const [myComments, setMyComments] = useState<CommentType[]>([]);
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
