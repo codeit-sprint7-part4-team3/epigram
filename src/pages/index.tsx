@@ -14,11 +14,22 @@ import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
-import { fetchEpigramDetailComments } from '@/lib/api/epigrams';
+import { signoutUser } from '@/lib/api/auth';
+import useModalStore from '@/lib/store/useModalStore';
+import DeleteAlertModalContent from '@/shared/Modal/DeleteAlertModalContent';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const { openModal } = useModalStore();
+  const router = useRouter();
+
+  const handleStartClick = () => {
+    // 로그인 여부는 미들웨어에서 처리
+    router.push('/epigrams');
+  };
+
   const handlePageScroll = () => {
     const element = document.getElementById('scrollPoint');
     if (element) {
@@ -41,18 +52,19 @@ export default function Home() {
           <p className='pb-24 pt-8 text-center font-secondary text-14 font-normal md:pb-32 md:pt-24 md:text-20 xl:pb-48 xl:pt-40'>
             다른 사람들과 감정을 공유해 보세요
           </p>
-          <Button>시작하기</Button>
+          <Button onClick={handleStartClick}>시작하기</Button>
           <Button
-            onClick={async () => {
-              const response = await fetchEpigramDetailComments({
-                id: 1,
-                limit: 5,
-                cursor: 1,
-              });
-              console.log(response);
+            onClick={() => {
+              // signoutUser();
+              openModal(
+                <DeleteAlertModalContent
+                  deleteTargetLabel={'게시물'}
+                  onDelete={() => {}}
+                />
+              );
             }}
           >
-            야호
+            로그아웃
           </Button>
         </div>
         <button
@@ -240,7 +252,7 @@ export default function Home() {
         <div className='transition-animation flex-center h-600 flex-col gap-y-48 md:h-528 xl:h-screen'>
           <LogoLg className='hidden xl:block' />
           <LogoMd className='block xl:hidden' />
-          <Button>시작하기</Button>
+          <Button onClick={handleStartClick}>시작하기</Button>
         </div>
       </section>
     </main>

@@ -5,8 +5,15 @@ import type { NextRequest } from 'next/server';
 export function middleware(req: NextRequest) {
   const cookies = cookie.parse(req.headers.get('cookie') || '');
   const accessToken = cookies.accessToken;
-  if (!accessToken) {
+
+  const { pathname } = req.nextUrl;
+
+  if (!accessToken && !['/signin', '/signup'].includes(pathname)) {
     return NextResponse.redirect(new URL('/signin', req.url));
+  }
+
+  if (accessToken && ['/signin', '/signup'].includes(pathname)) {
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   return NextResponse.next();
@@ -14,9 +21,11 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // '/addepigram/:path*',
-    // '/feed/:path*',
-    // '/mypage/:path*',
-    // '/main/:path*',
+    '/signin',
+    '/signup',
+    '/feed/:path*',
+    '/epigrams/:path*',
+    '/addepigram',
+    '/mypage',
   ],
 };

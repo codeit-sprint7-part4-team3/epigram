@@ -7,7 +7,7 @@ type EpigramIdOnly = Pick<CreateCommentBody, 'epigramId'>;
 
 export default function CommentForm({ epigramId }: EpigramIdOnly) {
   const { isOpen: isPrivate, toggle } = useToggle(true);
-  const methods = useForm();
+  const methods = useForm<CreateCommentBody>();
   const { setValue } = methods;
   return (
     <Form

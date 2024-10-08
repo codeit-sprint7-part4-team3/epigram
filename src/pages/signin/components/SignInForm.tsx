@@ -6,20 +6,27 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 export default function SignInForm() {
-  const methods = useForm();
+  const methods = useForm<SignInRequestBody>();
   const router = useRouter();
   const { setError } = methods;
   const mutation = useMutation(signinUser, {
     onSuccess: data => {
-      // 1. 리다이렉트
-      console.log(data);
-      // 2. 유저 정보 저장
+      // 1. 유저 정보 저장
+      const userData = JSON.stringify(data.user);
+      sessionStorage.setItem('userData', userData);
+
+      // 2. 리다이렉트
       router.push('/');
     },
     onError: (error: any) => {
       const errorMessage = error.response.data.message;
       const errorDetail = Object.keys(error.response.data.details)[0];
-      setError(errorDetail, { message: errorMessage });
+
+      if (['email', 'password'].includes(errorDetail)) {
+        setError(errorDetail as keyof SignInRequestBody, {
+          message: errorMessage,
+        });
+      }
     },
   });
 
