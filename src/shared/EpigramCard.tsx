@@ -17,7 +17,7 @@ export default function EpigramCard({
   variant = 'normal',
 }: CardProps) {
   const EpigramCardStyle = twMerge(
-    'transition-animation font-secondary',
+    'transition-animation cursor-pointer font-secondary duration-100 hover:scale-105',
     styleByVariant[variant]
   );
 
