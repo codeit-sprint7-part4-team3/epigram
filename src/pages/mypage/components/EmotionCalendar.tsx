@@ -1,13 +1,9 @@
 import { getFirstWeekday, getLastDay } from '@/constants/utils';
-import { useMemo } from 'react';
 
 import CalendarBar from './CalendarBar';
 
 export default function EmotionCalendar({ year, month }: EmotionCalendarProps) {
-  const calendarDatas: CalendarDatas = useMemo(
-    () => createCalendar(year, month),
-    [year, month]
-  );
+  const calendarDatas: CalendarDatas = createCalendar(year, month);
 
   return (
     <div className={`flex w-308 flex-col md:w-379 xl:w-640`}>
@@ -24,7 +20,7 @@ export default function EmotionCalendar({ year, month }: EmotionCalendarProps) {
 }
 
 const createCalendar = (year: number, month: Month) => {
-  const calendarDatas: CalendarDatas = [
+  let calendarDatas: CalendarDatas = [
     [
       { key: 'sun', data: '일' },
       { key: 'mon', data: '월' },
@@ -36,12 +32,12 @@ const createCalendar = (year: number, month: Month) => {
     ],
   ];
 
-  const prevYear = month === 1 ? year - 1 : year;
-  const prevMonth = month === 1 ? 12 : ((month - 1) as Month);
+  const prevYear = month !== 1 ? year : year - 1;
+  const prevMonth = month !== 1 ? ((month - 1) as Month) : 12;
   const prevLastDay = getLastDay(prevYear, prevMonth);
 
-  const nextYear = month === 12 ? year + 1 : year;
-  const nextMonth = month === 12 ? 1 : month + 1;
+  const nextYear = month !== 12 ? year : year + 1;
+  const nextMonth = month !== 12 ? ((month + 1) as Month) : 1;
 
   const currentLastDay = getLastDay(year, month);
   const firstWeekday = getFirstWeekday(year, month);
@@ -49,37 +45,35 @@ const createCalendar = (year: number, month: Month) => {
   let dayCounter = 1 - firstWeekday;
   let weekCounter = 1;
 
-  while (true) {
-    if (dayCounter > currentLastDay) break;
-
+  while (dayCounter <= currentLastDay) {
     const week: CalendarItem[] = [{ key: String(weekCounter), data: null }];
 
     for (let i = 0; i < 7; i++) {
-      let day: number | null = null;
-
       if (dayCounter <= 0) {
-        day = prevLastDay + dayCounter;
+        const day = prevLastDay + dayCounter;
+        week.push({
+          key: `${prevYear}-${prevMonth}-${day}`,
+          data: day,
+        });
       } else if (dayCounter > currentLastDay) {
-        day = dayCounter - currentLastDay;
+        const day = dayCounter - currentLastDay;
+        week.push({
+          key: `${nextYear}-${nextMonth}-${day}`,
+          data: day,
+        });
       } else {
-        day = dayCounter;
+        const day = dayCounter;
+        week.push({
+          key: `${year}-${month}-${day}`,
+          data: day,
+        });
       }
-
-      week.push({
-        key:
-          dayCounter <= 0
-            ? `${prevYear}-${prevMonth}-${day}`
-            : dayCounter > currentLastDay
-              ? `${nextYear}-${nextMonth}-${day}`
-              : `${year}-${month}-${day}`,
-        data: day,
-      });
-
       dayCounter++;
     }
 
-    calendarDatas.push(week);
     weekCounter++;
+
+    calendarDatas.push(week);
   }
   return calendarDatas;
 };
