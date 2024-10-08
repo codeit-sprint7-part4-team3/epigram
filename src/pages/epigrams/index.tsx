@@ -28,6 +28,11 @@ const fetchTodayEpigram = async () => {
       tags: Array.isArray(data.tags)
         ? data.tags.map((tag: any) => tag.name)
         : [],
+      // 기본값 설정
+      likeCount: data.likeCount ?? 0,
+      writerId: data.writerId ?? null,
+      referenceUrl: data.referenceUrl ?? '',
+      referenceTitle: data.referenceTitle ?? '',
     };
   } catch (error) {
     console.error('오늘의 에피그램 가져오기 실패:', error);
@@ -51,6 +56,11 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
         tags: Array.isArray(epigramCard.tags)
           ? epigramCard.tags.map((tag: any) => tag.name)
           : [],
+        //기본값 설정
+        likeCount: epigramCard.likeCount ?? 0,
+        writerId: epigramCard.writerId ?? null,
+        referenceUrl: epigramCard.referenceUrl ?? '',
+        referenceTitle: epigramCard.referenceTitle ?? '',
       })),
       totalCount: data.totalCount,
     };
