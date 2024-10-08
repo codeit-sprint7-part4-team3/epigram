@@ -46,7 +46,7 @@ export default function Home() {
           <p className='pb-24 pt-8 text-center font-secondary text-14 font-normal md:pb-32 md:pt-24 md:text-20 xl:pb-48 xl:pt-40'>
             다른 사람들과 감정을 공유해 보세요
           </p>
-          <Link href={'/epigrams'}>
+          <Link href={'/epigrams'} passHref>
             <Button>시작하기</Button>
           </Link>
           <Button
