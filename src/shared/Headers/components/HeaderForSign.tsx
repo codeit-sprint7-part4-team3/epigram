@@ -7,7 +7,7 @@ import LogoForHeader from './LogoForHeader';
 export default function HeaderForSign() {
   const router = useRouter();
   const handleLogoClick = () => {
-    router.push('/');
+    router.push('/epigrams');
   };
 
   return (
