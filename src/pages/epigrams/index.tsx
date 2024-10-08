@@ -9,12 +9,16 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
+import { SkeletonCard } from './skeleton';
+
 export default function Epigrams() {
   const [cards, setCards] = useState<EpigramListType[]>([]);
   const [visibleCount, setVisibleCount] = useState(3);
   const [todayEpigram, setTodayEpigram] = useState<EpigramListType | null>(
     null
   );
+  const [isLoadingTodayEpigram, setIsLoadingTodayEpigram] = useState(true);
+  const [isLoadingEpigrams, setIsLoadingEpigrams] = useState(true);
 
   //최신 댓글 불러오기
   const {
@@ -22,17 +26,31 @@ export default function Epigrams() {
     isLoading: commentsLoading,
     loadMore: loadMoreComments,
     hasMore: hasMoreComments,
-  } = useComments(3);
+  } = useComments(10);
 
   useEffect(() => {
     const loadEpigrams = async () => {
-      // 오늘의 에피그램
-      const fetchedTodayEpigram = await fetchTodayEpigram();
-      setTodayEpigram(fetchedTodayEpigram);
+      setIsLoadingTodayEpigram(true);
+      setIsLoadingEpigrams(true);
+      try {
+        // 오늘의 에피그램
+        const fetchedTodayEpigram = await fetchTodayEpigram();
+        setTodayEpigram(fetchedTodayEpigram);
+      } catch (error) {
+        console.error("Error fetching today's epigram:", error);
+      } finally {
+        setIsLoadingTodayEpigram(false);
+      }
 
-      // 최신 에피그램
-      const { list: fullEpigrams } = await fetchEpigramCards();
-      setCards(fullEpigrams);
+      try {
+        // 최신 에피그램
+        const { list: fullEpigrams } = await fetchEpigramCards();
+        setCards(fullEpigrams);
+      } catch (error) {
+        console.error('Error fetching latest epigrams:', error);
+      } finally {
+        setIsLoadingEpigrams(false);
+      }
     };
 
     loadEpigrams();
@@ -50,17 +68,21 @@ export default function Epigrams() {
           <h1 className='mb-24 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
             오늘의 에피그램
           </h1>
-          {todayEpigram && (
-            <div className='mb-16'>
-              <EpigramCard
-                id={todayEpigram.id}
-                key={todayEpigram.id}
-                content={todayEpigram.content}
-                author={todayEpigram.author}
-                tags={todayEpigram.tags.map(tag => `#${tag} `)}
-                variant='normal'
-              />
-            </div>
+          {isLoadingTodayEpigram ? (
+            <SkeletonCard />
+          ) : (
+            todayEpigram && (
+              <div className='mb-16'>
+                <EpigramCard
+                  id={todayEpigram.id}
+                  key={todayEpigram.id}
+                  content={todayEpigram.content}
+                  author={todayEpigram.author}
+                  tags={todayEpigram.tags.map(tag => `#${tag} `)}
+                  variant='normal'
+                />
+              </div>
+            )
           )}
         </div>
         <div className='mt-56 xl:mt-140'>
@@ -79,17 +101,21 @@ export default function Epigrams() {
           <h1 className='mb-24 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
             최신 에피그램
           </h1>
-          {cards.slice(0, visibleCount).map(card => (
-            <div className='mb-16' key={card.id}>
-              <EpigramCard
-                id={card.id}
-                content={card.content}
-                author={card.author}
-                tags={card.tags.map(tag => `#${tag} `)}
-                variant='normal'
-              />
-            </div>
-          ))}
+          {isLoadingEpigrams
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
+            : cards.slice(0, visibleCount).map(card => (
+                <div className='mb-16' key={card.id}>
+                  <EpigramCard
+                    id={card.id}
+                    content={card.content}
+                    author={card.author}
+                    tags={card.tags.map(tag => `#${tag} `)}
+                    variant='normal'
+                  />
+                </div>
+              ))}
           <div className='flex-center mt-40 md:mt-56 xl:mt-72'>
             <Button variant='round' color='white' onClick={handleLoadMore}>
               <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
@@ -97,7 +123,6 @@ export default function Epigrams() {
             </Button>
           </div>
         </div>
-        {/* Latest comments section */}
         <div className='mt-72 xl:mt-160'>
           <h1 className='mb-16 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
             최신 댓글
