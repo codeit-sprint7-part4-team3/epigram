@@ -165,7 +165,16 @@ export default function Epigrams() {
           </h1>
           <div className='mb-16'>
             {comments.map(comment => (
-              <Comment key={comment.id} data={comment} />
+              <Comment
+                key={comment.id}
+                data={{
+                  ...comment,
+                  writer: {
+                    ...comment.writer,
+                    image: comment.writer.image ?? '',
+                  },
+                }}
+              />
             ))}
           </div>
           <div className='flex-center mb-114 mt-40 md:mb-270 xl:mb-119 xl:mt-72'>
