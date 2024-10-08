@@ -19,16 +19,10 @@ import useModalStore from '@/lib/store/useModalStore';
 import DeleteAlertModalContent from '@/shared/Modal/DeleteAlertModalContent';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Home() {
   const { openModal } = useModalStore();
-  const router = useRouter();
-
-  const handleStartClick = () => {
-    // 로그인 여부는 미들웨어에서 처리
-    router.push('/epigrams');
-  };
 
   const handlePageScroll = () => {
     const element = document.getElementById('scrollPoint');
@@ -52,7 +46,9 @@ export default function Home() {
           <p className='pb-24 pt-8 text-center font-secondary text-14 font-normal md:pb-32 md:pt-24 md:text-20 xl:pb-48 xl:pt-40'>
             다른 사람들과 감정을 공유해 보세요
           </p>
-          <Button onClick={handleStartClick}>시작하기</Button>
+          <Link href={'/epigrams'}>
+            <Button>시작하기</Button>
+          </Link>
           <Button
             onClick={() => {
               // signoutUser();
@@ -252,7 +248,9 @@ export default function Home() {
         <div className='transition-animation flex-center h-600 flex-col gap-y-48 md:h-528 xl:h-screen'>
           <LogoLg className='hidden xl:block' />
           <LogoMd className='block xl:hidden' />
-          <Button onClick={handleStartClick}>시작하기</Button>
+          <Link href={'/epigrams'}>
+            <Button>시작하기</Button>
+          </Link>
         </div>
       </section>
     </main>
