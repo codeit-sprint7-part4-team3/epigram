@@ -19,6 +19,7 @@ export default function Epigrams() {
   );
   const [isLoadingTodayEpigram, setIsLoadingTodayEpigram] = useState(true);
   const [isLoadingEpigrams, setIsLoadingEpigrams] = useState(true);
+  const [isLoadingComments, setIsLoadingComments] = useState(true);
 
   //최신 댓글 불러오기
   const {

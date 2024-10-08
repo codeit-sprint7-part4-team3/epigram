@@ -40,18 +40,26 @@ const fetchTodayEpigram = async () => {
       method: 'GET',
     });
 
+    const {
+      id,
+      content,
+      author,
+      tags,
+      likeCount = 0,
+      writerId = null,
+      referenceUrl = '',
+      referenceTitle = '',
+    } = data;
+
     return {
-      id: data.id,
-      content: data.content,
-      author: data.author,
-      tags: Array.isArray(data.tags)
-        ? data.tags.map((tag: any) => tag.name)
-        : [],
-      // 기본값 설정
-      likeCount: data.likeCount ?? 0,
-      writerId: data.writerId ?? null,
-      referenceUrl: data.referenceUrl ?? '',
-      referenceTitle: data.referenceTitle ?? '',
+      id,
+      content,
+      author,
+      tags: Array.isArray(tags) ? tags.map((tag: any) => tag.name) : [],
+      likeCount,
+      writerId,
+      referenceUrl,
+      referenceTitle,
     };
   } catch (error) {
     console.error('오늘의 에피그램 가져오기 실패:', error);
