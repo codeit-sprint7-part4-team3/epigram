@@ -10,7 +10,7 @@ interface UserInfoProps {
 export default function UserInfo({ image, nickname, onClick }: UserInfoProps) {
   return (
     <div
-      className='flex justify-between items-center gap-6 cursor-pointer'
+      className='flex cursor-pointer items-center justify-between gap-6'
       onClick={onClick}
     >
       {image ? (
@@ -19,9 +19,9 @@ export default function UserInfo({ image, nickname, onClick }: UserInfoProps) {
           styles='w-24 h-24 border-1 border-solid border-gray-200 rounded-full'
         />
       ) : (
-        <IconUserSigned className='w-16 xl:w-24 h-16 xl:h-24' />
+        <IconUserSigned className='h-16 w-16 xl:h-24 xl:w-24' />
       )}
-      <p className='font-primary text-gray-300 text-13 xl:text-14 font-semibold leading-22 xl:leading-24 cursor-pointer'>
+      <p className='cursor-pointer font-primary text-13 font-semibold leading-22 text-gray-300 xl:text-14 xl:leading-24'>
         {nickname}
       </p>
     </div>
