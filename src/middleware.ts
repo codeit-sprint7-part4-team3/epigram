@@ -12,8 +12,8 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/signin', req.url));
   }
 
-  if (accessToken && ['/signin', '/signup'].includes(pathname)) {
-    return NextResponse.redirect(new URL('/', req.url));
+  if (accessToken && ['/signin', '/signup', '/'].includes(pathname)) {
+    return NextResponse.redirect(new URL('/epigrams', req.url));
   }
 
   return NextResponse.next();
@@ -21,6 +21,7 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    '/',
     '/signin',
     '/signup',
     '/feed/:path*',
