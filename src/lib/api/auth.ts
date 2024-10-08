@@ -1,4 +1,4 @@
-import instance from '@/api/comments/axios';
+import instance from '@/api/instance/axios';
 import axios from 'axios';
 
 const signinUser = async (data: SignInRequestBody) => {
