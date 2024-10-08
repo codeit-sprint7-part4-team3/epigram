@@ -113,6 +113,7 @@ export default function Feed() {
                 .map((card, index) => (
                   <EpigramCard
                     key={index}
+                    id={card.id}
                     content={card.content}
                     author={card.author}
                     tags={card.tags.map(tag => `#${tag} `)}
