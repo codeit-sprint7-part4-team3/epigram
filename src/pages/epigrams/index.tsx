@@ -131,9 +131,13 @@ export default function Epigrams() {
           )}
         </div>
         <div className='mt-56 xl:mt-140'>
-          <h1 className='mb-24 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
-            오늘의 감정은 어떤가요?
-          </h1>
+          <div className='flex justify-between'>
+            <h1 className='mb-24 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
+              오늘의 감정은 어떤가요?
+            </h1>
+            <button className='h-full w-100 bg-black-100'>감정 저장하기</button>
+          </div>
+
           <div className='flex-center'>
             <EmotionList />
           </div>

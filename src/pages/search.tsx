@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 interface Epigram {
+  id: number;
   content: string;
   author: string;
   tags: { id: number; name: string }[]; // tags 배열에 객체가 포함된 경우
@@ -113,6 +114,7 @@ const Search: React.FC = () => {
       <div>
         {searchResult.map((epigram, index) => (
           <EpigramCard
+            id={epigram.id}
             key={index}
             content={epigram.content}
             author={epigram.author}
