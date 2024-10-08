@@ -41,8 +41,7 @@ export default function HeaderForCommon() {
     try {
       await signoutUser();
       sessionStorage.clear();
-      router.push('/');
-      window.location.reload();
+      window.location.href = '/';
     } catch (error) {
       console.error(error);
     }
