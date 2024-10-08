@@ -1,9 +1,13 @@
 import { getFirstWeekday, getLastDay } from '@/constants/utils';
+import { useMemo } from 'react';
 
 import CalendarBar from './CalendarBar';
 
 export default function EmotionCalendar({ year, month }: EmotionCalendarProps) {
-  const calendarDatas: CalendarDatas = createCalendar(year, month);
+  const calendarDatas: CalendarDatas = useMemo(
+    () => createCalendar(year, month),
+    [year, month]
+  );
 
   return (
     <div className={`flex w-308 flex-col md:w-379 xl:w-640`}>
@@ -20,7 +24,7 @@ export default function EmotionCalendar({ year, month }: EmotionCalendarProps) {
 }
 
 const createCalendar = (year: number, month: Month) => {
-  let calendarDatas: CalendarDatas = [
+  const calendarDatas: CalendarDatas = [
     [
       { key: 'sun', data: '일' },
       { key: 'mon', data: '월' },
@@ -32,12 +36,12 @@ const createCalendar = (year: number, month: Month) => {
     ],
   ];
 
-  const prevYear = month !== 1 ? year : year - 1;
-  const prevMonth = month !== 1 ? ((month - 1) as Month) : 12;
+  const prevYear = month === 1 ? year - 1 : year;
+  const prevMonth = month === 1 ? 12 : ((month - 1) as Month);
   const prevLastDay = getLastDay(prevYear, prevMonth);
 
-  const nextYear = month !== 12 ? year : year + 1;
-  const nextMonth = month !== 12 ? ((month + 1) as Month) : 1;
+  const nextYear = month === 12 ? year + 1 : year;
+  const nextMonth = month === 12 ? 1 : month + 1;
 
   const currentLastDay = getLastDay(year, month);
   const firstWeekday = getFirstWeekday(year, month);
@@ -51,31 +55,31 @@ const createCalendar = (year: number, month: Month) => {
     const week: CalendarItem[] = [{ key: String(weekCounter), data: null }];
 
     for (let i = 0; i < 7; i++) {
+      let day: number | null = null;
+
       if (dayCounter <= 0) {
-        const day = prevLastDay + dayCounter;
-        week.push({
-          key: `${prevYear}-${prevMonth}-${day}`,
-          data: day,
-        });
+        day = prevLastDay + dayCounter;
       } else if (dayCounter > currentLastDay) {
-        const day = dayCounter - currentLastDay;
-        week.push({
-          key: `${nextYear}-${nextMonth}-${day}`,
-          data: day,
-        });
+        day = dayCounter - currentLastDay;
       } else {
-        const day = dayCounter;
-        week.push({
-          key: `${year}-${month}-${day}`,
-          data: day,
-        });
+        day = dayCounter;
       }
+
+      week.push({
+        key:
+          dayCounter <= 0
+            ? `${prevYear}-${prevMonth}-${day}`
+            : dayCounter > currentLastDay
+              ? `${nextYear}-${nextMonth}-${day}`
+              : `${year}-${month}-${day}`,
+        data: day,
+      });
+
       dayCounter++;
     }
 
-    weekCounter++;
-
     calendarDatas.push(week);
+    weekCounter++;
   }
   return calendarDatas;
 };
