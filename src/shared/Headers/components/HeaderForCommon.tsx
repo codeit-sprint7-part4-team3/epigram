@@ -1,4 +1,5 @@
 import HamburgerMenu from '@/assets/icons/ic-hamburger-menu.svg';
+import User from '@/assets/icons/ic-user.svg';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -44,10 +45,15 @@ export default function HeaderForCommon() {
         <LogoForHeader />
         <NavMenu />
       </div>
-      {userData && (
+      {userData ? (
         <UserInfo
           image={userData.image}
           nickname={userData.nickname}
+          onClick={handleUserClick}
+        />
+      ) : (
+        <User
+          className={'h-20 w-20 xl:h-36 xl:w-36'}
           onClick={handleUserClick}
         />
       )}
