@@ -43,7 +43,7 @@ const ChipItem = ({
 
   return (
     <li
-      className={twMerge('text-black-300 p-5 rounded-xl', className)}
+      className={twMerge('rounded-xl p-5 text-black-300', className)}
       {...rest}
     >
       <button
