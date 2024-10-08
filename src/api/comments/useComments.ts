@@ -1,8 +1,9 @@
+import { CommentType } from '@/shared/Comment/Comment';
 import { useCallback, useEffect, useState } from 'react';
 
-import { fetchComments } from './comments';
+import { CommentsResponse, fetchComments } from './comments';
 
-export const useComments = (initialLimit: number = 10) => {
+export const useComments = (epigramId: number, initialLimit: number = 10) => {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [nextCursor, setNextCursor] = useState<number | null>(null);
@@ -13,12 +14,19 @@ export const useComments = (initialLimit: number = 10) => {
     async (cursor?: number) => {
       setIsLoading(true);
       try {
-        const data = await fetchComments(initialLimit, cursor);
+        const data: CommentsResponse = await fetchComments(
+          epigramId,
+          initialLimit,
+          cursor
+        );
+
+        console.log('data::', data);
+
         setComments(prevComments =>
           cursor ? [...prevComments, ...data.list] : data.list
         );
         setTotalCount(data.totalCount);
-        setNextCursor(data.nextCursor || null);
+        setNextCursor(data.nextCursor);
         setError(null);
       } catch (err) {
         setError('댓글을 불러오는 데 실패했습니다.');
@@ -26,7 +34,7 @@ export const useComments = (initialLimit: number = 10) => {
         setIsLoading(false);
       }
     },
-    [initialLimit]
+    [epigramId, initialLimit]
   );
 
   useEffect(() => {

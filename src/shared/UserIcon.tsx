@@ -1,7 +1,8 @@
 interface UserIconProps {
-  imageSource: string;
+  imageSource: string | null | undefined;
   styles?: string;
 }
+
 export default function UserIcon({ imageSource, styles }: UserIconProps) {
-  return <img className={styles} src={imageSource}></img>;
+  return <img className={styles} src={imageSource || ''} alt='User Icon' />;
 }
