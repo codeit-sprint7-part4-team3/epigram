@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 
 type ButtonVariant = 'main' | 'wide' | 'round';
 export type ButtonSize = 'sm' | 'md';
-type ButtonColor = 'primary' | 'white' | 'blue';
+type ButtonColor = 'primary' | 'white' | 'blue' | 'lightBlue';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -62,6 +62,7 @@ const styleByColor: Record<ButtonColor, string> = {
     'bg-black-500 text-blue-100 hover:bg-black-600 active:bg-black-700 disabled:bg-blue-300 disabled:outline disabled:outline-blue-100 disabled:cursor-not-allowed',
   white: 'bg-background-100 border border-solid border-line-200 text-blue-500',
   blue: 'bg-blue-900 text-blue-100',
+  lightBlue: 'bg-blue-200 text-black-700',
 };
 
 const smButtonStyle =

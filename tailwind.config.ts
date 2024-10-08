@@ -5,6 +5,7 @@ const colorPalette: Record<
   string | Record<string | number, string | Record<string, string>>
 > = {
   black: {
+    default: '#000000',
     100: '#787878',
     200: '#6B6B6B',
     300: '#5E5E5E',
