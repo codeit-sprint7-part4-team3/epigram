@@ -15,9 +15,7 @@ const DEFAULT_ISPRIVATE = false;
 
 export default function CommentForm({ epigramId }: EpigramIdOnly) {
   const mutation = useMutation(createComments, {
-    onSuccess: data => {
-      console.log(data);
-    },
+    onSuccess: data => {},
     onError: (error: any) => {
       console.error(error);
     },

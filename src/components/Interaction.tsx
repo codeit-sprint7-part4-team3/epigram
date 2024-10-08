@@ -6,6 +6,7 @@ import { useLikeToggle } from '@/hooks/useLikeToggle';
 import Comment, { CommentType } from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
 import DropdownMenu from '@/shared/DropdownMenu';
+import Profile from '@/shared/Profile';
 import ChipList from '@/shared/TagChip';
 import UserIcon from '@/shared/UserIcon';
 import { useRouter } from 'next/router';
@@ -142,21 +143,8 @@ export default function Interaction({
       <section className='flex-center flex-grow flex-col bg-background-100 pt-90'>
         <div className='w-640'>
           <p className='mb-24'>댓글 ({totalComments})</p>
-          <div className='flex'>
-            {userData?.image ? (
-              <div className='flex flex-col justify-center'>
-                <UserIcon
-                  imageSource={userData.image}
-                  styles='w-48 h-48 rounded-full'
-                />
-                <span className='ml-2 mt-2 text-sm'>{userData?.nickname}</span>
-              </div>
-            ) : (
-              <div className='mr-21 flex flex-col'>
-                <IconUserSigned className='h-48 w-48' />
-                <span className='mt-2 text-sm'>{userData?.nickname}</span>
-              </div>
-            )}
+          <div className='flex gap-16 xl:gap-24'>
+            {userData && <Profile image={userData.image} />}
             <CommentForm epigramId={epigramData.id} />
           </div>
         </div>
