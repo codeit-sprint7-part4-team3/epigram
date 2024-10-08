@@ -1,9 +1,14 @@
 import { handleAuth } from '@/pages/api/auth/handleAuth';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function signUpHandler(
+export default async function signInHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  return handleAuth(req, res, 'auth/signUp', '회원가입에 성공했습니다.');
+  return handleAuth(
+    req,
+    res,
+    'auth/signIn/KAKAO',
+    '카카오 로그인에 성공했습니다.'
+  );
 }

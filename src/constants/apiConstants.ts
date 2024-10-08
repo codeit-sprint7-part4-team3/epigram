@@ -11,3 +11,7 @@ export const allowedEndpoints = [
   '/comments',
   '/auth',
 ];
+
+export const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || '';
+export const KAKAO_REDIRECT_URL =
+  process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL || '';

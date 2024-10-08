@@ -10,6 +10,7 @@ export type Field =
   | 'epigramContent'
   | 'author'
   | 'referenceUrl'
+  | 'commentContent'
   | string;
 
 const FIELD_DICTIONARY: Record<Field, string> = {
@@ -18,12 +19,14 @@ const FIELD_DICTIONARY: Record<Field, string> = {
   passwordConfirmation: '비밀번호 확인',
   nickname: '닉네임',
   epigramContent: '내용',
+  commentContent: '댓글',
 };
 const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PASSWORD_PATTERN = /^[A-Za-z\d!@#$%^&*]+$/;
 const MAX_NICKNAME_LENGTH = 20;
 const MIN_PASSWORD_LENGTH = 8;
 export const MAX_EPIGRAM_CONTENT_LENGTH: number = 500;
+export const MAX_COMMENT_CONTENT_LENGTH: number = 100;
 
 export const generateRequiredMessage = (name: Field): string => {
   return `${josa(FIELD_DICTIONARY[name], '을/를')} 입력해주세요.`;
@@ -63,6 +66,13 @@ const EPIGRAM_CONTENT_RULES: RegisterOptions = {
     message: `${MAX_EPIGRAM_CONTENT_LENGTH}자 이내로 입력해주세요`,
   },
 };
+const COMMENT_CONTENT_RULES: RegisterOptions = {
+  required: generateRequiredMessage('commentContent'),
+  maxLength: {
+    value: MAX_COMMENT_CONTENT_LENGTH,
+    message: `${MAX_COMMENT_CONTENT_LENGTH}자 이내로 입력해주세요`,
+  },
+};
 const REFERENCE_URL_RULES: RegisterOptions = {
   validate: value =>
     !value || isValidURL(value) || '올바른 URL 양식이 아닙니다.',
@@ -81,6 +91,7 @@ const VALIDATION_RULES: Record<Field, RegisterOptions> = {
   passwordConfirmation: {},
   nickname: NICKNAME_RULES,
   epigramContent: EPIGRAM_CONTENT_RULES,
+  commentContent: COMMENT_CONTENT_RULES,
   referenceUrl: REFERENCE_URL_RULES,
 };
 
