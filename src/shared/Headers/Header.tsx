@@ -5,7 +5,7 @@ import HeaderForLanding from './components/HeaderForLanding';
 import HeaderForSign from './components/HeaderForSign';
 
 const headerByPage: Record<string, JSX.Element> = {
-  '/epigrams': <HeaderForLanding />,
+  '/': <HeaderForLanding />,
   '/signin': <HeaderForSign />,
   '/signup': <HeaderForSign />,
   etc: <HeaderForCommon />,

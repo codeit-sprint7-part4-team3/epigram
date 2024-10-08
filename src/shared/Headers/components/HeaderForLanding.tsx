@@ -20,12 +20,12 @@ export default function HeaderForLanding() {
   return (
     <>
       <IconSearch
-        className='w-20 xl:w-36 h-20 xl:h-36 cursor-pointer'
+        className='h-20 w-20 cursor-pointer xl:h-36 xl:w-36'
         onClick={handleSearchClick}
       />
       <LogoForHeader />
       <IconUser
-        className='w-20 xl:w-36 h-20 xl:h-36 cursor-pointer'
+        className='h-20 w-20 cursor-pointer xl:h-36 xl:w-36'
         onClick={handleUserClick}
       />
     </>
