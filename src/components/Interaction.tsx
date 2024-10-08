@@ -66,7 +66,7 @@ export default function Interaction({
 
   console.log('data:::::::', epigramData);
   const handleEdit = () => {
-    router.push(`/epigram/${epigramData.id}/editEpigram`);
+    router.push(`/epigrams/${epigramData.id}/editepigram`);
   };
 
   const handleDelete = async () => {
