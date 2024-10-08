@@ -25,4 +25,12 @@ const signoutUser = async () => {
   return response.data;
 };
 
-export { signinUser, signupUser, signoutUser };
+const socialSignInUser = async (
+  provider: OauthProvider,
+  data: SignInWithOauthRequestBody
+) => {
+  const response = await instance.post(`/auth/signIn/${provider}`, data, {});
+  return response.data;
+};
+
+export { signinUser, signupUser, signoutUser, socialSignInUser };

@@ -1,7 +1,7 @@
 import Header from '@/shared/Headers/Header';
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
