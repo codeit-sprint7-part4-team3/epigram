@@ -208,6 +208,7 @@ export default function MyPage() {
                       .slice(0, visibleCount)
                       .map(myEpigram => (
                         <EpigramCard
+                          id={myEpigram.id}
                           key={myEpigram.id}
                           content={myEpigram.content}
                           author={myEpigram.author}
