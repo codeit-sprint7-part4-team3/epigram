@@ -6,7 +6,7 @@ interface Props extends Pick<Writer, 'image'> {
   size?: ProfileSize;
   variant?: ProfileVariant;
 }
-type ProfileSize = 'md' | 'lg';
+type ProfileSize = 'sm' | 'md' | 'lg';
 type ProfileVariant = 'default' | 'outlined';
 
 export default function Profile({
@@ -29,11 +29,12 @@ export default function Profile({
 }
 
 const styleBySize: Record<ProfileSize, string> = {
+  sm: 'h-16 w-16 xl:h-24 xl:w-24',
   md: 'h-48 w-48',
   lg: 'h-80 w-80 x;:h-120 xl:w-120',
 };
 
 const styleByVariant: Record<ProfileVariant, string> = {
   default: '',
-  outlined: 'border-2 border-solid border-blue-300',
+  outlined: 'border-2 border-solid border-blue-300 bg-white',
 };
