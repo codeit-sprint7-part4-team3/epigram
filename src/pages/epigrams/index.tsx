@@ -120,6 +120,7 @@ export default function Epigrams() {
           {todayEpigram && (
             <div className='mb-16'>
               <EpigramCard
+                id={todayEpigram.id}
                 key={todayEpigram.id}
                 content={todayEpigram.content}
                 author={todayEpigram.author}
@@ -144,6 +145,7 @@ export default function Epigrams() {
           {cards.slice(0, visibleCount).map(card => (
             <div className='mb-16' key={card.id}>
               <EpigramCard
+                id={card.id}
                 content={card.content}
                 author={card.author}
                 tags={card.tags.map(tag => `#${tag} `)}
