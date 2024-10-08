@@ -1,4 +1,6 @@
+import Plus from '@/assets/icons/ic-plus.svg';
 import SearchIcon from '@/assets/icons/ic-search.svg';
+import Button from '@/components/Button';
 import SearchResult from '@/pages/search/components/SearchResult';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -145,19 +147,19 @@ function Search() {
             key={index}
             content={epigram.content}
             author={epigram.author}
-            tags={epigram.tags.map(tag => tag.name)} // tags 배열을 문자열 배열로 변환
+            tags={epigram.tags}
             searchTerm={highlightTerm} // highlightTerm 전달
           />
         ))}
       </div>
 
       {searchResult.length < totalResults && (
-        <button
-          onClick={handleLoadMore}
-          className='mt-4 w-full rounded bg-blue-500 py-2 text-white'
-        >
-          더 보기
-        </button>
+        <div className='mt-30 flex justify-center'>
+          <Button variant='round' color='white' onClick={handleLoadMore}>
+            <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+            에피그램 더보기
+          </Button>
+        </div>
       )}
     </div>
   );
