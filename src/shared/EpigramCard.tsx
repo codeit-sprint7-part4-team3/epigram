@@ -44,7 +44,7 @@ export default function EpigramCard({
         </div>
         {/* TODO: tag 컴포넌트 연결 */}
         <div className='text-right text-14 font-normal leading-24 text-blue-400 md:text-16 md:leading-26 xl:text-24 xl:leading-40'>
-          {tags.join(', ')}
+          {tags.join('  ')}
         </div>
       </div>
     </Link>
