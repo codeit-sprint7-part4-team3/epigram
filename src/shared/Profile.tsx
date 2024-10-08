@@ -23,7 +23,7 @@ export default function Profile({
   const profileClass = twMerge(
     styleByVariant[variant],
     styleBySize[size],
-    'relative, rounded-full'
+    'relative overflow-hidden rounded-full'
   );
   return <div className={profileClass}>{profileContent}</div>;
 }
