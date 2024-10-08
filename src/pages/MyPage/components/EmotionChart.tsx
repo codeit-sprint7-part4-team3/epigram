@@ -90,10 +90,15 @@ export default function EmotionChart({
     let startAngle = -Math.PI / 2;
 
     emotionDatas.forEach(emotionData => {
+      if (emotionData.count === 0) {
+        return;
+      }
+
       const sliceAngle =
         (emotionData.count / (totalCountOfEmotion || emotionDatas.length)) *
         2 *
         Math.PI;
+
       const endAngle = startAngle + sliceAngle - gap;
 
       ctx.beginPath();

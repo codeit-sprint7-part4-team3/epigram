@@ -4,8 +4,8 @@ import IconMoved from '@/assets/icons/ic-emotion-moved.svg';
 import IconSad from '@/assets/icons/ic-emotion-sad.svg';
 import IconWorried from '@/assets/icons/ic-emotion-worried.svg';
 import { getMonthKey, getToday } from '@/constants/utils';
-
-import { mockMonthlyEmotionDatas } from '../../../data/mockMonthlyEmotionDatas';
+import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
+import { useEffect, useState } from 'react';
 
 const iconSize = 'w-18 h-18 md:h-24 md:w-24 xl:h-36 xl:w-36';
 const iconByEmotion: Record<string, JSX.Element> = {
@@ -23,10 +23,13 @@ export default function CalendarBar({
   year,
   month,
 }: CalendarBarProps) {
-  const monthKey = getMonthKey(year, month);
-  if (mockMonthlyEmotionDatas[monthKey]) {
-    mockMonthlyEmotionDatas[monthKey].forEach(
-      (mockMonthlyEmotionData: EmotionLogType) => {
+  const [monthlyEmotionData, setMonthlyEmotionData] =
+    useState<Record<string, JSX.Element>>();
+
+  useEffect(() => {
+    const fetchEmotionLogs = async () => {
+      const emotionLogsMonthly = await getEmotionLogsMonthly(year, month);
+      emotionLogsMonthly.forEach((mockMonthlyEmotionData: EmotionLogType) => {
         if (!iconByEmotion[mockMonthlyEmotionData.emotion]) {
           return;
         }
@@ -34,8 +37,15 @@ export default function CalendarBar({
         const [formattedDate] = mockMonthlyEmotionData.createdAt.split('T');
         convertedMonthlyEmotionData[formattedDate] =
           iconByEmotion[mockMonthlyEmotionData.emotion];
-      }
-    );
+      });
+
+      setMonthlyEmotionData(convertedMonthlyEmotionData);
+    };
+
+    fetchEmotionLogs();
+  }, [year, month]);
+
+  if (monthlyEmotionData) {
   }
   return (
     <div className={`flex w-308 flex-row items-center md:w-379 xl:w-640`}>

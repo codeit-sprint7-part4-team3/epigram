@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import {
+  getEmotionLogsToday,
+  postEmotionLogsToday,
+} from '@/lib/api/emotionLogs';
+import { useEffect, useState } from 'react';
 
 import EmotionCard from './components/EmotionCard';
 
@@ -7,8 +11,18 @@ const emotionList: Emotion[] = ['MOVED', 'HAPPY', 'WORRIED', 'SAD', 'ANGRY'];
 export default function EmotionList() {
   const [selectedEmotion, setSelectedEmotion] = useState('');
 
+  useEffect(() => {
+    const fetchEmotionLogs = async () => {
+      const result = await getEmotionLogsToday();
+      setSelectedEmotion(result.emotion); //
+    };
+
+    fetchEmotionLogs();
+  }, []);
+
   const handleCardClick = (emotion: Emotion) => {
     setSelectedEmotion(emotion);
+    postEmotionLogsToday({ emotion });
   };
 
   return (
