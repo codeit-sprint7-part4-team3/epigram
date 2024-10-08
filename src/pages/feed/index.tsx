@@ -23,7 +23,7 @@ export default function Feed() {
   useEffect(() => {
     const loadEpigrams = async () => {
       setLoading(true); // Start loading
-      const { list: fullEpigrams } = await fetchEpigramCards({ limit: 10 });
+      const { list: fullEpigrams } = await fetchEpigramCards();
       setCards(fullEpigrams);
       setLoading(false); // End loading
     };

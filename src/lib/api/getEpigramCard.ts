@@ -1,19 +1,24 @@
 import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 
-interface BasicQuery {
-  limit?: number;
-}
-
 // 에피그램 카드 불러오기
-const fetchEpigramCards = async ({ limit }: BasicQuery) => {
+const fetchEpigramCards = async () => {
   try {
-    const { list, totalCount } = await apiRequestWithAtuh({
-      endpoint: `/epigrams?limit=${limit}`,
+    // 첫 번째 요청: 기본 limit으로 요청하여 totalCount 가져오기
+    const initialResponse = await apiRequestWithAtuh({
+      endpoint: `/epigrams?limit=10`,
+      method: 'GET',
+    });
+
+    const { totalCount } = initialResponse;
+
+    // 두 번째 요청: totalCount로 다시 요청하여 전체 데이터를 가져오기
+    const finalResponse = await apiRequestWithAtuh({
+      endpoint: `/epigrams?limit=${totalCount}`,
       method: 'GET',
     });
 
     return {
-      list: list.map(({ id, content, author, tags }: any) => ({
+      list: finalResponse.list.map(({ id, content, author, tags }: any) => ({
         id,
         content,
         author,
@@ -22,7 +27,7 @@ const fetchEpigramCards = async ({ limit }: BasicQuery) => {
       totalCount,
     };
   } catch (error) {
-    console.error('에피그램 가져오기 실패:', error);
+    console.error('에피그램 카드 가져오기 실패:', error);
     return { list: [], totalCount: 0 };
   }
 };
