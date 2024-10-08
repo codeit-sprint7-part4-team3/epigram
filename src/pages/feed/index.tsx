@@ -2,7 +2,6 @@ import SortDouble from '@/assets/icons/ic-dashboard.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
 import SortSingle from '@/assets/icons/ic-sort.svg';
 import Button from '@/components/Button';
-import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 import { fetchEpigramCards } from '@/lib/api/getEpigramCard';
 import EpigramCard from '@/shared/EpigramCard';
 import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';

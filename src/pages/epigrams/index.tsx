@@ -1,74 +1,13 @@
 import { useComments } from '@/api/comments/useComments';
 import Plus from '@/assets/icons/ic-plus.svg';
 import Button from '@/components/Button';
-import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
+import { fetchEpigramCards, fetchTodayEpigram } from '@/lib/api/getEpigramCard';
 import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
 import EpigramCard from '@/shared/EpigramCard';
 import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
-
-interface BasicQuery {
-  limit?: number;
-}
-
-// 오늘의 에피그램 불러오기
-const fetchTodayEpigram = async () => {
-  try {
-    const data = await apiRequestWithAtuh({
-      endpoint: `/epigrams/today`,
-      method: 'GET',
-    });
-
-    return {
-      id: data.id,
-      content: data.content,
-      author: data.author,
-      tags: Array.isArray(data.tags)
-        ? data.tags.map((tag: any) => tag.name)
-        : [],
-      // 기본값 설정
-      likeCount: data.likeCount ?? 0,
-      writerId: data.writerId ?? null,
-      referenceUrl: data.referenceUrl ?? '',
-      referenceTitle: data.referenceTitle ?? '',
-    };
-  } catch (error) {
-    console.error('오늘의 에피그램 가져오기 실패:', error);
-    return null;
-  }
-};
-
-// 에피그램 카드 불러오기
-const fetchEpigramCards = async ({ limit }: BasicQuery) => {
-  try {
-    const data = await apiRequestWithAtuh({
-      endpoint: `/epigrams?limit=${limit}`,
-      method: 'GET',
-    });
-
-    return {
-      list: data.list.map((epigramCard: any) => ({
-        id: epigramCard.id,
-        content: epigramCard.content,
-        author: epigramCard.author,
-        tags: Array.isArray(epigramCard.tags)
-          ? epigramCard.tags.map((tag: any) => tag.name)
-          : [],
-        //기본값 설정
-        likeCount: epigramCard.likeCount ?? 0,
-        writerId: epigramCard.writerId ?? null,
-        referenceUrl: epigramCard.referenceUrl ?? '',
-        referenceTitle: epigramCard.referenceTitle ?? '',
-      })),
-      totalCount: data.totalCount,
-    };
-  } catch (error) {
-    console.error('에피그램 가져오기 실패:', error);
-    return { list: [], totalCount: 0 };
-  }
-};
 
 export default function Epigrams() {
   const [cards, setCards] = useState<EpigramListType[]>([]);
@@ -92,13 +31,7 @@ export default function Epigrams() {
       setTodayEpigram(fetchedTodayEpigram);
 
       // 최신 에피그램
-      const { list: initialEpigrams, totalCount } = await fetchEpigramCards({
-        limit: 10,
-      });
-      const { list: fullEpigrams } = await fetchEpigramCards({
-        limit: totalCount,
-      });
-
+      const { list: fullEpigrams } = await fetchEpigramCards();
       setCards(fullEpigrams);
     };
 

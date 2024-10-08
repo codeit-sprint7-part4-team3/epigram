@@ -32,4 +32,31 @@ const fetchEpigramCards = async () => {
   }
 };
 
-export { fetchEpigramCards };
+// 오늘의 에피그램 불러오기
+const fetchTodayEpigram = async () => {
+  try {
+    const data = await apiRequestWithAtuh({
+      endpoint: `/epigrams/today`,
+      method: 'GET',
+    });
+
+    return {
+      id: data.id,
+      content: data.content,
+      author: data.author,
+      tags: Array.isArray(data.tags)
+        ? data.tags.map((tag: any) => tag.name)
+        : [],
+      // 기본값 설정
+      likeCount: data.likeCount ?? 0,
+      writerId: data.writerId ?? null,
+      referenceUrl: data.referenceUrl ?? '',
+      referenceTitle: data.referenceTitle ?? '',
+    };
+  } catch (error) {
+    console.error('오늘의 에피그램 가져오기 실패:', error);
+    return null;
+  }
+};
+
+export { fetchEpigramCards, fetchTodayEpigram };
