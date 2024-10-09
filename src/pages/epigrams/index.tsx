@@ -128,13 +128,13 @@ export default function Epigrams() {
           </div>
           {isEmotionSaved ? (
             selectedEmotion && (
-              <div className='ml-15 mt-10 flex w-640'>
+              <div className='ml-15 mt-10 flex w-314 md:w-384 xl:w-640'>
                 <MainPageEmotionCard
                   emotionType={selectedEmotion}
                   isSelected={true}
                   handleCardClick={() => {}}
                 />
-                <p className='flex justify-items-center whitespace-pre-wrap pl-20 font-secondary text-20'>
+                <p className='flex justify-items-center whitespace-pre-wrap pl-20 pt-5 font-secondary text-14 xl:text-18'>
                   {selectedEmotion === 'MOVED' &&
                     `감동이 가득한 하루였군요!\n작은 순간 하나하나가 당신에게 깊은 울림이 되었길 바랍니다.\n앞으로도 많은 감동이 함께하길 응원할게요! `}
                   {selectedEmotion === 'HAPPY' &&
