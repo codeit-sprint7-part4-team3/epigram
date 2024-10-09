@@ -10,10 +10,10 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
-import SkeletonComment from '../feed/skeletonCard';
-import SkeletonCard from '../feed/skeletonCard';
 import MainPageEmotionList from './mainPageEmotionList';
 import MainPageEmotionCard from './mainPageEmotionList/components/MainPageEmotionCard';
+import SkeletonCard from './skeleton/skeletonCard';
+import SkeletonComment from './skeleton/skeletonComment';
 
 export default function Epigrams() {
   const [cards, setCards] = useState<EpigramListType[]>([]);
