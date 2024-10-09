@@ -111,7 +111,7 @@ export default function Epigrams() {
             <h1 className='mb-24 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
               오늘의 감정은 어떤가요?
             </h1>
-            <div className='flex items-center'>
+            <div className='flex items-center gap-x-8 xl:mb-40'>
               <button
                 className='h-fit w-fit cursor-pointer rounded-md bg-illust-yellow p-8 font-primary font-semibold duration-100 hover:scale-105'
                 onClick={handleSaveEmotion}
@@ -119,7 +119,7 @@ export default function Epigrams() {
                 감정 저장하기
               </button>
               <button
-                className='bg-illust-gray ml-4 h-full w-fit cursor-pointer rounded-md p-8 font-primary font-semibold duration-100 hover:scale-105'
+                className='bg-illust-gray h-full w-fit cursor-pointer rounded-md p-8 font-primary font-semibold duration-100 hover:scale-105'
                 onClick={handleChooseAgain} // 다시 고르기 버튼 클릭 핸들러
               >
                 다시 고르기
