@@ -10,7 +10,8 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
-import MainPageEmotionList from './MainPageEmotionList';
+import MainPageEmotionList from './mainPageEmotionList';
+import MainPageEmotionCard from './mainPageEmotionList/components/MainPageEmotionCard';
 import { SkeletonCard } from './skeleton';
 
 export default function Epigrams() {
@@ -127,7 +128,7 @@ export default function Epigrams() {
           </div>
           {isEmotionSaved ? (
             <div className='mt-4 flex items-center'>
-              <EmotionCard
+              <MainPageEmotionCard
                 emotionType={selectedEmotion}
                 isSelected={true}
                 handleCardClick={() => {}}

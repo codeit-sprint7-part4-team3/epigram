@@ -1,13 +1,16 @@
-import { getEmotionLogsToday } from '@/lib/api/emotionLogs';
+import {
+  getEmotionLogsToday,
+  postEmotionLogsToday,
+} from '@/lib/api/emotionLogs';
 import { useEffect, useState } from 'react';
 
-import EmotionCard from './components/EmotionCard';
+import MainPageEmotionCard from './components/MainPageEmotionCard';
 
 const emotionList: Emotion[] = ['MOVED', 'HAPPY', 'WORRIED', 'SAD', 'ANGRY'];
 
 interface EmotionListProps {
-  selectedEmotion: Emotion | null; //부모에서 선택된 감정 받기
-  setSelectedEmotion: (emotion: Emotion | null) => void; //부모에서 상태 변경 함수 받기
+  selectedEmotion: Emotion | null; // 부모에서 선택된 감정을 받아오기
+  setSelectedEmotion: (emotion: Emotion | null) => void; // 부모에서 상태 변경 함수 받아오기
 }
 
 export default function MainPageEmotionList({
@@ -17,7 +20,7 @@ export default function MainPageEmotionList({
   useEffect(() => {
     const fetchEmotionLogs = async () => {
       const result = await getEmotionLogsToday();
-      setSelectedEmotion(result.emotion); //초기값 설정
+      setSelectedEmotion(result.emotion); // 초기값 설정
     };
 
     fetchEmotionLogs();
@@ -30,7 +33,7 @@ export default function MainPageEmotionList({
   return (
     <div className={`flex gap-16`}>
       {emotionList.map(emotion => (
-        <EmotionCard
+        <MainPageEmotionCard
           key={emotion}
           emotionType={emotion}
           isSelected={emotion === selectedEmotion}

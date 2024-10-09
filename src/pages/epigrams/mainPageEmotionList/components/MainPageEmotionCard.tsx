@@ -39,7 +39,7 @@ interface EmotionCardProps {
   handleCardClick: (emotion: Emotion) => void;
 }
 
-export default function EmotionCard({
+export default function MainPageEmotionCard({
   emotionType,
   isSelected,
   handleCardClick,
@@ -62,7 +62,7 @@ export default function EmotionCard({
 
   return (
     <div
-      className={`flex w-56 flex-col gap-8 md:w-64 xl:w-96`}
+      className={`flex w-56 cursor-pointer flex-col gap-8 duration-100 hover:scale-105 md:w-64 xl:w-96`}
       onClick={handleClick}
     >
       <div
