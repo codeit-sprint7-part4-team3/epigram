@@ -2,7 +2,7 @@ import IconLeftChevron from '@/assets/icons/ic-left-chevron.svg';
 import Plus from '@/assets/icons/ic-plus.svg';
 import IconRightChevron from '@/assets/icons/ic-right-chevron.svg';
 import Button from '@/components/Button';
-import { getToday } from '@/constants/utils';
+import { getMonthKey, getToday } from '@/constants/utils';
 import mockCommentDataArray from '@/data/mockCommentData';
 import mockEpigramDataArray from '@/data/mockEpigramData';
 import { signoutUser } from '@/lib/api/auth';
@@ -32,7 +32,8 @@ export default function MyPage() {
 
   useEffect(() => {
     const fetchEmotionLogs = async () => {
-      const emotionLogsMonthly = await data;
+      const emotionLogsMonthly: EmotionLogType[] =
+        mockMonthlyEmotionDatas[getMonthKey(year, month)];
 
       let tempMonthlyEmotionDataForChart: MonthlyEmotionDatasForChart = {
         MOVED: { name: '감동', color: 'bg-illust-yellow', count: 0 },
@@ -52,7 +53,7 @@ export default function MyPage() {
     };
 
     fetchEmotionLogs();
-  }, [year, month, data]);
+  }, [year, month]);
 
   const [image, setImage] = useState();
   const [nickname, setNickname] = useState();
