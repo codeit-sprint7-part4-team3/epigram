@@ -10,6 +10,7 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
+import EmptyCard from './emptyCard';
 import MainPageEmotionList from './mainPageEmotionList';
 import MainPageEmotionCard from './mainPageEmotionList/components/MainPageEmotionCard';
 import SkeletonCard from './skeleton/skeletonCard';
@@ -107,7 +108,7 @@ export default function Epigrams() {
               />
             </div>
           ) : (
-            <div>오늘의 첫번째 에피그램을 남겨주세요!</div>
+            <EmptyCard />
           )}
         </div>
         <div className='mt-56 xl:mt-140'>
