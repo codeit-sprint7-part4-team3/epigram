@@ -6,19 +6,13 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
-interface Epigram {
-  content: string;
-  author: string;
-  tags: { id: number; name: string }[]; // tags 배열에 객체가 포함된 경우
-}
-
 const RESULTS_PER_PAGE = 5;
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [highlightTerm, setHighlightTerm] = useState<string>('');
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [searchResult, setSearchResult] = useState<Epigram[]>([]);
+  const [searchResult, setSearchResult] = useState<EpigramListType[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalResults, setTotalResults] = useState<number>(0);
   const router = useRouter();
@@ -58,7 +52,7 @@ function Search() {
 
     // 검색어를 포함하는 필터링 로직 추가
     const filteredResults = response.data.list.filter(
-      (epigram: Epigram) =>
+      (epigram: EpigramListType) =>
         epigram.content.includes(term) ||
         epigram.author.includes(term) ||
         epigram.tags.some(tag => tag.name.includes(term))
@@ -144,7 +138,8 @@ function Search() {
       <div>
         {searchResult.map((epigram, index) => (
           <SearchResult
-            key={index}
+            key={epigram.id}
+            id={epigram.id}
             content={epigram.content}
             author={epigram.author}
             tags={epigram.tags}
