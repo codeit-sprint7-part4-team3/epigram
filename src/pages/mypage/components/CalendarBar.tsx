@@ -6,6 +6,7 @@ import IconWorried from '@/assets/icons/ic-emotion-worried.svg';
 import { getMonthKey, getToday } from '@/constants/utils';
 import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 const iconSize = 'w-18 h-18 md:h-24 md:w-24 xl:h-36 xl:w-36';
 const iconByEmotion: Record<string, JSX.Element> = {
@@ -27,10 +28,16 @@ export default function CalendarBar({
     Record<string, JSX.Element>
   >({});
 
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['emotionLogsMonthly'],
+    queryFn: () => getEmotionLogsMonthly(year, month),
+  });
+
   useEffect(() => {
     const fetchEmotionLogs = async () => {
       try {
-        const emotionLogsMonthly = await getEmotionLogsMonthly(year, month);
+        const emotionLogsMonthly = await data;
+        console.log(emotionLogsMonthly);
         emotionLogsMonthly.forEach((mockMonthlyEmotionData: EmotionLogType) => {
           if (!iconByEmotion[mockMonthlyEmotionData.emotion]) {
             return;
@@ -43,12 +50,12 @@ export default function CalendarBar({
 
         setMonthlyEmotionData(convertedMonthlyEmotionData);
       } catch (error) {
-        console.error('Error fetching emotion logs:', error);
+        console.error(error);
       }
     };
 
     fetchEmotionLogs();
-  }, [year, month]);
+  }, [year, month, data]);
 
   return (
     <div className={`flex w-308 flex-row items-center md:w-379 xl:w-640`}>
