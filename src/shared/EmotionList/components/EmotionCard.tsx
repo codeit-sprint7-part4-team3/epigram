@@ -3,6 +3,7 @@ import IconHappy from '@/assets/icons/ic-emotion-happy.svg';
 import IconMoved from '@/assets/icons/ic-emotion-moved.svg';
 import IconSad from '@/assets/icons/ic-emotion-sad.svg';
 import IconWorried from '@/assets/icons/ic-emotion-worried.svg';
+import { useQuery } from 'react-query';
 
 const iconSize = 'w-32 h-32 xl:w-48 xl:h-48';
 const dataByEmotionType = {

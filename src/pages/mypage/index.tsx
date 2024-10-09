@@ -5,12 +5,14 @@ import Button from '@/components/Button';
 import { getToday } from '@/constants/utils';
 import mockCommentDataArray from '@/data/mockCommentData';
 import mockEpigramDataArray from '@/data/mockEpigramData';
+import { signoutUser } from '@/lib/api/auth';
 import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
 import { getMyComments, getMyEpigrams } from '@/lib/api/myFeeds';
 import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
 import EpigramCard from '@/shared/EpigramCard';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import { mockMonthlyEmotionDatas } from '../../data/mockMonthlyEmotionDatas';
 import EmotionCalendar from './components/EmotionCalendar';
@@ -23,9 +25,14 @@ export default function MyPage() {
   const [monthlyEmotionData, setMonthlyEmotionData] =
     useState<MonthlyEmotionDatasForChart>();
 
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['emotionLogsMonthly', year, month],
+    queryFn: () => getEmotionLogsMonthly(year, month),
+  });
+
   useEffect(() => {
     const fetchEmotionLogs = async () => {
-      const emotionLogsMonthly = await getEmotionLogsMonthly(year, month);
+      const emotionLogsMonthly = await data;
 
       let tempMonthlyEmotionDataForChart: MonthlyEmotionDatasForChart = {
         MOVED: { name: '감동', color: 'bg-illust-yellow', count: 0 },
@@ -45,7 +52,7 @@ export default function MyPage() {
     };
 
     fetchEmotionLogs();
-  }, [year, month]);
+  }, [year, month, data]);
 
   const [image, setImage] = useState();
   const [nickname, setNickname] = useState();
@@ -78,6 +85,16 @@ export default function MyPage() {
 
     getMyInfos();
   }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signoutUser();
+      sessionStorage.clear();
+      window.location.href = '/';
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleLeftClick = () => {
     const previousYear = month !== 1 ? year : year - 1;
@@ -125,6 +142,7 @@ export default function MyPage() {
             </div>
             <button
               className={`whitespace-nowrap rounded-100 bg-line-100 py-6 text-14 text-gray-300 xl:py-8 xl:text-20 xl:font-medium`}
+              onClick={handleSignOut}
             >
               로그아웃
             </button>
