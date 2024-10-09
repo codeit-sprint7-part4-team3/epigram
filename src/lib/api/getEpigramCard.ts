@@ -50,7 +50,10 @@ const fetchTodayEpigram = async () => {
       referenceUrl = '',
       referenceTitle = '',
     } = data;
-
+    if (!data) {
+      //등록된 오늘의 에피그램이 없다면 Null 반환
+      return null;
+    }
     return {
       id,
       content,
