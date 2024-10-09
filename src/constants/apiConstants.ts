@@ -10,4 +10,5 @@ export const allowedEndpoints = [
   '/emotionLogs',
   '/comments',
   '/auth',
+  '/comments',
 ];
