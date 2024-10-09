@@ -9,7 +9,7 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
-import { SkeletonCard } from './skeleton';
+import SkeletonCard from '../feed/skeletonCard';
 
 export default function Epigrams() {
   const [cards, setCards] = useState<EpigramListType[]>([]);
