@@ -128,17 +128,24 @@ export default function Epigrams() {
           </div>
           {isEmotionSaved ? (
             selectedEmotion && (
-              <div className='flex-center mt-4'>
+              <div className='ml-15 mt-10 flex w-640'>
                 <MainPageEmotionCard
                   emotionType={selectedEmotion}
                   isSelected={true}
                   handleCardClick={() => {}}
                 />
-                {selectedEmotion === 'MOVED' && '감동적인 하루였군요!'}
-                {selectedEmotion === 'HAPPY' && '행복한 하루였군요!'}
-                {selectedEmotion === 'WORRIED' && '걱정이 많았던 하루였군요!'}
-                {selectedEmotion === 'SAD' && '슬픈 하루였군요!'}
-                {selectedEmotion === 'ANGRY' && '분노에 가득찬 하루였군요!'}
+                <p className='flex justify-items-center whitespace-pre-wrap pl-20 font-secondary text-20'>
+                  {selectedEmotion === 'MOVED' &&
+                    `감동이 가득한 하루였군요!\n작은 순간 하나하나가 당신에게 깊은 울림이 되었길 바랍니다.\n앞으로도 많은 감동이 함께하길 응원할게요! `}
+                  {selectedEmotion === 'HAPPY' &&
+                    '오늘 하루가 행복으로 가득했군요!\n그 행복이 오래도록 당신을 따뜻하게 감싸주길 바랍니다. 앞으로도 작은 순간들이 큰 기쁨이 되길 응원해요!'}
+                  {selectedEmotion === 'WORRIED' &&
+                    '많은 고민이 있었던 하루였네요.\n고민 속에서도 한 걸음씩 나아가는 당신을 응원합니다.\n힘든 순간은 지나가고, 더 나은 길이 열릴 거예요'}
+                  {selectedEmotion === 'SAD' &&
+                    '오늘 하루가 슬픔으로 가득했군요.\n당신의 마음이 조금이라도 위로받길 바랍니다. 시간이 지나면\n이 슬픔도 당신에게 의미 있는 기억으로 남길 바라요'}
+                  {selectedEmotion === 'ANGRY' &&
+                    '분노로 가득했던 하루였군요. \n오늘의 분노가 내일의 평온함으로 바뀌길 바라며, 당신의 마음이 조금이라도 가벼워지길 바랍니다.'}
+                </p>
               </div>
             )
           ) : (
