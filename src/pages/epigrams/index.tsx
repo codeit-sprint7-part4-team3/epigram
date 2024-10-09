@@ -113,7 +113,7 @@ export default function Epigrams() {
             </h1>
             <div className='flex items-center'>
               <button
-                className='h-full w-fit cursor-pointer rounded-md bg-illust-yellow p-8 font-primary font-semibold duration-100 hover:scale-105'
+                className='h-fit w-fit cursor-pointer rounded-md bg-illust-yellow p-8 font-primary font-semibold duration-100 hover:scale-105'
                 onClick={handleSaveEmotion}
               >
                 감정 저장하기
@@ -127,14 +127,20 @@ export default function Epigrams() {
             </div>
           </div>
           {isEmotionSaved ? (
-            <div className='mt-4 flex items-center'>
-              <MainPageEmotionCard
-                emotionType={selectedEmotion}
-                isSelected={true}
-                handleCardClick={() => {}}
-              />
-              <p className='ml-4 text-xl'>{selectedEmotion}한 하루였군요</p>
-            </div>
+            selectedEmotion && (
+              <div className='flex-center mt-4'>
+                <MainPageEmotionCard
+                  emotionType={selectedEmotion}
+                  isSelected={true}
+                  handleCardClick={() => {}}
+                />
+                {selectedEmotion === 'MOVED' && '감동적인 하루였군요!'}
+                {selectedEmotion === 'HAPPY' && '행복한 하루였군요!'}
+                {selectedEmotion === 'WORRIED' && '걱정이 많았던 하루였군요!'}
+                {selectedEmotion === 'SAD' && '슬픈 하루였군요!'}
+                {selectedEmotion === 'ANGRY' && '분노에 가득찬 하루였군요!'}
+              </div>
+            )
           ) : (
             <div className='flex-center'>
               <MainPageEmotionList
