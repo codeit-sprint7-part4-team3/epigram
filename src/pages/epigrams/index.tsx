@@ -95,19 +95,19 @@ export default function Epigrams() {
           </h1>
           {isLoadingTodayEpigram ? (
             <SkeletonCard />
+          ) : todayEpigram ? (
+            <div className='mb-16'>
+              <EpigramCard
+                id={todayEpigram.id}
+                key={todayEpigram.id}
+                content={todayEpigram.content}
+                author={todayEpigram.author}
+                tags={todayEpigram.tags.map(tag => `#${tag} `)}
+                variant='normal'
+              />
+            </div>
           ) : (
-            todayEpigram && (
-              <div className='mb-16'>
-                <EpigramCard
-                  id={todayEpigram.id}
-                  key={todayEpigram.id}
-                  content={todayEpigram.content}
-                  author={todayEpigram.author}
-                  tags={todayEpigram.tags.map(tag => `#${tag} `)}
-                  variant='normal'
-                />
-              </div>
-            )
+            <div>오늘의 첫번째 에피그램을 남겨주세요!</div>
           )}
         </div>
         <div className='mt-56 xl:mt-140'>
