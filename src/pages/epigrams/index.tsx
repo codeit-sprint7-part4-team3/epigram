@@ -1,6 +1,6 @@
-import { useComments } from '@/api/comments/useComments';
 import Plus from '@/assets/icons/ic-plus.svg';
 import Button from '@/components/Button';
+import { fetchAllComments } from '@/lib/api/comments';
 import { postEmotionLogsToday } from '@/lib/api/emotionLogs';
 import { fetchEpigramCards, fetchTodayEpigram } from '@/lib/api/getEpigramCard';
 import Comment from '@/shared/Comment/Comment';
@@ -10,12 +10,14 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
+import SkeletonComment from '../feed/skeletonCard';
 import SkeletonCard from '../feed/skeletonCard';
 import MainPageEmotionList from './mainPageEmotionList';
 import MainPageEmotionCard from './mainPageEmotionList/components/MainPageEmotionCard';
 
 export default function Epigrams() {
   const [cards, setCards] = useState<EpigramListType[]>([]);
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [visibleCount, setVisibleCount] = useState(3);
   const [todayEpigram, setTodayEpigram] = useState<EpigramListType | null>(
     null
@@ -25,14 +27,6 @@ export default function Epigrams() {
   const [isLoadingTodayEpigram, setIsLoadingTodayEpigram] = useState(true);
   const [isLoadingEpigrams, setIsLoadingEpigrams] = useState(true);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
-
-  //최신 댓글 불러오기
-  const {
-    comments,
-    isLoading: commentsLoading,
-    loadMore: loadMoreComments,
-    hasMore: hasMoreComments,
-  } = useComments(10);
 
   // 에피그램 더보기
   const handleLoadMore = () => {
@@ -58,6 +52,7 @@ export default function Epigrams() {
     const loadEpigrams = async () => {
       setIsLoadingTodayEpigram(true);
       setIsLoadingEpigrams(true);
+      setIsLoadingComments(true);
       try {
         // 오늘의 에피그램
         const fetchedTodayEpigram = await fetchTodayEpigram();
@@ -76,6 +71,15 @@ export default function Epigrams() {
         console.error('Error fetching latest epigrams:', error);
       } finally {
         setIsLoadingEpigrams(false);
+      }
+      //최신 댓글
+      try {
+        const { list: fullComments } = await fetchAllComments();
+        setComments(fullComments);
+      } catch (error) {
+        console.error('Error fetching latest comments:', error);
+      } finally {
+        setIsLoadingComments(false);
       }
     };
 
@@ -188,28 +192,22 @@ export default function Epigrams() {
             최신 댓글
           </h1>
           <div className='mb-16'>
-            {comments.map(comment => (
-              <Comment
-                key={comment.id}
-                data={{
-                  ...comment,
-                  writer: {
-                    ...comment.writer,
-                    image: comment.writer.image ?? '',
-                  },
-                }}
-              />
-            ))}
+            {isLoadingComments
+              ? Array.from({ length: 3 }).map((_, index) => (
+                  <SkeletonComment key={index} />
+                ))
+              : comments.slice(0, visibleCount).map(comment => (
+                  <div className='mb-16' key={comment.id}>
+                    <Comment key={comment.id} data={comment} />
+                  </div>
+                ))}
           </div>
           <div className='flex-center mb-114 mt-40 md:mb-270 xl:mb-119 xl:mt-72'>
-            {hasMoreComments && (
-              <Button variant='round' color='white' onClick={loadMoreComments}>
-                <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
-                최신 댓글 더보기
-              </Button>
-            )}
+            <Button variant='round' color='white' onClick={handleLoadMore}>
+              <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+              최신 댓글 더보기
+            </Button>
           </div>
-          {commentsLoading && <p>댓글을 불러오는 중입니다...</p>}
         </div>
       </div>
       <div className='fixed bottom-104 right-24 md:bottom-92 md:right-72 xl:bottom-80 xl:right-120'>
