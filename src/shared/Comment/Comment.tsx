@@ -1,3 +1,4 @@
+import { DeleteComment } from '@/api/comments/comments';
 import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
 import { useEffect, useState } from 'react';
 
@@ -41,6 +42,7 @@ interface UserData {
 
 export default function Comment({ data }: CommentProps) {
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [isDelete, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const storedData = sessionStorage.getItem('userData');
@@ -58,8 +60,17 @@ export default function Comment({ data }: CommentProps) {
   const isWriter = userData?.id === data.writer.id;
 
   const handleUpdateClick = () => {};
-  const handleDeleteClick = () => {
-    // 삭제 로직
+  const handleDeleteClick = async () => {
+    if (window.confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      try {
+        await DeleteComment(data.id);
+        alert('댓글이 성공적으로 삭제되었습니다.');
+      } catch (error) {
+        console.error('댓글 삭제 중 오류 발생:', error);
+        alert('댓글 삭제에 실패했습니다. 다시 시도해주세요.');
+      } finally {
+      }
+    }
   };
 
   return (
