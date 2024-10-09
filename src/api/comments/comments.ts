@@ -49,3 +49,19 @@ export const fetchComments = async (
     throw error;
   }
 };
+
+export async function DeleteComment(commentId: number) {
+  try {
+    const endpoint = `/comments/${commentId}`;
+    const response = await apiRequestWithAtuh({
+      endpoint,
+      method: 'DELETE',
+    });
+
+    console.log('Comment delete response:', response);
+    return response;
+  } catch (error) {
+    console.error('댓글 삭제 실패', error);
+    throw error;
+  }
+}
