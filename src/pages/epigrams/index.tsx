@@ -115,15 +115,15 @@ export default function Epigrams() {
             <h1 className='mb-24 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
               오늘의 감정은 어떤가요?
             </h1>
-            <div className='flex items-center gap-x-8 xl:mb-40'>
+            <div className='mb-40 flex items-center gap-x-8'>
               <button
-                className='h-fit w-fit cursor-pointer rounded-md bg-illust-yellow p-8 font-primary font-semibold duration-100 hover:scale-105'
+                className='h-fit w-fit cursor-pointer rounded-md bg-illust-yellow p-8 font-primary text-12 font-semibold duration-100 hover:scale-105 xl:text-16'
                 onClick={handleSaveEmotion}
               >
                 감정 저장하기
               </button>
               <button
-                className='bg-illust-gray h-full w-fit cursor-pointer rounded-md p-8 font-primary font-semibold duration-100 hover:scale-105'
+                className='bg-illust-gray h-full w-fit cursor-pointer rounded-md p-8 font-primary text-12 font-semibold duration-100 hover:scale-105 xl:text-16'
                 onClick={handleChooseAgain} // 다시 고르기 버튼 클릭 핸들러
               >
                 다시 고르기
@@ -138,7 +138,7 @@ export default function Epigrams() {
                   isSelected={true}
                   handleCardClick={() => {}}
                 />
-                <p className='flex justify-items-center whitespace-pre-wrap pl-20 pt-5 font-secondary text-14 xl:text-18'>
+                <p className='flex justify-items-center whitespace-pre-wrap pl-15 pt-5 font-secondary text-12 xl:pl-20 xl:text-14 xl:text-18'>
                   {selectedEmotion === 'MOVED' &&
                     `감동이 가득한 하루였군요!\n작은 순간 하나하나가 당신에게 깊은 울림이 되었길 바랍니다.\n앞으로도 많은 감동이 함께하길 응원할게요! `}
                   {selectedEmotion === 'HAPPY' &&
@@ -146,7 +146,7 @@ export default function Epigrams() {
                   {selectedEmotion === 'WORRIED' &&
                     '많은 고민이 있었던 하루였네요.\n고민 속에서도 한 걸음씩 나아가는 당신을 응원합니다.\n힘든 순간은 지나가고, 더 나은 길이 열릴 거예요'}
                   {selectedEmotion === 'SAD' &&
-                    '오늘 하루가 슬픔으로 가득했군요.\n당신의 마음이 조금이라도 위로받길 바랍니다. 시간이 지나면\n이 슬픔도 당신에게 의미 있는 기억으로 남길 바라요'}
+                    '오늘 하루가 슬픔으로 가득했군요.\n당신의 마음이 조금이라도 위로받길 바랍니다. \n시간이 지나면 이 슬픔도 당신에게 의미 있는 기억으로 남길 바라요'}
                   {selectedEmotion === 'ANGRY' &&
                     '분노로 가득했던 하루였군요. \n오늘의 분노가 내일의 평온함으로 바뀌길 바라며, 당신의 마음이 조금이라도 가벼워지길 바랍니다.'}
                 </p>
