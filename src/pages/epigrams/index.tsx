@@ -203,7 +203,7 @@ export default function Epigrams() {
                 ))}
           </div>
           <div className='flex-center mb-114 mt-40 md:mb-270 xl:mb-119 xl:mt-72'>
-            <Button variant='round' color='white'>
+            <Button variant='round' color='white' onClick={handleLoadMore}>
               <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
               최신 댓글 더보기
             </Button>
