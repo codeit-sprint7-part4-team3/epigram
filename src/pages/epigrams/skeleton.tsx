@@ -1,4 +1,4 @@
-export function SkeletonCard() {
+const SkeletonCard = () => {
   return (
     <div className='flex-center'>
       <div className='mb-10 animate-pulse'>
@@ -7,9 +7,9 @@ export function SkeletonCard() {
       </div>
     </div>
   );
-}
+};
 
-export function SkeletonComment() {
+const SkeletonComment = () => {
   return (
     <div className='flex-center animate-pulse'>
       <div className='flex w-fit border-t-1 border-solid border-zinc-300 pt-35'>
@@ -19,6 +19,15 @@ export function SkeletonComment() {
           <div className='h-64 w-528 rounded-lg bg-zinc-200'></div>
         </div>
       </div>
+    </div>
+  );
+};
+
+export default function Skeleton() {
+  return (
+    <div>
+      <SkeletonCard />
+      <SkeletonComment />
     </div>
   );
 }
