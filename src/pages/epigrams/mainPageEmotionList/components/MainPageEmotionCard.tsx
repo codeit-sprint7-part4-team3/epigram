@@ -46,6 +46,11 @@ export default function MainPageEmotionCard({
 }: EmotionCardProps) {
   const emotionData = dataByEmotionType[emotionType];
 
+  // emotionData가 undefined인 경우 기본값 설정
+  if (!emotionData) {
+    return null; // 혹은 에러 처리 로직
+  }
+
   const borderBase = 'border-3 xl:border-4 border-solid ';
   const borderColor = emotionData.borderColor;
   const selectedBorder = isSelected ? borderBase + borderColor : '';
