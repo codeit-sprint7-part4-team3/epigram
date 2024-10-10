@@ -91,71 +91,75 @@ function Search() {
   };
 
   return (
-    <div className='mx-auto max-w-lg p-4'>
-      <div className='relative mb-10'>
-        <input
-          type='text'
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && handleSearch()}
-          placeholder='Search...'
-          className='w-full border-b-4 border-solid border-blue-800 py-2 pr-10 focus:outline-none'
-        />
-
-        <button
-          onClick={handleSearch}
-          className='absolute right-0 top-0 flex h-full items-center justify-center pr-2'
-        >
-          <SearchIcon className='h-17 w-17 text-gray-600' />
-        </button>
-      </div>
-
-      {searchHistory.length > 0 && (
-        <div className='mt-4'>
-          <div className='mb-10 flex items-center justify-between'>
-            <h3 className='text-lg font-bold'>최근 검색어</h3>
-            <button
-              onClick={handleClearHistory}
-              className='text-xs text-red-500'
-            >
-              모두 지우기
-            </button>
-          </div>
-          <ul className='mt-2 flex flex-wrap gap-10 p-10'>
-            {searchHistory.map((term, index) => (
-              <li
-                key={index}
-                className='cursor-pointer rounded-full bg-gray-50 px-14 py-12 text-gray-700'
-                onClick={() => handleTagClick(term)}
-              >
-                {term}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
+    <div className='flex-center mx-auto mb-200 max-w-lg p-4'>
       <div>
-        {searchResult.map((epigram, index) => (
-          <SearchResult
-            key={epigram.id}
-            id={epigram.id}
-            content={epigram.content}
-            author={epigram.author}
-            tags={epigram.tags}
-            searchTerm={highlightTerm} // highlightTerm 전달
+        <div className='relative mb-40 mt-24 border-b-4 border-solid border-blue-800'>
+          <input
+            type='text'
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearch()}
+            placeholder='Search...'
+            className='h-52 w-312 text-16 focus:outline-none md:h-60 md:w-384 md:text-20 xl:h-70 xl:w-640 xl:text-24'
           />
-        ))}
-      </div>
 
-      {searchResult.length < totalResults && (
-        <div className='mt-30 flex justify-center'>
-          <Button variant='round' color='white' onClick={handleLoadMore}>
-            <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
-            에피그램 더보기
-          </Button>
+          <button
+            onClick={handleSearch}
+            className='absolute right-0 top-0 flex h-full items-center justify-center pr-2'
+          >
+            <SearchIcon className='h-20 w-20 text-gray-600 xl:h-30 xl:w-30' />
+          </button>
         </div>
-      )}
+
+        {searchHistory.length > 0 && (
+          <div className='mt-4'>
+            <div className='mb-10 flex items-center justify-between'>
+              <h3 className='font-primary text-16 font-semibold md:text-20 xl:text-24'>
+                최근 검색어
+              </h3>
+              <button
+                onClick={handleClearHistory}
+                className='text-14 text-red-500 xl:text-16'
+              >
+                모두 지우기
+              </button>
+            </div>
+            <ul className='mt-2 flex flex-wrap gap-10 p-10'>
+              {searchHistory.map((term, index) => (
+                <li
+                  key={index}
+                  className='cursor-pointer rounded-full bg-gray-50 px-14 py-12 text-gray-700'
+                  onClick={() => handleTagClick(term)}
+                >
+                  {term}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div>
+          {searchResult.map((epigram, index) => (
+            <SearchResult
+              key={epigram.id}
+              id={epigram.id}
+              content={epigram.content}
+              author={epigram.author}
+              tags={epigram.tags}
+              searchTerm={highlightTerm} // highlightTerm 전달
+            />
+          ))}
+        </div>
+
+        {searchResult.length < totalResults && (
+          <div className='mt-60 flex justify-center'>
+            <Button variant='round' color='white' onClick={handleLoadMore}>
+              <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+              에피그램 더보기
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

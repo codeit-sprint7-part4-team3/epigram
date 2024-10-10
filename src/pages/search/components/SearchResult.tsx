@@ -39,7 +39,7 @@ export default function SearchResult({
 
   return (
     <Link href={`/epigrams/${id}`}>
-      <div className='cursor-pointer'>
+      <div className='cursor-pointer border-b-1 border-solid border-gray-100 pb-24'>
         <div className='flex min-h-150 flex-col justify-between rounded-2xl bg-blue-100 px-24 py-23 font-secondary'>
           <div className='text-14 font-normal leading-24 md:text-16 md:leading-26 xl:text-24 xl:leading-40'>
             {highlightSearchTerm(content, searchTerm)}
@@ -48,12 +48,12 @@ export default function SearchResult({
             - {highlightSearchTerm(author, searchTerm)} -
           </div>
         </div>
-        <div className='text-right font-primary text-14 leading-24 text-blue-400 md:text-16 md:leading-26 xl:text-24 xl:leading-40'>
+        <div className='text-right font-secondary text-14 leading-24 text-blue-400 md:text-16 md:leading-26 xl:text-24 xl:leading-40'>
           {tags &&
             tags.map((tag, index) => (
               <span key={tag.id}>
-                {highlightSearchTerm(tag.name, searchTerm)}
-                {index < tags.length - 1 && ', '}
+                {highlightSearchTerm(`#${tag.name} `, searchTerm)}
+                {index < tags.length - 1}
               </span>
             ))}
         </div>

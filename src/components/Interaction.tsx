@@ -90,8 +90,8 @@ export default function Interaction({
     { label: '삭제하기', method: handleDelete },
   ];
   return (
-    <div className='flex min-h-screen flex-col'>
-      <header className='flex-center w-full'>
+    <div className='flex min-h-screen flex-col bg-stripe-pattern bg-stripe-size'>
+      <header className='flex-center zigzag-bottom w-full flex-col'>
         <div className='flex w-312 flex-col gap-16 py-40 md:w-384 lg:w-640 lg:gap-32'>
           <div className='flex w-312 justify-between md:w-384 lg:w-640'>
             <ChipList>
@@ -139,7 +139,6 @@ export default function Interaction({
           </div>
         </div>
       </header>
-      <div className='zigzag-bottom'></div>
       <section className='flex-center flex-grow flex-col bg-background-100 pt-90'>
         <div className='w-640'>
           <p className='mb-24'>댓글 ({totalComments})</p>

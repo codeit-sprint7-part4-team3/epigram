@@ -1,6 +1,6 @@
-import { useComments } from '@/api/comments/useComments';
 import Plus from '@/assets/icons/ic-plus.svg';
 import Button from '@/components/Button';
+import { fetchAllComments } from '@/lib/api/comments';
 import { postEmotionLogsToday } from '@/lib/api/emotionLogs';
 import { fetchEpigramCards, fetchTodayEpigram } from '@/lib/api/getEpigramCard';
 import Comment from '@/shared/Comment/Comment';
@@ -10,12 +10,15 @@ import AddEpigramButton from '@/shared/RightFixedButton/AddEpigramButton';
 import PageUpButton from '@/shared/RightFixedButton/PageUpButton';
 import { useEffect, useState } from 'react';
 
-import SkeletonCard from '../feed/skeletonCard';
+import EmptyCard from './emptyCard';
 import MainPageEmotionList from './mainPageEmotionList';
 import MainPageEmotionCard from './mainPageEmotionList/components/MainPageEmotionCard';
+import SkeletonCard from './skeleton/skeletonCard';
+import SkeletonComment from './skeleton/skeletonComment';
 
 export default function Epigrams() {
   const [cards, setCards] = useState<EpigramListType[]>([]);
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [visibleCount, setVisibleCount] = useState(3);
   const [todayEpigram, setTodayEpigram] = useState<EpigramListType | null>(
     null
@@ -25,14 +28,6 @@ export default function Epigrams() {
   const [isLoadingTodayEpigram, setIsLoadingTodayEpigram] = useState(true);
   const [isLoadingEpigrams, setIsLoadingEpigrams] = useState(true);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
-
-  //최신 댓글 불러오기
-  const {
-    comments,
-    isLoading: commentsLoading,
-    loadMore: loadMoreComments,
-    hasMore: hasMoreComments,
-  } = useComments(10);
 
   // 에피그램 더보기
   const handleLoadMore = () => {
@@ -58,6 +53,7 @@ export default function Epigrams() {
     const loadEpigrams = async () => {
       setIsLoadingTodayEpigram(true);
       setIsLoadingEpigrams(true);
+      setIsLoadingComments(true);
       try {
         // 오늘의 에피그램
         const fetchedTodayEpigram = await fetchTodayEpigram();
@@ -77,6 +73,15 @@ export default function Epigrams() {
       } finally {
         setIsLoadingEpigrams(false);
       }
+      //최신 댓글
+      try {
+        const { list: fullComments } = await fetchAllComments();
+        setComments(fullComments);
+      } catch (error) {
+        console.error('Error fetching latest comments:', error);
+      } finally {
+        setIsLoadingComments(false);
+      }
     };
 
     loadEpigrams();
@@ -91,19 +96,19 @@ export default function Epigrams() {
           </h1>
           {isLoadingTodayEpigram ? (
             <SkeletonCard />
+          ) : todayEpigram ? (
+            <div className='mb-16'>
+              <EpigramCard
+                id={todayEpigram.id}
+                key={todayEpigram.id}
+                content={todayEpigram.content}
+                author={todayEpigram.author}
+                tags={todayEpigram.tags.map(tag => `#${tag} `)}
+                variant='normal'
+              />
+            </div>
           ) : (
-            todayEpigram && (
-              <div className='mb-16'>
-                <EpigramCard
-                  id={todayEpigram.id}
-                  key={todayEpigram.id}
-                  content={todayEpigram.content}
-                  author={todayEpigram.author}
-                  tags={todayEpigram.tags.map(tag => `#${tag} `)}
-                  variant='normal'
-                />
-              </div>
-            )
+            <EmptyCard />
           )}
         </div>
         <div className='mt-56 xl:mt-140'>
@@ -111,15 +116,15 @@ export default function Epigrams() {
             <h1 className='mb-24 font-primary text-16 font-semibold xl:mb-40 xl:text-24'>
               오늘의 감정은 어떤가요?
             </h1>
-            <div className='flex items-center gap-x-8 xl:mb-40'>
+            <div className='mb-40 flex items-center gap-x-8'>
               <button
-                className='h-fit w-fit cursor-pointer rounded-md bg-illust-yellow p-8 font-primary font-semibold duration-100 hover:scale-105'
+                className='h-fit w-fit cursor-pointer rounded-md bg-illust-yellow p-8 font-primary text-12 font-semibold duration-100 hover:scale-105 xl:text-16'
                 onClick={handleSaveEmotion}
               >
                 감정 저장하기
               </button>
               <button
-                className='bg-illust-gray h-full w-fit cursor-pointer rounded-md p-8 font-primary font-semibold duration-100 hover:scale-105'
+                className='bg-illust-gray h-full w-fit cursor-pointer rounded-md p-8 font-primary text-12 font-semibold duration-100 hover:scale-105 xl:text-16'
                 onClick={handleChooseAgain} // 다시 고르기 버튼 클릭 핸들러
               >
                 다시 고르기
@@ -134,7 +139,7 @@ export default function Epigrams() {
                   isSelected={true}
                   handleCardClick={() => {}}
                 />
-                <p className='flex justify-items-center whitespace-pre-wrap pl-20 pt-5 font-secondary text-14 xl:text-18'>
+                <p className='flex justify-items-center whitespace-pre-wrap pl-15 pt-5 font-secondary text-12 xl:pl-20 xl:text-14 xl:text-18'>
                   {selectedEmotion === 'MOVED' &&
                     `감동이 가득한 하루였군요!\n작은 순간 하나하나가 당신에게 깊은 울림이 되었길 바랍니다.\n앞으로도 많은 감동이 함께하길 응원할게요! `}
                   {selectedEmotion === 'HAPPY' &&
@@ -142,7 +147,7 @@ export default function Epigrams() {
                   {selectedEmotion === 'WORRIED' &&
                     '많은 고민이 있었던 하루였네요.\n고민 속에서도 한 걸음씩 나아가는 당신을 응원합니다.\n힘든 순간은 지나가고, 더 나은 길이 열릴 거예요'}
                   {selectedEmotion === 'SAD' &&
-                    '오늘 하루가 슬픔으로 가득했군요.\n당신의 마음이 조금이라도 위로받길 바랍니다. 시간이 지나면\n이 슬픔도 당신에게 의미 있는 기억으로 남길 바라요'}
+                    '오늘 하루가 슬픔으로 가득했군요.\n당신의 마음이 조금이라도 위로받길 바랍니다. \n시간이 지나면 이 슬픔도 당신에게 의미 있는 기억으로 남길 바라요'}
                   {selectedEmotion === 'ANGRY' &&
                     '분노로 가득했던 하루였군요. \n오늘의 분노가 내일의 평온함으로 바뀌길 바라며, 당신의 마음이 조금이라도 가벼워지길 바랍니다.'}
                 </p>
@@ -188,28 +193,22 @@ export default function Epigrams() {
             최신 댓글
           </h1>
           <div className='mb-16'>
-            {comments.map(comment => (
-              <Comment
-                key={comment.id}
-                data={{
-                  ...comment,
-                  writer: {
-                    ...comment.writer,
-                    image: comment.writer.image ?? '',
-                  },
-                }}
-              />
-            ))}
+            {isLoadingComments
+              ? Array.from({ length: 3 }).map((_, index) => (
+                  <SkeletonComment key={index} />
+                ))
+              : comments.slice(0, visibleCount).map(comment => (
+                  <div className='mb-16' key={comment.id}>
+                    <Comment key={comment.id} data={comment} />
+                  </div>
+                ))}
           </div>
           <div className='flex-center mb-114 mt-40 md:mb-270 xl:mb-119 xl:mt-72'>
-            {hasMoreComments && (
-              <Button variant='round' color='white' onClick={loadMoreComments}>
-                <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
-                최신 댓글 더보기
-              </Button>
-            )}
+            <Button variant='round' color='white' onClick={handleLoadMore}>
+              <Plus className='mr-8 h-24 w-24' viewBox='0 1 24 24' />
+              최신 댓글 더보기
+            </Button>
           </div>
-          {commentsLoading && <p>댓글을 불러오는 중입니다...</p>}
         </div>
       </div>
       <div className='fixed bottom-104 right-24 md:bottom-92 md:right-72 xl:bottom-80 xl:right-120'>
