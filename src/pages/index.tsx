@@ -14,9 +14,7 @@ import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
-import { signoutUser } from '@/lib/api/auth';
 import useModalStore from '@/lib/store/useModalStore';
-import DeleteAlertModalContent from '@/shared/Modal/DeleteAlertModalContent';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -49,19 +47,6 @@ export default function Home() {
           <Link href={'/epigrams'} passHref>
             <Button>시작하기</Button>
           </Link>
-          <Button
-            onClick={() => {
-              // signoutUser();
-              openModal(
-                <DeleteAlertModalContent
-                  deleteTargetLabel={'게시물'}
-                  onDelete={() => {}}
-                />
-              );
-            }}
-          >
-            로그아웃
-          </Button>
         </div>
         <button
           onClick={handlePageScroll}
