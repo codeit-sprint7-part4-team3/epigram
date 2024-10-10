@@ -12,7 +12,7 @@ export default function SignupForm() {
     onSuccess: data => {
       const userData = JSON.stringify(data.user);
       sessionStorage.setItem('userData', userData);
-      router.push('/');
+      router.push('/epigrams');
     },
     onError: (error: any) => {
       if (error.response.status === 500) {

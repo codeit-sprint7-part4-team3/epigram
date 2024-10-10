@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 
 const signinUser = async (data: SignInRequestBody) => {
   const response = await axios.post('/api/auth/signIn', data, {
@@ -30,8 +29,8 @@ const kakaoSignInUser = async (data: SignInWithOauthRequestBody) => {
   return response.data;
 };
 
-const GuestSignInUser = async (data: SignUpRequestBody) => {
-  const response = await axios.post(`/api/auth/signIn`, data, {
+const guestSignInUser = async (data: SignUpRequestBody) => {
+  const response = await axios.post(`/api/auth/signUp`, data, {
     headers: { 'Content-Type': 'application/json' },
   });
   return response.data;
@@ -42,5 +41,5 @@ export {
   signupUser,
   signoutUser,
   kakaoSignInUser,
-  GuestSignInUser,
+  guestSignInUser,
 };

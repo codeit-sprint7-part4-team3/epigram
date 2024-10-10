@@ -1,7 +1,9 @@
 import Form, { type InputVariant } from '@/components/Form';
 import { MAX_EPIGRAM_CONTENT_LENGTH } from '@/constants/formValidation';
 import { CreateEpigram } from '@/lib/api/epigrams';
+import { useGuestStore } from '@/lib/store/useGuestStore';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
@@ -22,11 +24,13 @@ interface EpigramWithEpigramContent extends Omit<EpigramBaseBody, 'content'> {
 }
 
 export default function CreateEpigramForm() {
+  const router = useRouter();
+  const { isGuest } = useGuestStore();
+
   const methods = useForm<EpigramWithEpigramContent>({
     defaultValues: CREATE_EPIGRAM_FORM_DEFAULT_VALUES,
   });
   const { watch, register } = methods;
-  const router = useRouter();
   const mutation = useMutation(CreateEpigram, {
     onSuccess: (data: EpigramListType) => {
       console.log(data);
@@ -36,6 +40,16 @@ export default function CreateEpigramForm() {
       console.error(error);
     },
   });
+
+  useEffect(() => {
+    if (isGuest) {
+      router.push('/feed');
+    }
+  }, [isGuest, router]);
+
+  if (isGuest) {
+    return null;
+  }
 
   const selectedAuthor = methods.watch('author');
   const isDirectInputSelected = selectedAuthor === DIRECT_INPUT;

@@ -16,7 +16,7 @@ export default function SignInForm() {
       sessionStorage.setItem('userData', userData);
 
       // 2. 리다이렉트
-      router.push('/');
+      router.push('/epigrams');
     },
     onError: (error: any) => {
       const errorMessage = error.response.data.message;

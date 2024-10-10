@@ -14,13 +14,39 @@ import Landing04sm from '@/assets/images/img-landing-04-sm.png';
 import LogoMd from '@/assets/logos/logo-epigram-wordmark-lg.svg';
 import LogoLg from '@/assets/logos/logo-epigram-wordmark-xl.svg';
 import Button from '@/components/Button';
+import { guestSignInUser } from '@/lib/api/auth';
+import { useGuestStore } from '@/lib/store/useGuestStore';
 import useModalStore from '@/lib/store/useModalStore';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Home() {
+  const router = useRouter();
   const { openModal } = useModalStore();
+  const { setIsGuest } = useGuestStore();
+  const handleGuestSignIn = async () => {
+    const shortUUID = uuidv4().slice(0, 8);
+    const nickname = `guest_${shortUUID}`;
+    const email = `guest_${shortUUID}@example.com`;
+    const password = shortUUID;
+    const guestSigninData: SignUpRequestBody = {
+      nickname,
+      email,
+      password,
+      passwordConfirmation: password,
+    };
+    try {
+      const response = await guestSignInUser(guestSigninData);
+      sessionStorage.setItem('userData', JSON.stringify(response.user));
+      setIsGuest(true);
+      router.push('/epigrams');
+    } catch (error) {
+      console.error;
+    }
+  };
 
   const handlePageScroll = () => {
     const element = document.getElementById('scrollPoint');
@@ -230,12 +256,19 @@ export default function Home() {
         </motion.div>
       </section>
       <section className='zigzag-top'>
-        <div className='transition-animation flex-center h-600 flex-col gap-y-48 md:h-528 xl:h-screen'>
-          <LogoLg className='hidden xl:block' />
-          <LogoMd className='block xl:hidden' />
-          <Link href={'/epigrams'}>
-            <Button>시작하기</Button>
-          </Link>
+        <div className='transition-animation flex-center h-600 flex-col md:h-528 xl:h-screen'>
+          <div className='mb-48'>
+            <LogoLg className='hidden xl:block' />
+            <LogoMd className='block xl:hidden' />
+          </div>
+          <div className='mb-8'>
+            <Link href={'/epigrams'}>
+              <Button>시작하기</Button>
+            </Link>
+          </div>
+          <Button onClick={handleGuestSignIn} color='blue'>
+            게스트 로그인
+          </Button>
         </div>
       </section>
     </main>
