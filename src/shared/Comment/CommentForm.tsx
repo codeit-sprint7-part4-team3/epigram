@@ -2,6 +2,7 @@ import Form from '@/components/Form';
 import { MAX_COMMENT_CONTENT_LENGTH } from '@/constants/formValidation';
 import useToggle from '@/hooks/useToggle';
 import { createComments } from '@/lib/api/comments';
+import { useCommentStore } from '@/lib/store/useCommentStore';
 import ToggleButton from '@/shared/ToggleButton';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -14,6 +15,7 @@ interface CommentWithCommentContent extends Omit<CreateCommentBody, 'content'> {
 const DEFAULT_ISPRIVATE = false;
 
 export default function CommentForm({ epigramId }: EpigramIdOnly) {
+  const { refreshComment } = useCommentStore();
   const mutation = useMutation(createComments, {
     onSuccess: data => {},
     onError: (error: any) => {
@@ -45,6 +47,7 @@ export default function CommentForm({ epigramId }: EpigramIdOnly) {
     };
 
     mutation.mutate(transformedData);
+    refreshComment();
     reset();
   };
   return (

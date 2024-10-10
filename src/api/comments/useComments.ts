@@ -1,9 +1,11 @@
+import { useCommentStore } from '@/lib/store/useCommentStore';
 import { CommentType } from '@/shared/Comment/Comment';
 import { useCallback, useEffect, useState } from 'react';
 
 import { CommentsResponse, fetchComments } from './comments';
 
 export const useComments = (epigramId: number, initialLimit: number = 10) => {
+  const { isCommentOld } = useCommentStore();
   const [comments, setComments] = useState<CommentType[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [nextCursor, setNextCursor] = useState<number | null>(null);
@@ -39,7 +41,7 @@ export const useComments = (epigramId: number, initialLimit: number = 10) => {
 
   useEffect(() => {
     loadComments();
-  }, [loadComments]);
+  }, [loadComments, isCommentOld]);
 
   const loadMore = () => {
     if (nextCursor) {

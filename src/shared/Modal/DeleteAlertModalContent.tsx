@@ -57,7 +57,10 @@ export default function DeleteAlertModalContent({
         <Button
           className={'h-48 w-140 md:w-144 xl:h-58 xl:w-180'}
           variant={'wide'}
-          onClick={onDelete}
+          onClick={() => {
+            onDelete();
+            closeModal();
+          }}
         >
           {deleteLabel}
         </Button>

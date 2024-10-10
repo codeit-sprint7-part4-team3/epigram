@@ -3,9 +3,11 @@ import ExternalLink from '@/assets/icons/ic-external-link.svg';
 import Thumbsup from '@/assets/icons/ic-thumbs-up.svg';
 import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
 import { useLikeToggle } from '@/hooks/useLikeToggle';
+import useModalStore from '@/lib/store/useModalStore';
 import Comment, { CommentType } from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
 import DropdownMenu from '@/shared/DropdownMenu';
+import DeleteAlertModalContent from '@/shared/Modal/DeleteAlertModalContent';
 import Profile from '@/shared/Profile';
 import ChipList from '@/shared/TagChip';
 import UserIcon from '@/shared/UserIcon';
@@ -40,7 +42,7 @@ export default function Interaction({
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
-
+  const { openModal } = useModalStore();
   useEffect(() => {
     const storedData = sessionStorage.getItem('userData');
 
@@ -69,20 +71,22 @@ export default function Interaction({
     router.push(`/epigrams/${epigramData.id}/editepigram`);
   };
 
-  const handleDelete = async () => {
-    if (window.confirm('정말로 이 에피그램을 삭제하시겠습니까?')) {
-      setIsDeleting(true);
-      try {
-        await DeleteEpigram(epigramData.id);
-        alert('에피그램이 성공적으로 삭제되었습니다.');
-        router.push('/');
-      } catch (error) {
-        console.error('에피그램 삭제 중 오류 발생:', error);
-        alert('에피그램 삭제에 실패했습니다. 다시 시도해주세요.');
-      } finally {
-        setIsDeleting(false);
-      }
+  const onDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await DeleteEpigram(epigramData.id);
+      router.push('/');
+    } catch (error) {
+      console.error('에피그램 삭제 중 오류 발생:', error);
+    } finally {
+      setIsDeleting(false);
     }
+  };
+
+  const handleDelete = async () => {
+    openModal(
+      <DeleteAlertModalContent deleteTargetLabel='게시글' onDelete={onDelete} />
+    );
   };
 
   const dropOptions = [

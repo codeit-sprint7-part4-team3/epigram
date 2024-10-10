@@ -38,7 +38,7 @@ export default function EditEpigramForm({ epigramBody }: Props) {
   const mutation = useMutation(CreateEpigram, {
     onSuccess: (data: EpigramListType) => {
       console.log(data);
-      // router.push(`/feed/${data.id}`);
+      router.push(`/epigrams/${data.id}`);
     },
     onError: (error: any) => {
       console.error(error);

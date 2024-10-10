@@ -2,10 +2,12 @@
 import { useComments } from '@/api/comments/useComments';
 import { GetDetailEpigram } from '@/api/epigram/fetchEpigram';
 import Interaction from '@/components/Interaction';
+import { useCommentStore } from '@/lib/store/useCommentStore';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 const EpigramDetailPage: React.FC = () => {
+  const {} = useCommentStore();
   const router = useRouter();
   const { id } = router.query;
 
@@ -13,7 +15,7 @@ const EpigramDetailPage: React.FC = () => {
     null
   );
   const [error, setError] = useState<string | null>(null);
-
+  const epigramId = Number(id);
   const {
     comments,
     totalCount,
@@ -21,7 +23,7 @@ const EpigramDetailPage: React.FC = () => {
     error: commentsError,
     loadMore,
     hasMore,
-  } = useComments(778, 10);
+  } = useComments(epigramId, 10);
 
   useEffect(() => {
     const fetchData = async () => {
