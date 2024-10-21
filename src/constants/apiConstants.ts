@@ -11,6 +11,7 @@ export const allowedEndpoints = [
   '/comments',
   '/auth',
   '/comments',
+  '/images',
 ];
 
 export const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY || '';

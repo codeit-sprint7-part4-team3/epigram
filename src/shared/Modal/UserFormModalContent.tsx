@@ -1,5 +1,6 @@
 import Close from '@/assets/icons/ic-close.svg';
 import Form from '@/components/Form';
+import { uploadImage } from '@/lib/api/uploadImg';
 import { updateUserInfo } from '@/lib/api/user';
 import useModalStore from '@/lib/store/useModalStore';
 import { useUpdateStore } from '@/lib/store/useUpdateStore';
@@ -20,6 +21,7 @@ export default function UserFormModalContent({ nickname, image }: Props) {
     defaultValues: { nickname },
   });
   const [preview, setPreview] = useState<UrlType | null>(image);
+  const [fileInput, setFileInput] = useState<File | null>(null);
   const { setError } = methods;
   const queryClient = useQueryClient();
   const mutation = useMutation(updateUserInfo, {
@@ -43,18 +45,19 @@ export default function UserFormModalContent({ nickname, image }: Props) {
     if (file) {
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
+      setFileInput(file);
     }
   };
   const handleSubmit = async (data: UpdateUserBody) => {
-    const { image, nickname } = data;
+    const { nickname } = data;
 
     const transformedData: UpdateUserBody = {
       nickname,
     };
 
-    // if (typeof image === 'string') {
-    //   transformedData.image = image;
-    // }
+    if (fileInput) {
+      // transformedData.image = await uploadImage({ image: fileInput });
+    }
     mutation.mutate(transformedData);
   };
   return (
@@ -73,6 +76,7 @@ export default function UserFormModalContent({ nickname, image }: Props) {
       <Form
         methods={methods}
         onSubmit={(data: UpdateUserBody) => {
+          // console.log(fileInput);
           handleSubmit(data);
         }}
       >
