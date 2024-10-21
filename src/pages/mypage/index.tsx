@@ -8,9 +8,11 @@ import mockEpigramDataArray from '@/data/mockEpigramData';
 import { signoutUser } from '@/lib/api/auth';
 import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
 import { getMyComments, getMyEpigrams } from '@/lib/api/myFeeds';
+import useModalStore from '@/lib/store/useModalStore';
 import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
 import EpigramCard from '@/shared/EpigramCard';
+import UserFormModalContent from '@/shared/Modal/UserFormModalContent';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
@@ -19,6 +21,7 @@ import EmotionCalendar from './components/EmotionCalendar';
 import EmotionChart from './components/EmotionChart';
 
 export default function MyPage() {
+  const { openModal } = useModalStore();
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
   const [month, setMonth] = useState<Month>((today.getMonth() + 1) as Month);
@@ -54,8 +57,8 @@ export default function MyPage() {
     fetchEmotionLogs();
   }, [year, month, data]);
 
-  const [image, setImage] = useState();
-  const [nickname, setNickname] = useState();
+  const [image, setImage] = useState<UrlType | null>(null);
+  const [nickname, setNickname] = useState<Nickname>('');
   const [selectedBoard, setSelectedBoard] = useState<'epigram' | 'comment'>(
     'epigram'
   );
@@ -96,6 +99,10 @@ export default function MyPage() {
     }
   };
 
+  const handleUpdateUserInfo = async () => {
+    openModal(<UserFormModalContent image={image} nickname={nickname} />);
+  };
+
   const handleLeftClick = () => {
     const previousYear = month !== 1 ? year : year - 1;
     const previousMonth = month !== 1 ? ((month - 1) as Month) : 12;
@@ -130,22 +137,31 @@ export default function MyPage() {
         <div
           className={`relative bottom-60 m-auto flex w-312 flex-col gap-96 md:w-384 xl:w-640`}
         >
-          <div
-            className={`m-auto flex w-80 flex-col gap-16 xl:w-120 xl:gap-24`}
-          >
-            <div className={`flex flex-col gap-8 xl:gap-16`}>
+          <div className={`m-auto flex w-80 flex-col xl:w-120 xl:gap-24`}>
+            <div className={`mb-16 flex flex-col gap-8 xl:gap-16`}>
               <img
                 className={`h-80 w-80 rounded-full border-2 border-solid border-blue-300 xl:h-120 xl:w-120`}
                 src={image}
               ></img>
               <p className={`text-center`}>{nickname}</p>
             </div>
-            <button
-              className={`whitespace-nowrap rounded-100 bg-line-100 py-6 text-14 text-gray-300 xl:py-8 xl:text-20 xl:font-medium`}
+            <Button
+              variant='round'
+              size='sm'
+              className={`mb-4 whitespace-nowrap rounded-100 bg-line-100 py-6 text-14 text-gray-300 xl:py-8 xl:text-20 xl:font-medium`}
               onClick={handleSignOut}
             >
               로그아웃
-            </button>
+            </Button>
+            <Button
+              variant='round'
+              size='sm'
+              color='blue'
+              className={`whitespace-nowrap rounded-100 py-6 text-14 text-blue-50 xl:py-8 xl:text-20 xl:font-medium`}
+              onClick={handleUpdateUserInfo}
+            >
+              회원정보 수정
+            </Button>
           </div>
           <div className={`flex flex-col gap-56 md:gap-60 xl:gap-164`}>
             <section

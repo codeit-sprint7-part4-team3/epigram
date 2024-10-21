@@ -15,7 +15,7 @@ export default function Profile({
   variant = 'default',
 }: Props) {
   const profileContent = image ? (
-    <Image fill src={image} alt={'프로필 이미지'} />
+    <Image fill src={image} alt={'프로필 이미지'} className='object-cover' />
   ) : (
     <ProfileIcon className={'h-full w-full'} />
   );

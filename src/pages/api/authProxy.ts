@@ -51,7 +51,10 @@ export default async function handler(
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      data: method === 'POST' || method === 'PUT' ? data : undefined,
+      data:
+        method === 'POST' || method === 'PUT' || method === 'PATCH'
+          ? data
+          : undefined,
     });
 
     return res.status(200).json(apiResponse.data);
