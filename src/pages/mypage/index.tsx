@@ -13,6 +13,7 @@ import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
 import EpigramCard from '@/shared/EpigramCard';
 import UserFormModalContent from '@/shared/Modal/UserFormModalContent';
+import Profile from '@/shared/Profile';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
@@ -139,10 +140,7 @@ export default function MyPage() {
         >
           <div className={`m-auto flex w-80 flex-col xl:w-120 xl:gap-24`}>
             <div className={`mb-16 flex flex-col gap-8 xl:gap-16`}>
-              <img
-                className={`h-80 w-80 rounded-full border-2 border-solid border-blue-300 xl:h-120 xl:w-120`}
-                src={image}
-              ></img>
+              <Profile image={image} size='lg' variant='outlined' />
               <p className={`text-center`}>{nickname}</p>
             </div>
             <Button

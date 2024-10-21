@@ -7,15 +7,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 
-interface UpdateUserBody {
-  image: UrlType;
+interface Props {
+  image: UrlType | null;
   nickname: Nickname;
 }
 
-export default function UserFormModalContent({
-  nickname,
-  image,
-}: UpdateUserBody) {
+export default function UserFormModalContent({ nickname, image }: Props) {
   const { closeModal } = useModalStore();
   const methods = useForm<UpdateUserBody>({
     defaultValues: { nickname },
