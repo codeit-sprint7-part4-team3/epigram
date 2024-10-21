@@ -2,6 +2,7 @@ import HamburgerMenu from '@/assets/icons/ic-hamburger-menu.svg';
 import User from '@/assets/icons/ic-user.svg';
 import Button from '@/components/Button';
 import { signoutUser } from '@/lib/api/auth';
+import { useUpdateStore } from '@/lib/store/useUpdateStore';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -11,6 +12,7 @@ import NavMenu from './NavMenu';
 import UserInfo from './UserInfo';
 
 export default function HeaderForCommon() {
+  const { isOld } = useUpdateStore();
   const [userData, setUserData] = useState<UserWithEmail | null>(null);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function HeaderForCommon() {
       setUserData(parsedData);
     } else {
     }
-  }, []);
+  }, [isOld]);
 
   const [sideMenuToggle, setSideMenuToggle] = useState(false);
   const router = useRouter();

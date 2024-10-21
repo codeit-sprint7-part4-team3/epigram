@@ -10,4 +10,13 @@ const updateUserInfo = async (data: UpdateUserBody) => {
   return response;
 };
 
-export { updateUserInfo };
+const getUserInfo = async () => {
+  const response = await apiRequestWithAtuh({
+    endpoint: `/users/me`,
+    method: 'GET',
+  });
+
+  return response;
+};
+
+export { updateUserInfo, getUserInfo };

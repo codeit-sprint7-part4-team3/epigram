@@ -2,6 +2,7 @@ import Close from '@/assets/icons/ic-close.svg';
 import Form from '@/components/Form';
 import { updateUserInfo } from '@/lib/api/user';
 import useModalStore from '@/lib/store/useModalStore';
+import { useUpdateStore } from '@/lib/store/useUpdateStore';
 import Profile from '@/shared/Profile';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,17 +14,21 @@ interface Props {
 }
 
 export default function UserFormModalContent({ nickname, image }: Props) {
+  const { setIsOld } = useUpdateStore();
   const { closeModal } = useModalStore();
   const methods = useForm<UpdateUserBody>({
     defaultValues: { nickname },
   });
   const [preview, setPreview] = useState<UrlType | null>(image);
   const { setError } = methods;
+  const queryClient = useQueryClient();
   const mutation = useMutation(updateUserInfo, {
     onSuccess: data => {
       // 1. 유저 정보 저장
       const userData = JSON.stringify(data);
       sessionStorage.setItem('userData', userData);
+      queryClient.invalidateQueries(['user']);
+      setIsOld(true);
       closeModal();
     },
     onError: (error: any) => {
@@ -40,7 +45,18 @@ export default function UserFormModalContent({ nickname, image }: Props) {
       setPreview(previewUrl);
     }
   };
+  const handleSubmit = async (data: UpdateUserBody) => {
+    const { image, nickname } = data;
 
+    const transformedData: UpdateUserBody = {
+      nickname,
+    };
+
+    // if (typeof image === 'string') {
+    //   transformedData.image = image;
+    // }
+    mutation.mutate(transformedData);
+  };
   return (
     <div
       className={
@@ -57,20 +73,19 @@ export default function UserFormModalContent({ nickname, image }: Props) {
       <Form
         methods={methods}
         onSubmit={(data: UpdateUserBody) => {
-          console.log(data);
-          mutation.mutate(data);
+          handleSubmit(data);
         }}
       >
         <Form.Label className={'mb-24 flex justify-center'}>
           <Profile image={preview} />
-          {/* <Form.Input
-            type='file'
+          <Form.Input
             name='image'
+            type='file'
             className='hidden'
             onChange={e => {
               handleFileChange(e);
             }}
-          /> */}
+          />
         </Form.Label>
         <div>
           <div className='mb-8'>

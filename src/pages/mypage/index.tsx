@@ -9,6 +9,7 @@ import { signoutUser } from '@/lib/api/auth';
 import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
 import { getMyComments, getMyEpigrams } from '@/lib/api/myFeeds';
 import useModalStore from '@/lib/store/useModalStore';
+import { useUpdateStore } from '@/lib/store/useUpdateStore';
 import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
 import EpigramCard from '@/shared/EpigramCard';
@@ -22,6 +23,7 @@ import EmotionCalendar from './components/EmotionCalendar';
 import EmotionChart from './components/EmotionChart';
 
 export default function MyPage() {
+  const { isOld } = useUpdateStore();
   const { openModal } = useModalStore();
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
@@ -88,7 +90,7 @@ export default function MyPage() {
     };
 
     getMyInfos();
-  }, []);
+  }, [isOld]);
 
   const handleSignOut = async () => {
     try {
