@@ -13,8 +13,21 @@
 - 팀원: [정윤호(팀장)](https://github.com/KingNono1030), [오소영](https://github.com/Ocean423), [김도용](https://github.com/dyk0224), [임창기](https://github.com/ChanxxiWrld), [정한주](https://github.com/HanjuJung)
 - 개발 기간: 2024.09.02 ~ 2024.10.15
 
-## [배포 주소](https://team3-epigram.netlify.app/)
+## 배포 주소
+[에피그램 배포 주소](https://team3-epigram.netlify.app/)
 
 ## 팀 소개
 
-- 
+- 정윤호
+  - [초기 개발 환경 세팅](https://github.com/codeit-sprint7-part4-team3/epigram/issues/1)
+  - [공용 컴포넌트 Button](https://github.com/codeit-sprint7-part4-team3/epigram/pull/27)
+  - 
+- 오소영
+  - [feed 페이지](https://github.com/codeit-sprint7-part4-team3/epigram/pull/37)
+- 김도용
+  - [GNB 헤더](https://github.com/codeit-sprint7-part4-team3/epigram/pull/26)
+  - [마이 페이지](https://github.com/codeit-sprint7-part4-team3/epigram/pull/85)
+- 임창기
+  - [에피그램 상세 페이지](https://github.com/codeit-sprint7-part4-team3/epigram/pull/71)
+- 정한주
+  - [search 페이지](https://github.com/codeit-sprint7-part4-team3/epigram/pull/42)
