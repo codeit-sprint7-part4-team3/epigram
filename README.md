@@ -70,7 +70,10 @@
 <div style='display:flex'>
 <img src="https://img.shields.io/badge/ReactQuery-FF4154?style=flat-square&logo=ReactQuery&logoColor=white"/>
 <img src="https://img.shields.io/badge/ReactHookForm-EC5990?style=flat-square&logo=ReactHookForm&logoColor=white"/>
-<img src="https://img.shields.io/badge/Zustand-764ABC?style=flat-square&logo=Zustand&logoColor=white"/></div>
+<img src="https://img.shields.io/badge/Zustand-764ABC?style=flat-square&logo=Zustand&logoColor=white"/>
+<img src="https://img.shields.io/badge/Framer%20Motion-0055FF?style=flat-square&logo=Framer&logoColor=white"/>
+<img src="https://img.shields.io/badge/OpenAPI--TypeScript-3178C6?style=flat-square&logo=OpenAPI-Initiative&logoColor=white&logo=TypeScript"/>
+</div>
 
 ### Communication
 <div style='display:flex'>
