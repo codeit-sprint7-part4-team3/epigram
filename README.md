@@ -80,4 +80,17 @@
 <img src="https://img.shields.io/badge/Discord-5865F2?style=flat-square&logo=Discord&logoColor=white"/>
 <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=Notion&logoColor=white"/></div>
 
+## 화면 구성
+### 랜딩 페이지 (/)
+
+https://github.com/user-attachments/assets/8b1c224a-ee01-471f-be1e-8da35e360ee8
+
+### 회원가입 페이지 (/signup)
+
+https://github.com/user-attachments/assets/3b49133f-3abc-467c-b59e-309c2e9fb313
+
+
+
+
+
 
