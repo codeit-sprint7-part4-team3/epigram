@@ -37,7 +37,6 @@ export default function CalendarBar({
     const fetchEmotionLogs = async () => {
       try {
         const emotionLogsMonthly = await data;
-        console.log(emotionLogsMonthly);
         emotionLogsMonthly.forEach((mockMonthlyEmotionData: EmotionLogType) => {
           if (!iconByEmotion[mockMonthlyEmotionData.emotion]) {
             return;

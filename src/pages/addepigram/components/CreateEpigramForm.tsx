@@ -33,7 +33,6 @@ export default function CreateEpigramForm() {
   const { watch, register } = methods;
   const mutation = useMutation(CreateEpigram, {
     onSuccess: (data: EpigramListType) => {
-      console.log(data);
       router.push(`/epigrams/${data.id}`);
     },
     onError: (error: any) => {
@@ -76,7 +75,6 @@ export default function CreateEpigramForm() {
       transformedData.referenceTitle = referenceTitle;
       transformedData.referenceUrl = referenceUrl;
     }
-    console.log(transformedData);
     mutation.mutate(transformedData);
   };
 

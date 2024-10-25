@@ -20,8 +20,6 @@ const fetchEpigramComments = async ({
       endpoint: `/comments?limit=${limit}&`,
       method: 'GET',
     });
-
-    console.log('응답 데이터:', response);
   } catch (error) {
     console.error('댓글 가져오기 실패:', error);
   }
@@ -42,7 +40,6 @@ const fetchAllComments = async () => {
       endpoint: `/comments?limit=${totalCount}`,
       method: 'GET',
     });
-    console.log('전체 댓글 데이터:', finalResponse);
     return finalResponse;
   } catch (error) {
     console.error('전체 댓글 가져오기 실패:', error);

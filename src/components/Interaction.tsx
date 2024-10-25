@@ -49,15 +49,8 @@ export default function Interaction({
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setUserData(parsedData);
-
-      console.log('유저정보보보보', parsedData);
-
-      console.log('유저정보보보보', userData);
     } else {
-      console.log('세션 스토리지에 데이터가 없습니다.');
     }
-
-    console.log('sessionStorage data:', sessionStorage.getItem('userData'));
   }, []);
 
   const { likeCount, isLiked, toggleLike } = useLikeToggle(
@@ -66,7 +59,6 @@ export default function Interaction({
     epigramData.id
   );
 
-  console.log('data:::::::', epigramData);
   const handleEdit = () => {
     router.push(`/epigrams/${epigramData.id}/editepigram`);
   };

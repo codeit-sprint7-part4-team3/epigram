@@ -22,8 +22,6 @@ export const useComments = (epigramId: number, initialLimit: number = 10) => {
           cursor
         );
 
-        console.log('data::', data);
-
         setComments(prevComments =>
           cursor ? [...prevComments, ...data.list] : data.list
         );

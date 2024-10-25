@@ -10,7 +10,6 @@ export function useLikeToggle(
   const [isLiked, setIsLiked] = useState(initialIsLiked);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  console.log('isLiKED :::', isLiked);
   const toggleLike = useCallback(async () => {
     try {
       if (isLiked) {
@@ -19,7 +18,6 @@ export function useLikeToggle(
         setIsLiked(false);
       } else {
         const response = await PostReaction(epigramId);
-        console.log('likeCount :::', likeCount);
         setLikeCount(response.likeCount);
         setIsLiked(true);
       }

@@ -54,10 +54,7 @@ export default function Comment({ data }: CommentProps) {
       const parsedData = JSON.parse(storedData);
       setUserData(parsedData);
     } else {
-      console.log('세션 스토리지에 데이터가 없습니다.');
     }
-
-    console.log('sessionStorage data:', sessionStorage.getItem('userData'));
   }, []);
 
   const isWriter = userData?.id === data.writer.id;
@@ -127,12 +124,8 @@ function getTimeAgo(dateString: string) {
   const seconds = Math.floor(diff / 1000);
   if (seconds < 60) return `${seconds}초 전`;
 
-  console.log(seconds);
-
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}분 전`;
-
-  console.log(minutes);
 
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours}시간 전`;

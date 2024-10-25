@@ -38,7 +38,6 @@ export default function Epigrams() {
   const handleSaveEmotion = async () => {
     if (selectedEmotion) {
       await postEmotionLogsToday({ emotion: selectedEmotion });
-      console.log(`오늘의 감정: ${selectedEmotion}`);
       setIsEmotionSaved(true);
     }
   };
