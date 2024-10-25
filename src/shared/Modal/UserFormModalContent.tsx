@@ -76,7 +76,6 @@ export default function UserFormModalContent({ nickname, image }: Props) {
       <Form
         methods={methods}
         onSubmit={(data: UpdateUserBody) => {
-          // console.log(fileInput);
           handleSubmit(data);
         }}
       >
