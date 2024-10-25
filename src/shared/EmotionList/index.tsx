@@ -2,6 +2,7 @@ import {
   getEmotionLogsToday,
   postEmotionLogsToday,
 } from '@/lib/api/emotionLogs';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
@@ -12,10 +13,10 @@ const emotionList: Emotion[] = ['MOVED', 'HAPPY', 'WORRIED', 'SAD', 'ANGRY'];
 export default function EmotionList() {
   const [selectedEmotion, setSelectedEmotion] = useState('');
   const queryClient = useQueryClient(); // React Query의 Query Client 사용
-
+  const { user: userData } = useUserStore();
   const { isLoading, error, data } = useQuery({
     queryKey: ['emotionLogsToday'],
-    queryFn: () => getEmotionLogsToday(),
+    queryFn: () => getEmotionLogsToday(userData!.id),
   });
 
   const mutation = useMutation(postEmotionLogsToday, {

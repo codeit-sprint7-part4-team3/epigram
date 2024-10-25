@@ -1,6 +1,7 @@
 import { DeleteComment } from '@/api/comments/comments';
 import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
 import useModalStore from '@/lib/store/useModalStore';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useEffect, useState } from 'react';
 
 import DeleteAlertModalContent from '../Modal/DeleteAlertModalContent';
@@ -43,19 +44,9 @@ interface UserData {
 }
 
 export default function Comment({ data }: CommentProps) {
+  const { user: userData } = useUserStore();
   const { openModal } = useModalStore();
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [isDelete, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const storedData = sessionStorage.getItem('userData');
-
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setUserData(parsedData);
-    } else {
-    }
-  }, []);
 
   const isWriter = userData?.id === data.writer.id;
 

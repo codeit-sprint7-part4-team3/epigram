@@ -1,14 +1,7 @@
 import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 
-const getEmotionLogsToday = async () => {
+const getEmotionLogsToday = async (userId: Id) => {
   try {
-    const sessionUserData = sessionStorage.getItem('userData');
-    if (!sessionUserData) {
-      throw new Error('사용자 데이터가 존재하지 않습니다.');
-    }
-    const userData = JSON.parse(sessionUserData);
-    const userId = userData.id;
-
     const response = await apiRequestWithAtuh({
       endpoint: `/emotionLogs/today?userId=${userId}`,
       method: 'GET',
@@ -34,7 +27,11 @@ const postEmotionLogsToday = async (data: UpsertEmotionLogBody) => {
   }
 };
 
-const getEmotionLogsMonthly = async (year: number, month: Month) => {
+const getEmotionLogsMonthly = async (
+  year: number,
+  month: Month,
+  userId: Id
+) => {
   try {
     const sessionUserData = sessionStorage.getItem('userData');
     if (!sessionUserData) {

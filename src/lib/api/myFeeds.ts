@@ -2,15 +2,8 @@ import { apiRequestWithAtuh } from '@/lib/api/apiRequestWithAtuh';
 
 const limit = Number.MAX_SAFE_INTEGER;
 
-const getMyEpigrams = async () => {
+const getMyEpigrams = async (userId: Id) => {
   try {
-    const sessionUserData = sessionStorage.getItem('userData');
-    if (!sessionUserData) {
-      throw new Error('사용자 데이터가 존재하지 않습니다.');
-    }
-    const userData = JSON.parse(sessionUserData);
-    const userId = userData.id;
-
     const response = await apiRequestWithAtuh({
       endpoint: `/epigrams?limit=${limit}&writerId=${userId}`,
       method: 'GET',
@@ -21,17 +14,10 @@ const getMyEpigrams = async () => {
     console.error('내 에피그램 가져오기 실패:', error);
   }
 };
-const getMyComments = async () => {
+const getMyComments = async (userId: Id) => {
   try {
-    const sessionUserData = sessionStorage.getItem('userData');
-    if (!sessionUserData) {
-      throw new Error('사용자 데이터가 존재하지 않습니다.');
-    }
-    const userData = JSON.parse(sessionUserData);
-    const userId = userData.id;
-
     const response = await apiRequestWithAtuh({
-      endpoint: `/comments?limit=${limit}&writerId=${userId}`,
+      endpoint: `/users/${userId}/comments?limit=${limit}`,
       method: 'GET',
     });
 

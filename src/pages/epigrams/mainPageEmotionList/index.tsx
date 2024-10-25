@@ -2,6 +2,7 @@ import {
   getEmotionLogsToday,
   postEmotionLogsToday,
 } from '@/lib/api/emotionLogs';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useEffect, useState } from 'react';
 
 import MainPageEmotionCard from './components/MainPageEmotionCard';
@@ -17,14 +18,15 @@ export default function MainPageEmotionList({
   selectedEmotion,
   setSelectedEmotion,
 }: EmotionListProps) {
+  const { user } = useUserStore();
   useEffect(() => {
     const fetchEmotionLogs = async () => {
-      const result = await getEmotionLogsToday();
+      const result = await getEmotionLogsToday(user!.id);
       setSelectedEmotion(result.emotion); // 초기값 설정
     };
 
     fetchEmotionLogs();
-  }, [setSelectedEmotion]);
+  }, [setSelectedEmotion, user]);
 
   const handleCardClick = (emotion: Emotion) => {
     setSelectedEmotion(emotion);

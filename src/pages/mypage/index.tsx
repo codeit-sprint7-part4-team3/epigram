@@ -10,6 +10,7 @@ import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
 import { getMyComments, getMyEpigrams } from '@/lib/api/myFeeds';
 import useModalStore from '@/lib/store/useModalStore';
 import { useUpdateStore } from '@/lib/store/useUpdateStore';
+import { useUserStore } from '@/lib/store/useUserStore';
 import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
 import EpigramCard from '@/shared/EpigramCard';
@@ -24,6 +25,7 @@ import EmotionChart from './components/EmotionChart';
 
 export default function MyPage() {
   const { isOld } = useUpdateStore();
+  const { user: userData } = useUserStore();
   const { openModal } = useModalStore();
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
@@ -33,7 +35,7 @@ export default function MyPage() {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ['emotionLogsMonthly', year, month],
-    queryFn: () => getEmotionLogsMonthly(year, month),
+    queryFn: () => getEmotionLogsMonthly(year, month, userData!.id),
   });
 
   useEffect(() => {
@@ -71,31 +73,24 @@ export default function MyPage() {
 
   useEffect(() => {
     const getMyInfos = async () => {
-      const sessionUserData = sessionStorage.getItem('userData');
-      if (!sessionUserData) {
-        throw new Error('사용자 데이터가 존재하지 않습니다.');
-      }
-      const userData = JSON.parse(sessionUserData);
-      const { image, nickname } = userData;
       setImage(
-        image ||
+        userData!.image ||
           'https://i.namu.wiki/i/Bge3xnYd4kRe_IKbm2uqxlhQJij2SngwNssjpjaOyOqoRhQlNwLrR2ZiK-JWJ2b99RGcSxDaZ2UCI7fiv4IDDQ.webp'
       );
-      setNickname(nickname);
+      setNickname(userData!.nickname);
 
-      const myEpigrams = await getMyEpigrams();
-      const myComments = await getMyComments();
+      const myEpigrams = await getMyEpigrams(userData!.id);
+      const myComments = await getMyComments(userData!.id);
       setMyEpigrams(myEpigrams.list);
       setMyComments(myComments.list);
     };
 
-    getMyInfos();
-  }, [isOld]);
+    userData && getMyInfos();
+  }, [userData]);
 
   const handleSignOut = async () => {
     try {
       await signoutUser();
-      sessionStorage.clear();
       window.location.href = '/';
     } catch (error) {
       console.error(error);

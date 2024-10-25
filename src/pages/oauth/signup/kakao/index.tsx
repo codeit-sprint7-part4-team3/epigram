@@ -1,5 +1,6 @@
 import { KAKAO_REDIRECT_URL } from '@/constants/apiConstants';
 import { kakaoSignInUser } from '@/lib/api/auth';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useMutation } from 'react-query';
@@ -7,11 +8,10 @@ import { useMutation } from 'react-query';
 const KakaoCallback = () => {
   const router = useRouter();
   const { code } = router.query;
-
+  const { setUser } = useUserStore();
   const mutation = useMutation(kakaoSignInUser, {
     onSuccess: response => {
-      const userData = JSON.stringify(response.user);
-      sessionStorage.setItem('userData', userData);
+      setUser(response.user);
       router.push('/');
     },
     onError: error => {
@@ -27,7 +27,7 @@ const KakaoCallback = () => {
       };
       mutation.mutate(data);
     }
-  }, [code]);
+  }, [code, mutation]);
 
   return <div>카카오 로그인 처리 중...</div>;
 };

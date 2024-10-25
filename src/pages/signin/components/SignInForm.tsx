@@ -1,5 +1,6 @@
 import Form from '@/components/Form';
 import { signinUser } from '@/lib/api/auth';
+import { useUserStore } from '@/lib/store/useUserStore';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -9,11 +10,10 @@ export default function SignInForm() {
   const methods = useForm<SignInRequestBody>();
   const router = useRouter();
   const { setError } = methods;
+  const { setUser } = useUserStore();
   const mutation = useMutation(signinUser, {
     onSuccess: data => {
-      const userData = JSON.stringify(data.user);
-      sessionStorage.setItem('userData', userData);
-
+      setUser(data.user);
       router.push('/epigrams');
     },
     onError: (error: any) => {
