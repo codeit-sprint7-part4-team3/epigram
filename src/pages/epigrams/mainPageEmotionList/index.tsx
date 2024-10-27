@@ -12,21 +12,22 @@ const emotionList: Emotion[] = ['MOVED', 'HAPPY', 'WORRIED', 'SAD', 'ANGRY'];
 interface EmotionListProps {
   selectedEmotion: Emotion | null; // 부모에서 선택된 감정을 받아오기
   setSelectedEmotion: (emotion: Emotion | null) => void; // 부모에서 상태 변경 함수 받아오기
+  userId: Id;
 }
 
 export default function MainPageEmotionList({
   selectedEmotion,
   setSelectedEmotion,
+  userId,
 }: EmotionListProps) {
-  const { user } = useUserStore();
   useEffect(() => {
     const fetchEmotionLogs = async () => {
-      const result = await getEmotionLogsToday(user!.id);
+      const result = await getEmotionLogsToday(userId);
       setSelectedEmotion(result.emotion); // 초기값 설정
     };
 
     fetchEmotionLogs();
-  }, [setSelectedEmotion, user]);
+  }, [setSelectedEmotion, userId]);
 
   const handleCardClick = (emotion: Emotion) => {
     setSelectedEmotion(emotion);

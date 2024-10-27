@@ -41,7 +41,6 @@ export default function HeaderForCommon() {
   const handleSignOut = async () => {
     try {
       await signoutUser();
-      sessionStorage.clear();
       window.location.href = '/';
     } catch (error) {
       console.error(error);

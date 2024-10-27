@@ -9,7 +9,6 @@ import { signoutUser } from '@/lib/api/auth';
 import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
 import { getMyComments, getMyEpigrams } from '@/lib/api/myFeeds';
 import useModalStore from '@/lib/store/useModalStore';
-import { useUpdateStore } from '@/lib/store/useUpdateStore';
 import { useUserStore } from '@/lib/store/useUserStore';
 import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
@@ -17,15 +16,15 @@ import EpigramCard from '@/shared/EpigramCard';
 import UserFormModalContent from '@/shared/Modal/UserFormModalContent';
 import Profile from '@/shared/Profile';
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 import { mockMonthlyEmotionDatas } from '../../data/mockMonthlyEmotionDatas';
 import EmotionCalendar from './components/EmotionCalendar';
 import EmotionChart from './components/EmotionChart';
 
 export default function MyPage() {
-  const { isOld } = useUpdateStore();
-  const { user: userData } = useUserStore();
+  const { user: userData, setUser } = useUserStore();
+  const queryClient = useQueryClient();
   const { openModal } = useModalStore();
   const today = new Date();
   const [year, setYear] = useState(today.getFullYear());
@@ -36,9 +35,14 @@ export default function MyPage() {
   const { isLoading, error, data } = useQuery({
     queryKey: ['emotionLogsMonthly', year, month],
     queryFn: () => getEmotionLogsMonthly(year, month, userData!.id),
+    enabled: !!userData,
   });
 
+  let cachedUserData = queryClient.getQueryData('myData') as UserWithEmail;
+
   useEffect(() => {
+    if (!userData) return;
+
     const fetchEmotionLogs = async () => {
       const emotionLogsMonthly = await data;
 
@@ -72,6 +76,7 @@ export default function MyPage() {
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
+    if (!userData) return;
     const getMyInfos = async () => {
       setImage(
         userData!.image ||
@@ -85,7 +90,7 @@ export default function MyPage() {
       setMyComments(myComments.list);
     };
 
-    userData && getMyInfos();
+    getMyInfos();
   }, [userData]);
 
   const handleSignOut = async () => {
@@ -166,7 +171,7 @@ export default function MyPage() {
                 <h2 className=''>오늘의 감정</h2>
                 <p className='font-normal text-blue-400'>{getToday()}</p>
               </div>
-              <EmotionList />
+              {userData && <EmotionList />}
             </section>
             <section
               className={`flex w-312 flex-col items-center justify-between gap-24 md:w-384 xl:w-640 xl:gap-48`}
@@ -188,7 +193,7 @@ export default function MyPage() {
                   </div>
                 </div>
               </div>
-              <EmotionCalendar year={year} month={month} />
+              {userData && <EmotionCalendar year={year} month={month} />}
             </section>
             {monthlyEmotionData && (
               <section className='flex flex-col justify-between gap-16 xl:gap-48'>

@@ -9,7 +9,7 @@ const getEmotionLogsToday = async (userId: Id) => {
 
     return response;
   } catch (error) {
-    console.error('감정 로그 가져오기 실패:', error);
+    console.error('감정 로그 가져오기 실패1:', error);
   }
 };
 
@@ -33,13 +33,6 @@ const getEmotionLogsMonthly = async (
   userId: Id
 ) => {
   try {
-    const sessionUserData = sessionStorage.getItem('userData');
-    if (!sessionUserData) {
-      throw new Error('사용자 데이터가 존재하지 않습니다.');
-    }
-    const userData = JSON.parse(sessionUserData);
-    const userId = userData.id;
-
     const response = await apiRequestWithAtuh({
       endpoint: `/emotionLogs/monthly?userId=${userId}&year=${year}&month=${month}`,
       method: 'GET',
