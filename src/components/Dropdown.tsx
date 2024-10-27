@@ -137,9 +137,7 @@ const Item = ({
   const itemStyle = twMerge('flex-center', className);
   useEffect(() => {
     if (selectedOption === null && selected) {
-      console.log(selectedOption);
       selectOption(() => ({ value, label }));
-      console.log(selectedOption);
     }
   });
   const handleMouseDown = () => {

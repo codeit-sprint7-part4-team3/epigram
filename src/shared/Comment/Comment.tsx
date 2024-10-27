@@ -1,6 +1,7 @@
 import { DeleteComment } from '@/api/comments/comments';
 import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
 import useModalStore from '@/lib/store/useModalStore';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useEffect, useState } from 'react';
 
 import DeleteAlertModalContent from '../Modal/DeleteAlertModalContent';
@@ -43,22 +44,9 @@ interface UserData {
 }
 
 export default function Comment({ data }: CommentProps) {
+  const { user: userData } = useUserStore();
   const { openModal } = useModalStore();
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [isDelete, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const storedData = sessionStorage.getItem('userData');
-
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setUserData(parsedData);
-    } else {
-      console.log('세션 스토리지에 데이터가 없습니다.');
-    }
-
-    console.log('sessionStorage data:', sessionStorage.getItem('userData'));
-  }, []);
 
   const isWriter = userData?.id === data.writer.id;
 
@@ -127,12 +115,8 @@ function getTimeAgo(dateString: string) {
   const seconds = Math.floor(diff / 1000);
   if (seconds < 60) return `${seconds}초 전`;
 
-  console.log(seconds);
-
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}분 전`;
-
-  console.log(minutes);
 
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours}시간 전`;

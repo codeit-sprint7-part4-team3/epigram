@@ -2,9 +2,11 @@ import HamburgerMenu from '@/assets/icons/ic-hamburger-menu.svg';
 import User from '@/assets/icons/ic-user.svg';
 import Button from '@/components/Button';
 import { signoutUser } from '@/lib/api/auth';
-import { useUpdateStore } from '@/lib/store/useUpdateStore';
+import { getUserInfo } from '@/lib/api/user';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import SideMenu from '../../SideMenu/SideMenu';
 import LogoForHeader from './LogoForHeader';
@@ -12,17 +14,14 @@ import NavMenu from './NavMenu';
 import UserInfo from './UserInfo';
 
 export default function HeaderForCommon() {
-  const { isOld } = useUpdateStore();
-  const [userData, setUserData] = useState<UserWithEmail | null>(null);
+  const { user: userData, setUser: setUserData } = useUserStore();
+  const { data, isLoading, isError, error } = useQuery('myData', getUserInfo, {
+    staleTime: 300000,
+  });
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem('userData');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setUserData(parsedData);
-    } else {
-    }
-  }, [isOld]);
+    setUserData(data);
+  }, [data, setUserData]);
 
   const [sideMenuToggle, setSideMenuToggle] = useState(false);
   const router = useRouter();
@@ -42,7 +41,6 @@ export default function HeaderForCommon() {
   const handleSignOut = async () => {
     try {
       await signoutUser();
-      sessionStorage.clear();
       window.location.href = '/';
     } catch (error) {
       console.error(error);

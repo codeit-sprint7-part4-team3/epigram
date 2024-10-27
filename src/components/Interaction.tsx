@@ -4,6 +4,7 @@ import Thumbsup from '@/assets/icons/ic-thumbs-up.svg';
 import IconUserSigned from '@/assets/icons/ic-user-signed.svg';
 import { useLikeToggle } from '@/hooks/useLikeToggle';
 import useModalStore from '@/lib/store/useModalStore';
+import { useUserStore } from '@/lib/store/useUserStore';
 import Comment, { CommentType } from '@/shared/Comment/Comment';
 import CommentForm from '@/shared/Comment/CommentForm';
 import DropdownMenu from '@/shared/DropdownMenu';
@@ -39,34 +40,16 @@ export default function Interaction({
   loadMoreComments,
   hasMoreComments,
 }: InteractionProps) {
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
   const { openModal } = useModalStore();
-  useEffect(() => {
-    const storedData = sessionStorage.getItem('userData');
-
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      setUserData(parsedData);
-
-      console.log('유저정보보보보', parsedData);
-
-      console.log('유저정보보보보', userData);
-    } else {
-      console.log('세션 스토리지에 데이터가 없습니다.');
-    }
-
-    console.log('sessionStorage data:', sessionStorage.getItem('userData'));
-  }, []);
-
+  const { user: userData } = useUserStore();
   const { likeCount, isLiked, toggleLike } = useLikeToggle(
     epigramData.likeCount,
     epigramData.isLiked,
     epigramData.id
   );
 
-  console.log('data:::::::', epigramData);
   const handleEdit = () => {
     router.push(`/epigrams/${epigramData.id}/editepigram`);
   };

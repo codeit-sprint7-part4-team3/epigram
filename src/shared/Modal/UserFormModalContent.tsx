@@ -3,7 +3,7 @@ import Form from '@/components/Form';
 import { uploadImage } from '@/lib/api/uploadImg';
 import { updateUserInfo } from '@/lib/api/user';
 import useModalStore from '@/lib/store/useModalStore';
-import { useUpdateStore } from '@/lib/store/useUpdateStore';
+import { useUserStore } from '@/lib/store/useUserStore';
 import Profile from '@/shared/Profile';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function UserFormModalContent({ nickname, image }: Props) {
-  const { setIsOld } = useUpdateStore();
+  const { setUser } = useUserStore();
   const { closeModal } = useModalStore();
   const methods = useForm<UpdateUserBody>({
     defaultValues: { nickname },
@@ -26,11 +26,8 @@ export default function UserFormModalContent({ nickname, image }: Props) {
   const queryClient = useQueryClient();
   const mutation = useMutation(updateUserInfo, {
     onSuccess: data => {
-      // 1. 유저 정보 저장
-      const userData = JSON.stringify(data);
-      sessionStorage.setItem('userData', userData);
-      queryClient.invalidateQueries(['user']);
-      setIsOld(true);
+      setUser(data);
+      queryClient.invalidateQueries(['myData']);
       closeModal();
     },
     onError: (error: any) => {
@@ -76,7 +73,6 @@ export default function UserFormModalContent({ nickname, image }: Props) {
       <Form
         methods={methods}
         onSubmit={(data: UpdateUserBody) => {
-          // console.log(fileInput);
           handleSubmit(data);
         }}
       >

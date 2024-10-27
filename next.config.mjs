@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['k.kakaocdn.net'],
+    domains: ['k.kakaocdn.net', 'i.namu.wiki'],
   },
   webpack(config) {
     config.module.rules.push({

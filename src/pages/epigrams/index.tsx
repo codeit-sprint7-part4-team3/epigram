@@ -3,6 +3,7 @@ import Button from '@/components/Button';
 import { fetchAllComments } from '@/lib/api/comments';
 import { postEmotionLogsToday } from '@/lib/api/emotionLogs';
 import { fetchEpigramCards, fetchTodayEpigram } from '@/lib/api/getEpigramCard';
+import { useUserStore } from '@/lib/store/useUserStore';
 import Comment from '@/shared/Comment/Comment';
 import EmotionList from '@/shared/EmotionList';
 import EpigramCard from '@/shared/EpigramCard';
@@ -28,7 +29,7 @@ export default function Epigrams() {
   const [isLoadingTodayEpigram, setIsLoadingTodayEpigram] = useState(true);
   const [isLoadingEpigrams, setIsLoadingEpigrams] = useState(true);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
-
+  const { user } = useUserStore();
   // 에피그램 더보기
   const handleLoadMore = () => {
     setVisibleCount(prevCount => prevCount + 4);
@@ -38,7 +39,6 @@ export default function Epigrams() {
   const handleSaveEmotion = async () => {
     if (selectedEmotion) {
       await postEmotionLogsToday({ emotion: selectedEmotion });
-      console.log(`오늘의 감정: ${selectedEmotion}`);
       setIsEmotionSaved(true);
     }
   };
@@ -139,7 +139,7 @@ export default function Epigrams() {
                   isSelected={true}
                   handleCardClick={() => {}}
                 />
-                <p className='flex justify-items-center whitespace-pre-wrap pl-15 pt-5 font-secondary text-12 xl:pl-20 xl:text-14 xl:text-18'>
+                <p className='flex justify-items-center whitespace-pre-wrap pl-15 pt-5 font-secondary text-12 md:text-14 xl:pl-20 xl:text-18'>
                   {selectedEmotion === 'MOVED' &&
                     `감동이 가득한 하루였군요!\n작은 순간 하나하나가 당신에게 깊은 울림이 되었길 바랍니다.\n앞으로도 많은 감동이 함께하길 응원할게요! `}
                   {selectedEmotion === 'HAPPY' &&
@@ -155,10 +155,13 @@ export default function Epigrams() {
             )
           ) : (
             <div className='flex-center'>
-              <MainPageEmotionList
-                selectedEmotion={selectedEmotion}
-                setSelectedEmotion={setSelectedEmotion}
-              />
+              {user && (
+                <MainPageEmotionList
+                  selectedEmotion={selectedEmotion}
+                  setSelectedEmotion={setSelectedEmotion}
+                  userId={user!.id}
+                />
+              )}
             </div>
           )}
         </div>

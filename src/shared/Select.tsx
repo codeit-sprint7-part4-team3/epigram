@@ -12,9 +12,7 @@ interface SelectProps {
 }
 
 export default function Select({ options, prefixLabel = '' }: SelectProps) {
-  const handleClick = (value?: OptionValue) => {
-    console.log(value);
-  };
+  const handleClick = (value?: OptionValue) => {};
   const itemClass =
     'flex-center w-max px-12 py-5 text-xs font-semibold text-gray-200 hover:bg-blue-200 xl:px-14 xl:py-10 xl:text-xl';
   const [firstOption, ...restOptions] = options;

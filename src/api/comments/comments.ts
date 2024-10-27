@@ -32,20 +32,14 @@ export const fetchComments = async (
     params.append('cursor', cursor.toString());
   }
 
-  console.log('Fetching comments with:');
-  console.log('Endpoint:', endpoint);
-  console.log('Params:', params.toString());
-
   try {
     const response = await apiRequestWithAtuh({
       endpoint: `${endpoint}?${params.toString()}`,
       method: 'GET',
     });
 
-    console.log('Response data:', response);
     return response;
   } catch (error) {
-    console.error('Error fetching comments:', error);
     throw error;
   }
 };
@@ -58,7 +52,6 @@ export async function DeleteComment(commentId: number) {
       method: 'DELETE',
     });
 
-    console.log('Comment delete response:', response);
     return response;
   } catch (error) {
     console.error('댓글 삭제 실패', error);

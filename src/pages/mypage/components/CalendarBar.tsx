@@ -5,6 +5,7 @@ import IconSad from '@/assets/icons/ic-emotion-sad.svg';
 import IconWorried from '@/assets/icons/ic-emotion-worried.svg';
 import { getMonthKey, getToday } from '@/constants/utils';
 import { getEmotionLogsMonthly } from '@/lib/api/emotionLogs';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
@@ -17,63 +18,61 @@ const iconByEmotion: Record<string, JSX.Element> = {
   ANGRY: <IconAngry className={iconSize} />,
 };
 
-const convertedMonthlyEmotionData: Record<string, JSX.Element> = {};
-
 export default function CalendarBar({
   calendarData,
   year,
   month,
 }: CalendarBarProps) {
+  const { user } = useUserStore();
   const [monthlyEmotionData, setMonthlyEmotionData] = useState<
     Record<string, JSX.Element>
   >({});
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['emotionLogsMonthly'],
-    queryFn: () => getEmotionLogsMonthly(year, month),
+  const {
+    data: emotionLogs,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['emotionLogsMonthly', year, month, user?.id],
+    queryFn: () =>
+      user ? getEmotionLogsMonthly(year, month, user.id) : Promise.resolve([]),
+    enabled: !!user,
   });
 
   useEffect(() => {
-    const fetchEmotionLogs = async () => {
-      try {
-        const emotionLogsMonthly = await data;
-        console.log(emotionLogsMonthly);
-        emotionLogsMonthly.forEach((mockMonthlyEmotionData: EmotionLogType) => {
-          if (!iconByEmotion[mockMonthlyEmotionData.emotion]) {
-            return;
-          }
+    if (emotionLogs) {
+      const newMonthlyEmotionData: Record<string, JSX.Element> = {};
 
-          const [formattedDate] = mockMonthlyEmotionData.createdAt.split('T');
-          convertedMonthlyEmotionData[formattedDate] =
-            iconByEmotion[mockMonthlyEmotionData.emotion];
-        });
+      emotionLogs.forEach((log: EmotionLogType) => {
+        const [formattedDate] = log.createdAt.split('T');
+        if (iconByEmotion[log.emotion]) {
+          newMonthlyEmotionData[formattedDate] = iconByEmotion[log.emotion];
+        }
+      });
 
-        setMonthlyEmotionData(convertedMonthlyEmotionData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      setMonthlyEmotionData(newMonthlyEmotionData);
+    }
+  }, [emotionLogs]);
 
-    fetchEmotionLogs();
-  }, [year, month, data]);
+  const todayKey = getToday();
+  const defaultClasses =
+    'flex aspect-square w-44 grow flex-col items-center justify-center text-center text-gray-200';
+  const highlightTodayClasses =
+    'border-3 xl:border-6 border-solid border-illust-red rounded-3 box-border';
 
   return (
-    <div className={`flex w-308 flex-row items-center md:w-379 xl:w-640`}>
+    <div className='flex w-308 flex-row items-center md:w-379 xl:w-640'>
       {(calendarData || []).map(calendarItem => {
-        const key = calendarItem.key
+        const formattedKey = calendarItem.key
           .split('-')
           .map(dateString =>
             dateString.length === 1 ? '0' + dateString : dateString
           )
           .join('-');
 
-        const highlightToday =
-          key === getToday()
-            ? 'border-3 xl:border-6 border-solid border-illust-red rounded-3 box-border'
-            : '';
-
-        const emotionOfDay = monthlyEmotionData[key];
-        const fontSize = emotionOfDay
+        const isToday = formattedKey === todayKey;
+        const emotionOfDay = monthlyEmotionData[formattedKey];
+        const fontSizeClass = emotionOfDay
           ? 'text-8 leading-16 md:text-10 xl:text-16 font-bold'
           : 'text-16 font-semibold leading-26 xl:text-24 xl:leading-32';
 
@@ -81,7 +80,7 @@ export default function CalendarBar({
           calendarItem.data && (
             <div
               key={calendarItem.key}
-              className={`flex aspect-square w-44 grow flex-col items-center justify-center text-center text-gray-200 ${highlightToday} ${fontSize}`}
+              className={`${defaultClasses} ${isToday ? highlightTodayClasses : ''} ${fontSizeClass}`}
             >
               {calendarItem.data}
               {emotionOfDay}

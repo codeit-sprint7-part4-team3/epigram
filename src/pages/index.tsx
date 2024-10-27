@@ -17,6 +17,7 @@ import Button from '@/components/Button';
 import { guestSignInUser } from '@/lib/api/auth';
 import { useGuestStore } from '@/lib/store/useGuestStore';
 import useModalStore from '@/lib/store/useModalStore';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,6 +28,7 @@ export default function Home() {
   const router = useRouter();
   const { openModal } = useModalStore();
   const { setIsGuest } = useGuestStore();
+  const { setUser } = useUserStore();
   const handleGuestSignIn = async () => {
     const shortUUID = uuidv4().slice(0, 8);
     const nickname = `guest_${shortUUID}`;
@@ -40,7 +42,7 @@ export default function Home() {
     };
     try {
       const response = await guestSignInUser(guestSigninData);
-      sessionStorage.setItem('userData', JSON.stringify(response.user));
+      setUser(response.user);
       setIsGuest(true);
       router.push('/epigrams');
     } catch (error) {

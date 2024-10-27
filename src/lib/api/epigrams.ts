@@ -10,8 +10,6 @@ const fetchEpigramDetailComments = async ({
       endpoint: `/epigrams/${epigramId}/comments?limit=${limit}&cursor=${cursor}`,
       method: 'GET',
     });
-
-    console.log('응답 데이터:', response);
   } catch (error) {
     console.error('댓글 가져오기 실패:', error);
   }

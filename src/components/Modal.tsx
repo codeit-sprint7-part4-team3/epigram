@@ -31,7 +31,7 @@ export default function Modal() {
   return (
     <Portal>
       <div
-        className={`bg-black-default fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-opacity-60 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+        className={`fixed inset-0 z-50 flex h-screen w-screen items-center justify-center bg-black-default bg-opacity-60 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
         onClick={closeModal}
       >
         <div onClick={e => e.stopPropagation()}>{content}</div>

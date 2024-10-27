@@ -1,17 +1,18 @@
 import Form from '@/components/Form';
 import { signupUser } from '@/lib/api/auth';
+import { useUserStore } from '@/lib/store/useUserStore';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 export default function SignupForm() {
   const methods = useForm<SignUpRequestBody>();
+  const { setUser } = useUserStore();
   const router = useRouter();
   const { setError } = methods;
   const mutation = useMutation(signupUser, {
     onSuccess: data => {
-      const userData = JSON.stringify(data.user);
-      sessionStorage.setItem('userData', userData);
+      setUser(data.user);
       router.push('/epigrams');
     },
     onError: (error: any) => {
